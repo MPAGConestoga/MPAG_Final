@@ -1,9 +1,11 @@
-﻿using MPAG_Final.Utilities;
+﻿using MPAG_Final.Services;
+using MPAG_Final.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace MPAG_Final
 {
@@ -31,17 +33,36 @@ namespace MPAG_Final
             set { OnPropertyChanged(ref _plannerVM, value); }
         }
 
+        private Buyer.ViewModels.BuyerLandingViewModel _buyerVM;
+        public Buyer.ViewModels.BuyerLandingViewModel BuyerVM
+        {
+            get { return _buyerVM; }
+            set { OnPropertyChanged(ref _buyerVM, value); }
+        }
+
+        public ICommand LoadBuyerCommand { get; private set; }
+        public ICommand LoadPlannerCommand { get; private set; }
 
         public AppViewModel()
         {
+            var contractMarketPlace = new MockContractMarketplace(); //mock service for the testing of the ui
+
             PlannerVM = new Planner.ViewModels.PlannerLandingViewModel();
-            CurrentView = PlannerVM;
+            BuyerVM = new Buyer.ViewModels.BuyerLandingViewModel(contractMarketPlace);
+
+            CurrentView = BuyerVM;
+
+            //LoadBuyerCommand = new RelayCommand(LoadBuyerCommand);
+            //LoadPlannerCommand = new RelayCommand(LoadPlannerCommand);
 
         }
 
-        public void LoadPlanner()
+        private void LoadBuyer()
         {
-            
+        }
+
+        private void LoadPlanner()
+        {
         }
     }
 }

@@ -57,14 +57,34 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Buyer\Models\Contract.cs" />
+    <Compile Include="Buyer\ViewModels\BuyerLandingViewModel.cs" />
+    <Compile Include="Buyer\ViewModels\ContractsViewModel.cs" />
+    <Compile Include="Buyer\Views\BuyerLandingView.xaml.cs">
+      <DependentUpon>BuyerLandingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Buyer\Views\ContractsItemView.xaml.cs">
+      <DependentUpon>ContractsItemView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Planner\Models\ActiveModel.cs" />
     <Compile Include="Planner\Models\PendingModel.cs" />
     <Compile Include="Planner\ViewModels\PlannerLandingViewModel.cs" />
     <Compile Include="Planner\Views\PlannerLandingView.xaml.cs">
       <DependentUpon>PlannerLandingView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\IContractDataService.cs" />
+    <Compile Include="Services\MockContractMarketplace.cs" />
+    <Compile Include="SharedModels\Contracts.cs" />
     <Compile Include="Utilities\ObservableObject.cs" />
     <Compile Include="Utilities\RelayCommand.cs" />
+    <Page Include="Buyer\Views\BuyerLandingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Buyer\Views\ContractsItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -141,8 +161,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Buyer\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -30,11 +30,11 @@
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0">
-                <Button Content="Orders"/>
+                <Button Style="{StaticResource MenuTabButton}" Content="Orders"/>
             </Grid>
 
             <Grid Grid.Column="1">
-                <Button Content="Summary Reports"/>
+                <Button Style="{StaticResource MenuTabButton}" Content="Summary Reports"/>
             </Grid>
 
             <!--Tool Buttons-->
