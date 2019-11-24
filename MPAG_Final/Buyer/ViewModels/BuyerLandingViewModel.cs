@@ -19,7 +19,6 @@ namespace MPAG_Final.Buyer.ViewModels
             set { OnPropertyChanged(ref _contractsVM, value); }
         }
 
-        public ICommand LoadContractsCommand { get; private set; }
         
 
         /// <summary>
@@ -30,7 +29,7 @@ namespace MPAG_Final.Buyer.ViewModels
             ContractsVM = new ContractsViewModel();
             _service = service;
 
-            LoadContractsCommand = new RelayCommand(LoadContracts);
+            LoadContracts();
             
         }
 

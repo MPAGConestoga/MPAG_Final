@@ -24,11 +24,11 @@
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0">
-                <Button Content="Buyer" />
+                <Button Content="Buyer" Command="{Binding LoadBuyerCommand}"/>
             </Grid>
 
             <Grid Grid.Column="1">
-                <Button Content="Planner"/>
+                <Button Content="Planner" Command="{Binding LoadPlannerCommand}"/>
             </Grid>
 
             <!--Tool Buttons-->

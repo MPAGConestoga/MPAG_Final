@@ -15,7 +15,7 @@
         <DataTemplate DataType="{x:Type pvm:PlannerLandingViewModel}">
             <pv:PlannerLandingView/>
         </DataTemplate>
-        
+                
         <!--Brushes (Palette from: https://flatuicolors.com/palette/de)-->
         <SolidColorBrush x:Key="BlueHorizon" Color="#FF4B6584"/>
         <SolidColorBrush x:Key="BlueGrey" Color="#FF778CA3"/>

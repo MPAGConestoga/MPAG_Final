@@ -63,8 +63,8 @@
     <Compile Include="Buyer\Views\BuyerLandingView.xaml.cs">
       <DependentUpon>BuyerLandingView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Buyer\Views\ContractsItemView.xaml.cs">
-      <DependentUpon>ContractsItemView.xaml</DependentUpon>
+    <Compile Include="Buyer\Views\ContractItemView.xaml.cs">
+      <DependentUpon>ContractItemView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Planner\Models\ActiveModel.cs" />
     <Compile Include="Planner\Models\PendingModel.cs" />
@@ -74,14 +74,13 @@
     </Compile>
     <Compile Include="Services\IContractDataService.cs" />
     <Compile Include="Services\MockContractMarketplace.cs" />
-    <Compile Include="SharedModels\Contracts.cs" />
     <Compile Include="Utilities\ObservableObject.cs" />
     <Compile Include="Utilities\RelayCommand.cs" />
     <Page Include="Buyer\Views\BuyerLandingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Buyer\Views\ContractsItemView.xaml">
+    <Page Include="Buyer\Views\ContractItemView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -161,6 +160,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="SharedModels\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

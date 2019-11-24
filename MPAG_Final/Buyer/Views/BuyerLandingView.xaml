@@ -16,17 +16,22 @@
     <TextBlock HorizontalAlignment="Center">Order # and Details</TextBlock>-->
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="325"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0">
-            <ListView ItemsSource="{Binding ContractsVM.ContractsVM}" SelectedItem="{Binding ContractsVM.SelectedContract}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <!-- WIP -->
-                    </DataTemplate>
-                </ListView.ItemTemplate>
+            <ListView ItemsSource="{Binding ContractsVM.Contracts}" SelectedItem="{Binding ContractsVM.SelectedContract}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Customer" Width="Auto" DisplayMemberBinding="{Binding Customer}" />
+                        <GridViewColumn Header="Job Type" Width="Auto" DisplayMemberBinding="{Binding JobType}" />
+                        <GridViewColumn Header="Origin" Width="Auto" DisplayMemberBinding="{Binding Origin}" />
+                        <GridViewColumn Header="Destination" Width="Auto" DisplayMemberBinding="{Binding Destination}" />
+                        <GridViewColumn Header="Van Type" Width="Auto" DisplayMemberBinding="{Binding VanType}" />
+                    </GridView>
+                    
+                </ListView.View>
             </ListView>
         </Grid>
 

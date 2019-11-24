@@ -50,19 +50,21 @@ namespace MPAG_Final
             PlannerVM = new Planner.ViewModels.PlannerLandingViewModel();
             BuyerVM = new Buyer.ViewModels.BuyerLandingViewModel(contractMarketPlace);
 
-            CurrentView = BuyerVM;
 
-            //LoadBuyerCommand = new RelayCommand(LoadBuyerCommand);
-            //LoadPlannerCommand = new RelayCommand(LoadPlannerCommand);
+            LoadBuyerCommand = new RelayCommand(LoadBuyer);
+            LoadPlannerCommand = new RelayCommand(LoadPlanner);
 
         }
 
         private void LoadBuyer()
         {
+            CurrentView = BuyerVM;
+
         }
 
         private void LoadPlanner()
         {
+            CurrentView = PlannerVM;
         }
     }
 }

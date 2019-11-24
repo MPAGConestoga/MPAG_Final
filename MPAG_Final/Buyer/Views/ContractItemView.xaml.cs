@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace MPAG_Final.Buyer.Views
 {
     /// <summary>
-    /// Interaction logic for ContractsItemView.xaml
+    /// Interaction logic for ContractItemView.xaml
     /// </summary>
-    public partial class ContractsItemView : UserControl
+    public partial class ContractItemView : UserControl
     {
-        public ContractsItemView()
+        public ContractItemView()
         {
             InitializeComponent();
         }
