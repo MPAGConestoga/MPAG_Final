@@ -30,13 +30,16 @@
                         <GridViewColumn Header="Destination" Width="Auto" DisplayMemberBinding="{Binding Destination}" />
                         <GridViewColumn Header="Van Type" Width="Auto" DisplayMemberBinding="{Binding VanType}" />
                     </GridView>
-                    
                 </ListView.View>
             </ListView>
         </Grid>
 
         <Grid Grid.Column="1">
-
+            <ContentControl>
+                <ContentControl.Content>
+                     <local:DetailsView DataContext="{Binding ContractsVM}"/>
+                </ContentControl.Content>
+            </ContentControl>
         </Grid>
     </Grid>
 

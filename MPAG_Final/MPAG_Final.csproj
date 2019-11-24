@@ -66,6 +66,9 @@
     <Compile Include="Buyer\Views\ContractItemView.xaml.cs">
       <DependentUpon>ContractItemView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Buyer\Views\DetailsView.xaml.cs">
+      <DependentUpon>DetailsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Planner\Models\ActiveModel.cs" />
     <Compile Include="Planner\Models\PendingModel.cs" />
     <Compile Include="Planner\ViewModels\PlannerLandingViewModel.cs" />
@@ -81,6 +84,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Buyer\Views\ContractItemView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Buyer\Views\DetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
