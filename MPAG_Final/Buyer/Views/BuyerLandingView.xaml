@@ -6,22 +6,19 @@
              xmlns:local="clr-namespace:MPAG_Final.Buyer.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="White">
-    <UserControl.Resources>
-        <!--<DataTemplate DataType="{x:Type vm:OrderViewModel}">
-            <v:OrderView/>
-        </DataTemplate>-->
-
-    </UserControl.Resources>
-    <!--<TextBlock HorizontalAlignment="Center">Contracts</TextBlock>
-    <TextBlock HorizontalAlignment="Center">Order # and Details</TextBlock>-->
     <Grid Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="325"/>
+            <ColumnDefinition Width="350"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0">
-            <ListView ItemsSource="{Binding ContractsVM.Contracts}" SelectedItem="{Binding ContractsVM.SelectedContract}">
+            <ListView ItemsSource="{Binding ContractsVM.Contracts}" SelectedItem="{Binding ContractsVM.SelectedContract}" HorizontalAlignment="Stretch" >
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Customer" Width="Auto" DisplayMemberBinding="{Binding Customer}" />

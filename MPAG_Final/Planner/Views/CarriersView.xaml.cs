@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MPAG_Final.Buyer.Views
+namespace MPAG_Final.Planner.Views
 {
     /// <summary>
-    /// Interaction logic for ContractItemView.xaml
+    /// Interaction logic for CarriersView.xaml
     /// </summary>
-    public partial class ContractItemView : UserControl
+    public partial class CarriersView : UserControl
     {
-        public ContractItemView()
+        public CarriersView()
         {
             InitializeComponent();
         }

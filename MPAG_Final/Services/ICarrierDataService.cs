@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace MPAG_Final.Services
 {
-    public interface IContractDataService
+    public interface ICarrierDataService
     {
-        IEnumerable<Contract> GetContracts();
-        void Save(IEnumerable<Contract> contracts);
-
+        IEnumerable<Carrier> GetCarriers();
+        void Save(IEnumerable<Carrier> carriers);
+        
     }
 }

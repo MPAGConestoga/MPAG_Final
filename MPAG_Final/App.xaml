@@ -6,6 +6,7 @@
              xmlns:pv="clr-namespace:MPAG_Final.Planner.Views"
              xmlns:bvm="clr-namespace:MPAG_Final.Buyer.ViewModels"
              xmlns:bv="clr-namespace:MPAG_Final.Buyer.Views"
+             xmlns:helper="clr-namespace:MPAG_Final.Helpers"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
 
@@ -15,7 +16,11 @@
         <DataTemplate DataType="{x:Type pvm:PlannerLandingViewModel}">
             <pv:PlannerLandingView/>
         </DataTemplate>
-                
+
+        <helper:BoolToVisibilityConverter x:Key="IsEditConverter"/>
+        <helper:NullToVisibilityConverter x:Key="SelectedContractConverter"/>
+
+
         <!--Brushes (Palette from: https://flatuicolors.com/palette/de)-->
         <SolidColorBrush x:Key="BlueHorizon" Color="#FF4B6584"/>
         <SolidColorBrush x:Key="BlueGrey" Color="#FF778CA3"/>

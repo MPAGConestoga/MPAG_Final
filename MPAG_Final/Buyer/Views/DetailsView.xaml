@@ -4,8 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MPAG_Final.Buyer.Views"
+             xmlns:ns="clr-namespace:System;assembly=mscorlib"
+             xmlns:vm="clr-namespace:MPAG_Final.SharedViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ObjectDataProvider x:Key="jobEnum" MethodName="GetValues" ObjectType="{x:Type ns:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type Type="vm:JobType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -21,9 +30,12 @@
                        Margin="5">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel HorizontalAlignment="Center">
-                        <Label Content="{Binding SelectedContract.Customer, FallbackValue=NULL}"
-                              HorizontalAlignment="Center"
-                              FontSize="24"/>
+
+                        <TextBox Text="{Binding SelectedContract.Customer, FallbackValue=NULL, Mode=TwoWay}"
+                              
+                              VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                              Margin="5"/>
+                        
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
@@ -46,12 +58,18 @@
                     <StackPanel Grid.Column="0">
                         <!-- Job Type -->
                         <Label Style="{StaticResource DetailLabel}" Content="Job Type" />
-                        <Label Style="{StaticResource ContentLabel}" Content="{Binding SelectedContract.JobType, FallbackValue=NULL}"/>
+
+                        <!--<ComboBox ItemsSource="{Binding SelectedContract.JobType}"/>-->
+                        <!--ItemsSource="{Binding Source={StaticResource jobEnum}}"-->
+
+                        <TextBox Text="{Binding SelectedContract.JobType, FallbackValue=NULL, Mode=TwoWay}"/>
+
                     </StackPanel>
+                    
                     <StackPanel Grid.Column="1">
-                        <!-- Destination City-->
+                        <!-- Van Type -->
                         <Label Style="{StaticResource DetailLabel}"  Content="Van Type"/>
-                        <Label Style="{StaticResource ContentLabel}"  Content="{Binding SelectedContract.VanType, FallbackValue=NULL}"/>
+                        <TextBox Text="{Binding SelectedContract.VanType, FallbackValue=NULL, Mode=TwoWay}"/>
                     </StackPanel>
                 </Grid>
             </StackPanel>
@@ -71,12 +89,12 @@
                     <StackPanel Grid.Column="0">
                         <!-- Origin City-->
                         <Label Style="{StaticResource DetailLabel}" Content="Origin" />
-                        <Label Style="{StaticResource ContentLabel}" Content="{Binding SelectedContract.Origin, FallbackValue=NULL}"/>
+                        <TextBox Text="{Binding SelectedContract.Origin, FallbackValue=NULL, Mode=TwoWay}"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
                         <!-- Destination City-->
                         <Label Style="{StaticResource DetailLabel}"  Content="Destination"/>
-                        <Label Style="{StaticResource ContentLabel}"  Content="{Binding SelectedContract.Destination, FallbackValue=NULL}"/>
+                        <TextBox Text="{Binding SelectedContract.Destination, FallbackValue=NULL, Mode=TwoWay}"/>
                     </StackPanel>
                 </Grid>
             </StackPanel>

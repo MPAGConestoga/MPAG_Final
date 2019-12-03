@@ -1,11 +1,12 @@
-﻿using MPAG_Final.Utilities;
+﻿using MPAG_Final.SharedViewModels;
+using MPAG_Final.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MPAG_Final.Buyer.Models
+namespace MPAG_Final.SharedModels
 {
     public class Contract : ObservableObject
     {
@@ -30,15 +31,15 @@ namespace MPAG_Final.Buyer.Models
             set { OnPropertyChanged(ref jobType, value); }
         }
 
-        private string origin;
-        public string Origin
+        private City origin;
+        public City Origin
         {
             get { return origin; }
             set { OnPropertyChanged(ref origin, value); }
-        }
+        }     
 
-        private string destination;
-        public string Destination
+        private City destination;
+        public City Destination
         {
             get { return destination; }
             set { OnPropertyChanged(ref destination, value); }
@@ -50,17 +51,5 @@ namespace MPAG_Final.Buyer.Models
             get { return vanType; }
             set { OnPropertyChanged(ref vanType, value); }
         }
-    }
-
-    public enum VanType
-    {
-        Dry,
-        Reefer
-    }
-
-    public enum JobType
-    {
-        FTL,
-        LTL
     }
 }

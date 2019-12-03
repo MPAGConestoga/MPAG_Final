@@ -1,11 +1,8 @@
 ﻿using MPAG_Final.Services;
+using MPAG_Final.SharedViewModels;
 using MPAG_Final.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+
+
 
 namespace MPAG_Final.Buyer.ViewModels
 {

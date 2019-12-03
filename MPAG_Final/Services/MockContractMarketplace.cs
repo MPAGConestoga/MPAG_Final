@@ -1,4 +1,5 @@
-﻿using MPAG_Final.Buyer.Models;
+﻿using MPAG_Final.SharedModels;
+using MPAG_Final.SharedViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,8 +21,8 @@ namespace MPAG_Final.Services
                     OrderID = 00,
                     Customer = "Jev's Robotics",
                     JobType = JobType.LTL,
-                    Origin = "Windsor",
-                    Destination = "Toronto",
+                    Origin = City.Hamilton,
+                    Destination = City.London,
                     VanType = VanType.Dry
                 },
                 new Contract
@@ -29,8 +30,8 @@ namespace MPAG_Final.Services
                     OrderID = 00,
                     Customer = "Tim's Ice Makers",
                     JobType = JobType.FTL,
-                    Origin = "Hamilton",
-                    Destination = "Kitchner",
+                    Origin = City.Kingston,
+                    Destination = City.Oshawa,
                     VanType = VanType.Reefer
                 },
                 new Contract
@@ -38,8 +39,8 @@ namespace MPAG_Final.Services
                     OrderID = 00,
                     Customer = "Cats",
                     JobType = JobType.FTL,
-                    Origin = "Windsor",
-                    Destination = "Paris",
+                    Origin = City.Toronto,
+                    Destination = City.Ottawa,
                     VanType = VanType.Dry
                 }
             };
