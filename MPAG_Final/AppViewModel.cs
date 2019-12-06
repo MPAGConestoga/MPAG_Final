@@ -45,11 +45,8 @@ namespace MPAG_Final
 
         public AppViewModel()
         {
-            var contractMarketPlace = new MockContractMarketplace(); //mock service for the testing of the ui
-
+            BuyerVM = new Buyer.ViewModels.BuyerLandingViewModel();
             PlannerVM = new Planner.ViewModels.PlannerLandingViewModel();
-            BuyerVM = new Buyer.ViewModels.BuyerLandingViewModel(contractMarketPlace);
-
 
             LoadBuyerCommand = new RelayCommand(LoadBuyer);
             LoadPlannerCommand = new RelayCommand(LoadPlanner);

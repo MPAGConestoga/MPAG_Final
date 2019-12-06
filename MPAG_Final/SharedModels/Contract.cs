@@ -1,4 +1,5 @@
-﻿using MPAG_Final.SharedViewModels;
+﻿
+using MPAG_Final.SharedViewModels;
 using MPAG_Final.Utilities;
 using System;
 using System.Collections.Generic;
@@ -51,5 +52,28 @@ namespace MPAG_Final.SharedModels
             get { return vanType; }
             set { OnPropertyChanged(ref vanType, value); }
         }
+    }
+    public enum VanType
+    {
+        Dry,
+        Reefer
+    }
+
+    public enum JobType
+    {
+        FTL,
+        LTL
+    }
+
+    public enum City
+    {
+        Windsor,
+        London,
+        Hamilton,
+        Toronto,
+        Oshawa,
+        Belleville,
+        Kingston,
+        Ottawa
     }
 }

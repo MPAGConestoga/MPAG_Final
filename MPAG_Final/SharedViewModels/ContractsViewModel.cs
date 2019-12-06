@@ -5,58 +5,47 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MPAG_Final.Services;
 using MPAG_Final.SharedModels;
 using MPAG_Final.Utilities;
-
+using System.Windows;
+using System.Data.Linq;
 
 namespace MPAG_Final.SharedViewModels
 {    
     public class ContractsViewModel : ObservableObject
     {
+        //property for the management of selected contracts in the views that utilize lists
+        //buyer page binds to them via the BuyerLandingView
         private Contract _selectedContract;
         public Contract SelectedContract
         {
             get { return _selectedContract; }
             set { OnPropertyChanged(ref _selectedContract, value); }
         }
-        
-        private bool _isEditMode;
-        public bool IsEditMode
-        {
-            get { return _isEditMode; }
-            set 
-            {
-                OnPropertyChanged(ref _isEditMode, value);
-                OnPropertyChanged("IsDisplayMode");
-            }
-        }
 
-        public bool IsDisplayMode
-        {
-            get { return !_isEditMode; }
-        }
-
+        // Contracts are stored here in a WPF friendly list
         public ObservableCollection<Contract> Contracts { get; private set; }
-        public ICommand EditCommand { get; private set; }
+        public ICommand UpdateCommand { get; private set; }
 
-        public ContractsViewModel()
+        //mock data service for testing UI
+        private IContractDataService _contractDataService;
+
+        //ContractsViewModel contructor
+        public ContractsViewModel(IContractDataService contractDataService)
         {
-            EditCommand = new RelayCommand(Edit, CanEdit);
+            _contractDataService = contractDataService;
+            UpdateCommand = new RelayCommand(Update);
+
         }
 
-        private bool CanEdit()
+        private void Update()
         {
-            if (SelectedContract == null)
-                return false;
-
-            return !IsEditMode;
+            //add this later
         }
 
-        private void Edit()
-        {
-            IsEditMode = true;
-        }
 
+        //command for the loading of contracts
         public void LoadContracts(IEnumerable<Contract> contracts)
         {
             Contracts = new ObservableCollection<Contract>(contracts);
@@ -64,27 +53,5 @@ namespace MPAG_Final.SharedViewModels
         }
     }
 
-    public enum VanType
-    {
-        Dry,
-        Reefer
-    }
-
-    public enum JobType
-    {
-        FTL,
-        LTL
-    }
-
-    public enum City
-    {
-        Windsor,
-        London,
-        Hamilton,
-        Toronto,
-        Oshawa,
-        Belleville,
-        Kingston,
-        Ottawa
-    }
+    
 }

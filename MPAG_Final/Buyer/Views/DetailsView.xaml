@@ -11,9 +11,10 @@
     <UserControl.Resources>
         <ObjectDataProvider x:Key="jobEnum" MethodName="GetValues" ObjectType="{x:Type ns:Enum}">
             <ObjectDataProvider.MethodParameters>
-                <x:Type Type="vm:JobType"/>
+                <!--<x:Type Type="vm:JobType"/>-->
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
+
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -25,7 +26,6 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
-
             <StackPanel Grid.Column="0" HorizontalAlignment="Left"
                        Margin="5">
                 <StackPanel Orientation="Horizontal">
@@ -59,7 +59,13 @@
                         <!-- Job Type -->
                         <Label Style="{StaticResource DetailLabel}" Content="Job Type" />
 
-                        <!--<ComboBox ItemsSource="{Binding SelectedContract.JobType}"/>-->
+                        <!--Problem area is here. Properties bound via enums do not show at all. 
+                        If bound to other data types, such as 'customer' which is a string, 
+                        will display the customer name, but only one byte per line.-->
+
+                        <ComboBox ItemsSource="{Binding SelectedContract.Customer}"
+                                  />
+
                         <!--ItemsSource="{Binding Source={StaticResource jobEnum}}"-->
 
                         <TextBox Text="{Binding SelectedContract.JobType, FallbackValue=NULL, Mode=TwoWay}"/>

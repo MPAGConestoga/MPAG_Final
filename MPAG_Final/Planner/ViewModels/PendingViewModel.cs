@@ -35,7 +35,7 @@ namespace MPAG_Final.Planner.ViewModels
         /// </summary>
         public PendingViewModel(IContractDataService contractService, ICarrierDataService carrierService)
         {
-            ContractsVM = new ContractsViewModel();
+            ContractsVM = new ContractsViewModel(contractService);
             _contractService = contractService;
             _carrierService = carrierService;
 
