@@ -17,7 +17,12 @@ namespace MPAG_Final.SharedModels
             get { return orderID; }
             set { OnPropertyChanged(ref orderID, value); }
         }
-
+        private int quantity;
+        public int Quantity
+        {
+            get { return quantity; }
+            set { OnPropertyChanged(ref quantity, value); }
+        }
         private string customer;
         public string Customer
         {
@@ -52,6 +57,8 @@ namespace MPAG_Final.SharedModels
             get { return vanType; }
             set { OnPropertyChanged(ref vanType, value); }
         }
+
+        
     }
     public enum VanType
     {

@@ -2,8 +2,6 @@
 using MPAG_Final.SharedViewModels;
 using MPAG_Final.Utilities;
 
-
-
 namespace MPAG_Final.Buyer.ViewModels
 {
     public class BuyerLandingViewModel : ObservableObject
@@ -29,8 +27,7 @@ namespace MPAG_Final.Buyer.ViewModels
             ContractsVM = new ContractsViewModel(contractMarketPlace);  
             _service = contractMarketPlace;
 
-            LoadContracts();
-            
+            LoadContracts();      
         }
 
         //function for loading contracts; references ContractViewModel LoadContracts function
