@@ -1,4 +1,5 @@
 ﻿using MPAG_Final.Services;
+using MPAG_Final.SharedModels;
 using MPAG_Final.SharedViewModels;
 using MPAG_Final.Utilities;
 
@@ -38,6 +39,7 @@ namespace MPAG_Final.Buyer.ViewModels
         {
             ContractsVM.LoadContracts(_service.GetContracts());
         }
+
 
 
     }

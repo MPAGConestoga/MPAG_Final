@@ -18,21 +18,18 @@ namespace MPAG_Final.Services
             {
                 new Carrier
                 {
-                    CarrierID = 01,
-                    CarrierName = "Ted's Truck",
-                    AvailableTrucks = 12
+                    carrierId = 01,
+                    carrierName = "Ted's Truck"
                 },
                 new Carrier
                 {
-                    CarrierID = 02,
-                    CarrierName = "UPS",
-                    AvailableTrucks = 2
+                    carrierId = 02,
+                    carrierName = "UPS"
                 },
                 new Carrier
                 {
-                    CarrierID = 03,
-                    CarrierName = "Alan's Truck",
-                    AvailableTrucks = 33
+                    carrierId = 03,
+                    carrierName = "Alan's Truck"
                 }
             };
         }

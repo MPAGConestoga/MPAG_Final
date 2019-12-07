@@ -79,6 +79,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MySql.Data, Version=8.0.18.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
@@ -102,13 +103,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Buyer\Models\Buyer.cs" />
     <Compile Include="Helpers\Converters.cs" />
+    <Compile Include="Planner\Models\Planner.cs" />
     <Compile Include="Planner\Views\CarriersView.xaml.cs">
       <DependentUpon>CarriersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\ICarrierDataService.cs" />
+    <Compile Include="Services\IOrderCreation.cs" />
     <Compile Include="Services\MockCarrierMarketplace.cs" />
+    <Compile Include="SharedModels\Address.cs" />
     <Compile Include="SharedModels\Carrier.cs" />
+    <Compile Include="SharedModels\CityDepot.cs" />
     <Compile Include="SharedModels\Contract.cs" />
     <Compile Include="Buyer\ViewModels\BuyerLandingViewModel.cs" />
     <Compile Include="Buyer\Views\BuyerLandingView.xaml.cs">
@@ -125,8 +131,15 @@
     </Compile>
     <Compile Include="Services\IContractDataService.cs" />
     <Compile Include="Services\MockContractMarketplace.cs" />
+    <Compile Include="SharedModels\Depot.cs" />
+    <Compile Include="SharedModels\Employee.cs" />
+    <Compile Include="SharedModels\Invoice.cs" />
+    <Compile Include="SharedModels\Order.cs" />
+    <Compile Include="SharedModels\Person.cs" />
+    <Compile Include="SharedModels\Trip.cs" />
     <Compile Include="SharedViewModels\CarriersViewModel.cs" />
     <Compile Include="SharedViewModels\ContractsViewModel.cs" />
+    <Compile Include="TMSDAL.cs" />
     <Compile Include="Utilities\ObservableObject.cs" />
     <Compile Include="Utilities\RelayCommand.cs" />
     <Page Include="Buyer\Views\BuyerLandingView.xaml">
@@ -217,6 +230,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="MarketplaceAccess\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
