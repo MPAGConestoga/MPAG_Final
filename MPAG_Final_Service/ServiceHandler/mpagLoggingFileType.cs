@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MPAG_Final_Service.ServiceHandler
 {
-    class mpagLoggingFileType
+    public partial class mpagLoggingFileType 
     {
         private string MessengerFileName;
 

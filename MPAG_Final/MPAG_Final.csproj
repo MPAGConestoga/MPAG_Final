@@ -230,5 +230,11 @@
   <ItemGroup>
     <Folder Include="MarketplaceAccess\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MPAG_Final_Service\MPAG_Final_Service.csproj">
+      <Project>{306a6b07-4f25-4ea7-9c99-abf4f1348119}</Project>
+      <Name>MPAG_Final_Service</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
