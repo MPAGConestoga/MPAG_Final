@@ -1,28 +1,34 @@
 ﻿using System;
+using System.Configuration;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MPAG_Final.SharedModels;
 using MySql.Data.MySqlClient;
+using MPAG_Final.SharedModels;
 
-
-namespace MPAG_Final
+namespace MPAG_OrderAndTrip
 {
     /** 
-    * \brief The TMSDAL class is used as the data access layer with the TMS database
-    * \details The TMSDAL contains the functionality for interaction with the locally-hosted database and the user, buyer and planner class.
-    * Within the class are three connection strings that hold the different login credentials of the three users.
-    * \see
-    *
-    */
+     * \brief The TMSDAL class is used as the data access layer with the TMS database
+     * \details The TMSDAL contains the functionality for interaction with the locally-hosted database and the user, buyer and planner class.
+     * Within the class are three connection strings that hold the different login credentials of the three users.
+     * \see
+     *
+     */
 
     public class TMSDAL
     {
-        private string buyerConnectionString = "server=127.0.0.1;user id=buyer;database=tms;password=Conestoga;SslMode=required";
-        private string plannerConnectionString = "server=127.0.0.1;user id=planner;database=tms;password=Conestoga;SslMode=required";
-        private string adminConnectionString = "server=127.0.0.1;user id=admin;database=tms;password=Conestoga;SslMode=required";
+        public TMSDAL()
+        {
+            buyerConnectionString = ConfigurationManager.ConnectionStrings["TMSBuyer"].ConnectionString;
+            plannerConnectionString = ConfigurationManager.ConnectionStrings["TMSPlanner"].ConnectionString;
+            adminConnectionString = ConfigurationManager.ConnectionStrings["TMSAdmin"].ConnectionString;
+        }
+        private string buyerConnectionString;
+        private string plannerConnectionString;
+        private string adminConnectionString;
 
 
         /// \brief To insert an order into the TMS local database
@@ -47,6 +53,32 @@ namespace MPAG_Final
                 myCommand.Parameters.AddWithValue("@Destination", order.destination);
                 myCommand.Parameters.AddWithValue("@Job_Type", order.jobType);
                 myCommand.Parameters.AddWithValue("@Van_Type", order.vanType);
+
+                myConn.Open();
+
+                myCommand.ExecuteNonQuery();
+            }
+        }
+
+        /// \brief To insert a new carrier into the TMS local database
+        /// 
+        /// \details The admin is able to add a new carrier into the database
+        /// <param name="carrier"> - <b>Carrier</b> - The carrier to be added to the database</param>
+        /// \return none
+        /// \see Order::AddOrder()
+        public void InsertCarrier(Carrier carrier)
+        {
+            using (var myConn = new MySqlConnection(buyerConnectionString))
+            {
+                const string sqlStatement = @"  INSERT INTO carrier (Carrier_Name, LTL_Rate, FTL_Rate, Reefer) VALUES
+	                                                ('@CarrierName,', @LTL_Rate, @FTL_Rate, @Reefer),";
+
+                var myCommand = new MySqlCommand(sqlStatement, myConn);
+
+                myCommand.Parameters.AddWithValue("@CarrierName", carrier.carrierId);
+                myCommand.Parameters.AddWithValue("@LTL_Rate", carrier.LTLRate);
+                myCommand.Parameters.AddWithValue("@FTL_Rate", carrier.FTLRate);
+                myCommand.Parameters.AddWithValue("@Reefer", carrier.ReeferCharge);
 
                 myConn.Open();
 
@@ -218,6 +250,40 @@ namespace MPAG_Final
             }
         }
 
+        /// \brief To get all carriers in the database
+        /// 
+        /// \details This method returns a list containing the info of all carriers
+        /// in the database
+        /// 
+        /// \return List of Carriers
+        /// \see Carrier 
+        public List<Carrier> GetAllCarriers()
+        {
+            const string sqlStatement = @"SELECT 
+	                                    *
+                                        FROM carrier;;";
+
+            using (var myConn = new MySqlConnection(buyerConnectionString))
+            {
+
+                var myCommand = new MySqlCommand(sqlStatement, myConn);
+
+                //For offline connection we will use  MySqlDataAdapter class.  
+                var myAdapter = new MySqlDataAdapter
+                {
+                    SelectCommand = myCommand
+                };
+
+                var dataTable = new DataTable();
+
+                myAdapter.Fill(dataTable);
+
+                var carriers = DataTableToCarrierList(dataTable);
+
+                return carriers;
+            }
+        }
+
         /// \brief To get a carrier's information by its name
         /// 
         /// \details This method takes in a carrier object and gets all the carrier information
@@ -270,7 +336,7 @@ namespace MPAG_Final
         /// <param name="city"> - <b>String</b> - The city to look up</param>
         /// \return List of Carriers
         /// \see Carrier::getCarriersWithDepot
-        public List<Carrier> GetCarriersByCity(string origin, string destination)
+        public List<Carrier> GetCarriersByCity(string origin)
         {
             const string sqlStatement = @"SELECT
 	                                        c.Carrier_Id,
@@ -286,7 +352,7 @@ namespace MPAG_Final
 							                                        WHERE d.Delivery_City_Id = 
 								                                        (SELECT city.City_Id
 									                                        WHERE city.City = @origin
-                                                                            OR city.City = @destination))
+                                                                            ))
 	                                                                        GROUP BY c.Carrier_Id
                                                                             HAVING Count(*) > 1; ";
 
@@ -295,7 +361,7 @@ namespace MPAG_Final
 
                 var myCommand = new MySqlCommand(sqlStatement, myConn);
                 myCommand.Parameters.AddWithValue("@Origin", origin);
-                myCommand.Parameters.AddWithValue("@Destination", destination);
+                //myCommand.Parameters.AddWithValue("@Destination", destination);
 
                 //For offline connection we will use  MySqlDataAdapter class.  
                 var myAdapter = new MySqlDataAdapter
@@ -404,6 +470,171 @@ namespace MPAG_Final
                 });
             }
             return carriers;
+        }
+
+
+        /// \brief To get the x-value(location) of a city
+        /// 
+        /// \details The X value of a city is needed when calculating the direction of an order.
+        /// <param name="cityID"> - <b>int</b> - The City ID to lookup</param>
+        /// \return int  x-> x - value of city
+        /// \see TMSDAL:DataTableToInt
+        public int GetXValue(int cityID)
+        {
+            const string sqlStatement = @"SELECT
+                                         X FROM distanceTimeInfo
+                                        Where City_Id = @city;";
+
+            using (var myConn = new MySqlConnection(buyerConnectionString))
+            {
+
+                var myCommand = new MySqlCommand(sqlStatement, myConn);
+                myCommand.Parameters.AddWithValue("@city", cityID);
+
+                //For offline connection we will use  MySqlDataAdapter class.  
+                var myAdapter = new MySqlDataAdapter
+                {
+                    SelectCommand = myCommand
+                };
+
+                var dataTable = new DataTable();
+
+                myAdapter.Fill(dataTable);
+
+                var x = DataTableToInt(dataTable);
+
+                return x;
+            }
+        }
+
+        /// \brief To convert a DataTable into information about the x value of a city
+        /// 
+        /// \details When the x value is returned from a query. This method converts it into
+        /// an int value
+        /// <param name="table"> - <b>DataTable</b> - The DataTable to be converted</param>
+        /// \return int x -> x value of city
+        /// \see TMSDAL:GetXValue
+        private int DataTableToInt(DataTable table)
+        {
+            int x = 0;
+
+            foreach (DataRow row in table.Rows)
+            {
+                x = Convert.ToInt32(row["X"]);
+            }
+
+            return x;
+
+        }
+        /// \brief To get the time and KM between two cities
+        /// 
+        /// \details This call to the database is used to calculate the time and distance between
+        /// the origin and destination. This method is called multiple times in the calculation(depending on
+        /// how many cities are connected between the origin and destination
+        /// <param>int first -> city to get values from(going west)</param>
+        /// \return Tuple containing km and time.
+        /// \see Order
+        public Tuple<int, float> GetTimeAndDistance(int first)
+        {
+            const string sqlStatement = @"SELECT
+                                         KM, Travel_Time FROM distanceTimeInfo
+                                         Where X = @Origin;";
+
+            using (var myConn = new MySqlConnection(buyerConnectionString))
+            {
+
+                var myCommand = new MySqlCommand(sqlStatement, myConn);
+                myCommand.Parameters.AddWithValue("@Origin", first);
+
+                //For offline connection we will use  MySqlDataAdapter class.  
+                var myAdapter = new MySqlDataAdapter
+                {
+                    SelectCommand = myCommand
+                };
+
+                var dataTable = new DataTable();
+
+                myAdapter.Fill(dataTable);
+
+                var travelInfo = DataTableToKMTime(dataTable);
+
+                return travelInfo;
+            }
+        }
+
+        /// \brief To convert a DataTable into information about the distance/time between two cities
+        /// 
+        /// \details When the km and time info is returned from an sql query, this method is used to
+        /// convert the returned DataTable into a tuple containing the data.
+        /// <param name="table"> - <b>DataTable</b> - The DataTable to be converted</param>
+        /// \return Tuple<int, float> -> km, time
+        /// \see TMSDAL:GetCarriersByCity
+        private Tuple<int, float> DataTableToKMTime(DataTable table)
+        {
+            int km = 0;
+            decimal time = 0;
+            foreach (DataRow row in table.Rows)
+            {
+                time = Convert.ToDecimal(row["Travel_Time"]);
+                km = Convert.ToInt32(row["KM"]);
+
+            }
+            var distanceTime = Tuple.Create(km, (float)time);
+            return distanceTime;
+
+        }
+
+        /// \brief To create a file backup of the database.
+        /// 
+        /// \details This method creates a TMS folder(if it doesn't exist) and adds a backup
+        /// file to this folder
+        /// \return none
+        /// 
+        public void Backup()
+        {
+            string folderPath = @"c:\tms\";
+            System.IO.Directory.CreateDirectory(folderPath);
+            string database = ConfigurationManager.ConnectionStrings["TMSAdmin"].ConnectionString;
+            string file = "C:\\tms\\backup.sql";
+            using (MySqlConnection conn = new MySqlConnection(database))
+            {
+                using (MySqlCommand cmd = new MySqlCommand())
+                {
+                    using (MySqlBackup mb = new MySqlBackup(cmd))
+                    {
+                        cmd.Connection = conn;
+                        conn.Open();
+                        mb.ExportToFile(file);
+                        conn.Close();
+                    }
+                }
+            }
+        }
+        public void UpdateConnectionString(string IP, string Port, int dbase)
+        {
+            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            var connectionStringsSection = (ConnectionStringsSection)config.GetSection("connectionStrings");
+
+            switch (dbase)
+            {
+                //0 if changing the TMS
+                case 0:
+                    connectionStringsSection.ConnectionStrings["TMSAdmin"].ConnectionString = ("server=" + IP + ";Port=" + Port + "; user id=admin;database=tms;password=Conestoga;SslMode=required");
+                    connectionStringsSection.ConnectionStrings["TMSBuyer"].ConnectionString = ("server=" + IP + ";Port=" + Port + "; user id=buyer;database=tms;password=Conestoga;SslMode=required");
+                    connectionStringsSection.ConnectionStrings["TMSPlanner"].ConnectionString = ("server=" + IP + ";Port=" + Port + "; user id=planner;database=tms;password=Conestoga;SslMode=required");
+                    break;
+                //1 if changing the CMP
+                case 1:
+
+                    break;
+                default:
+                    break;
+            }
+            config.Save();
+            ConfigurationManager.RefreshSection("connectionStrings");
+            buyerConnectionString = ConfigurationManager.ConnectionStrings["TMSBuyer"].ConnectionString;
+            plannerConnectionString = ConfigurationManager.ConnectionStrings["TMSPlanner"].ConnectionString;
+            adminConnectionString = ConfigurationManager.ConnectionStrings["TMSAdmin"].ConnectionString;
         }
     }
 }
