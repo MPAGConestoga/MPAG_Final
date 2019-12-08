@@ -121,7 +121,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Buyer\ViewModels\ContractMarketplace.cs" />
     <Compile Include="Helpers\Converters.cs" />
     <Compile Include="Planner\Views\CarriersView.xaml.cs">
       <DependentUpon>CarriersView.xaml</DependentUpon>

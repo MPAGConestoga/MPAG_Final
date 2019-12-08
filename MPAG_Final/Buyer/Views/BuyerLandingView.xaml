@@ -13,7 +13,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0">
-            <ListView ItemsSource="{Binding ContractsVM.Contracts}" SelectedItem="{Binding ContractsVM.SelectedContract}" HorizontalAlignment="Stretch" >
+            <ListView ItemsSource="{Binding ContractsVM}"  SelectedItem="{Binding ContractsVM.SelectedContract}" HorizontalAlignment="Stretch" >
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

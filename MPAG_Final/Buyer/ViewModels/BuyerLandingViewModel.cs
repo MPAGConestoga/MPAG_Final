@@ -22,14 +22,18 @@ namespace MPAG_Final.Buyer.ViewModels
         /// </summary>
         public BuyerLandingViewModel()
         {
-            var contractMarketPlace = new MockContractMarketplace(); //mock service for the testing of the ui
 
-            ContractsVM = new ContractsViewModel(contractMarketPlace);  
-            _service = contractMarketPlace;
-
-            LoadContracts();      
         }
 
+        public async void RunDatabase()
+        {
+            var contractMarketPlace = new MockContractMarketplace(); //mock service for the testing of the ui
+
+            ContractsVM = new ContractsViewModel(contractMarketPlace);
+            _service = contractMarketPlace;
+
+            LoadContracts();
+        }
         //function for loading contracts; references ContractViewModel LoadContracts function
         private void LoadContracts()
         {

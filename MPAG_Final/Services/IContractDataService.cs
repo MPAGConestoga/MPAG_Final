@@ -9,8 +9,8 @@ namespace MPAG_Final.Services
 {
     public interface IContractDataService
     {
-        IEnumerable<Contract> GetContracts();
-        void Save(IEnumerable<Contract> contracts);
+        IList<Contract> GetContracts();
+        void Save(IList<Contract> contracts);
 
     }
 }

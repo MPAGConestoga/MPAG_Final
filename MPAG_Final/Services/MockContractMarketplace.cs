@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -13,88 +14,62 @@ namespace MPAG_Final.Services
 {
     public class MockContractMarketplace : IContractDataService
     {
-        private IEnumerable<Contract> _contracts;
-
-        public MockContractMarketplace()
+        public IList<Contract> _contracts;
+        public void DatabaseRun()
         {
             string connectionString = ConfigurationManager.ConnectionStrings["contractmarketplace"].ConnectionString;
-
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            List<Contract> newList = new List<Contract>();
+            for (int i = 0; i < 3; i++)
             {
-                try
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
-                    connection.Open();
-                    string customerQuery = "SELECT * FROM cmp.Contract";
-                    MySqlCommand command = new MySqlCommand(customerQuery, connection);
-                    MySqlDataReader dataReader = command.ExecuteReader();
-
-
-                    while (dataReader.Read())
+                    try
                     {
+                        connection.Open();
+                        string customerQuery = "SELECT * FROM cmp.Contract";
+                        MySqlCommand command = new MySqlCommand(customerQuery, connection);
+                        MySqlDataReader dataReader = command.ExecuteReader();
 
-                        //string bell = "Bellville";
-                        //City City = City.bell;
-                        //Insert into contracts
-                        _contracts = new List<Contract>()
+
+                        while (dataReader.Read())
                         {
-                            new Contract
+                            string city = dataReader["Origin"] as string;
+
+                            newList.Add(new Contract()
                             {
                                 Customer = (dataReader["Client_Name"] as string),
                                 JobType = (JobType)((int)dataReader["Job_Type"]),
-                                //Origin = City.(dataReader["Origin"] as string),
-                                //Destination = (City)((int)dataReader["Destination"]),
+                                Origin = dataReader["Origin"] as string,
+                                Destination = dataReader["Destination"] as string,
                                 VanType = (VanType)(dataReader["Van_Type"]),
-                                //Quantity = (int)(dataReader["Quantity"])
-                            }
-                        };
+                                Quantity = (int)(dataReader["Quantity"])
+                            });
+                        }
+                        _contracts = newList;
+                        connection.Close();
                     }
-                    connection.Close();
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.ToString());
+                    }
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.ToString());
-                }
+                //Thread.Sleep(5000);
             }
-
-            //_contracts = new List<Contract>()
-            //{
-            //    new Contract
-            //    {
-            //        OrderID = 00,
-            //        Customer = "Jev's Robotics",
-            //        JobType = JobType.LTL,
-            //        Origin = City.Hamilton,
-            //        Destination = City.London,
-            //        VanType = VanType.Dry
-            //    },
-            //    new Contract
-            //    {
-            //        OrderID = 00,
-            //        Customer = "Tim's Ice Makers",
-            //        JobType = JobType.FTL,
-            //        Origin = City.Kingston,
-            //        Destination = City.Oshawa,
-            //        VanType = VanType.Reefer
-            //    },
-            //    new Contract
-            //    {
-            //        OrderID = 00,
-            //        Customer = "Cats",
-            //        JobType = JobType.FTL,
-            //        Origin = City.Toronto,
-            //        Destination = City.Ottawa,
-            //        VanType = VanType.Dry,
-            //        Quantity = 0
-            //    }
-            //};
         }
 
-        public IEnumerable<Contract> GetContracts()
+        public MockContractMarketplace()
+        {
+            //Thread marketThread = new Thread(new ThreadStart(DatabaseRun));
+            //marketThread.Start();
+            DatabaseRun();
+        }
+
+        public IList<Contract> GetContracts()
         {
             return _contracts;
         }
 
-        public void Save(IEnumerable<Contract> contracts)
+        public void Save(IList<Contract> contracts)
         {
             _contracts = contracts;
         }

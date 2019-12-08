@@ -1,4 +1,5 @@
-﻿using MPAG_Final.Services;
+﻿using MPAG_Final.Buyer.ViewModels;
+using MPAG_Final.Services;
 using MPAG_Final.Utilities;
 using System;
 using System.Collections.Generic;
@@ -56,7 +57,6 @@ namespace MPAG_Final
         private void LoadBuyer()
         {
             CurrentView = BuyerVM;
-
         }
 
         private void LoadPlanner()
