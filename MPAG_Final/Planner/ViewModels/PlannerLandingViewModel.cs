@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MPAG_Final.Services;
+using MPAG_Final.SharedViewModels;
 using MPAG_Final.Utilities;
 
 
@@ -25,11 +27,15 @@ namespace MPAG_Final.Planner.ViewModels
             set { OnPropertyChanged(ref _currentView, value); }
         }
 
+        
+
         /// <summary>
         /// Constructor that instantiates a new instance of the OrderViewModel class
         /// </summary>
         public PlannerLandingViewModel()
         {
+            var contractMarketPlace = new MockContractMarketplace(); //mock service for the testing of the ui
+
 
             OrderVM = new OrderViewModel();
             CurrentView = OrderVM;

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MPAG_Final.Services;
+using MPAG_Final.SharedViewModels;
 using MPAG_Final.Utilities;
 
 namespace MPAG_Final.Planner.ViewModels
@@ -18,6 +20,13 @@ namespace MPAG_Final.Planner.ViewModels
    */
     public class OrderViewModel : ObservableObject
     {
+        private object _currentView;
+        public object CurrentView
+        {
+            get { return _currentView; }
+            set { OnPropertyChanged(ref _currentView, value); }
+        }
+
         private PendingViewModel _pendingOrdersVM;
         public PendingViewModel PendingOrdersVM
         {
@@ -26,47 +35,43 @@ namespace MPAG_Final.Planner.ViewModels
         }
 
         private ActiveViewModel _activeOrdersVM;
-        public ActiveViewModel ActiveOrdersVM
+        public ActiveViewModel ActiveOrdersVM 
         {
             get { return _activeOrdersVM; }
             set { OnPropertyChanged(ref _activeOrdersVM, value); }
         }
 
-        private object _currentView;
-        public object CurrentView
-        {
-            get { return _currentView; }
-            set { OnPropertyChanged(ref _currentView, value); }
-        }
-
+        
         public ICommand LoadPendingOrdersCommand { get; private set; }
         public ICommand LoadActiveOrdersCommand { get; private set; }
         public ICommand LoadCarriersCommand { get; private set; }
 
         /// <summary>
-        /// Constructor that instantiates a new instance of the OrderViewModel class
+        ///     Constructor that instantiates a new instance of the OrderViewModel class
         /// </summary>
         public OrderViewModel()
         {
-            PendingOrdersVM = new PendingViewModel();
+            var contractMarketPlace = new MockContractMarketplace(); //mock service for the testing of the ui
+            var carrierMarketPlace = new MockCarrierMarketplace(); //mock service for the testing of the ui
+
+
+            PendingOrdersVM = new PendingViewModel(contractMarketPlace, carrierMarketPlace);
             ActiveOrdersVM = new ActiveViewModel();
 
-            PendingOrdersVM = new ViewModels.PendingViewModel();
             CurrentView = PendingOrdersVM;
 
             //these may have to be moved to pending and active viewmodels instead
             LoadPendingOrdersCommand = new RelayCommand(LoadPendingOrders);
             LoadActiveOrdersCommand = new RelayCommand(LoadActiveOrders);
-            LoadCarriersCommand = new RelayCommand(LoadCarriers);
-
         }
 
+    
         /// <summary>
         /// Method for the display of pending orders
         /// </summary>
         private void LoadPendingOrders()
         {
-
+            CurrentView = PendingOrdersVM; 
         }
 
         /// <summary>
@@ -74,16 +79,10 @@ namespace MPAG_Final.Planner.ViewModels
         /// </summary>
         private void LoadActiveOrders()
         {
+            CurrentView = ActiveOrdersVM;
 
         }
 
-        /// <summary>
-        /// Method for the display of carriers 
-        /// </summary>
-        private void LoadCarriers()
-        {
-
-        }
 
     }
 }
