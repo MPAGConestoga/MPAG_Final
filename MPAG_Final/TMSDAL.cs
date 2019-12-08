@@ -329,39 +329,31 @@ namespace MPAG_OrderAndTrip
             }
         }
 
-        /// \brief To get a list of carriers by depot
+        /// \brief To get a carrier's information by its id
         /// 
-        /// \details This method takes in a string containing a city name. A list of carriers with depots
-        /// in the specified city is returned.
-        /// <param name="city"> - <b>String</b> - The city to look up</param>
+        /// \details This method takes in a carrier object and gets all the carrier information
+        /// by searching the databse by carrier name.
+        /// <param name="carrier"> - <b>Carrier</b> - The customer to look up</param>
         /// \return List of Carriers
-        /// \see Carrier::getCarriersWithDepot
-        public List<Carrier> GetCarriersByCity(string origin)
+        /// \see Carrier 
+        public Carrier GetCarrierByID(int carrier)
         {
-            const string sqlStatement = @"SELECT
-	                                        c.Carrier_Id,
-	                                        c.Carrier_Name,
-                                            c.Phone,
-                                            c.Email,
-                                            c.LTL_Rate,
-                                            c.FTL_Rate
-                                            FROM carrier AS c
-                                            INNER JOIN depot AS d
-                                            INNER JOIN city
-	                                        WHERE c.Carrier_Id = (SELECT d.Carrier_Id
-							                                        WHERE d.Delivery_City_Id = 
-								                                        (SELECT city.City_Id
-									                                        WHERE city.City = @origin
-                                                                            ))
-	                                                                        GROUP BY c.Carrier_Id
-                                                                            HAVING Count(*) > 1; ";
+            const string sqlStatement = @"SELECT 
+	                                    c.Carrier_Id,
+	                                    c.Carrier_Name,
+                                        c.Phone,
+                                        c.Email,
+                                        c.LTL_Rate,
+                                        c.FTL_Rate,
+                                        c.Reefer 
+                                        FROM Carrier as C
+	                                    WHERE c.Carrier_Id = @ID;";
 
             using (var myConn = new MySqlConnection(buyerConnectionString))
             {
 
                 var myCommand = new MySqlCommand(sqlStatement, myConn);
-                myCommand.Parameters.AddWithValue("@Origin", origin);
-                //myCommand.Parameters.AddWithValue("@Destination", destination);
+                myCommand.Parameters.AddWithValue("@ID", carrier);
 
                 //For offline connection we will use  MySqlDataAdapter class.  
                 var myAdapter = new MySqlDataAdapter
@@ -373,7 +365,102 @@ namespace MPAG_OrderAndTrip
 
                 myAdapter.Fill(dataTable);
 
-                var carriers = DataTableToCarrierList(dataTable);
+                Carrier returnedCarrier = new Carrier();
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    returnedCarrier.carrierId = (Convert.ToInt32(row["Carrier_Id"]));
+                    returnedCarrier.carrierName = row["Carrier_Name"].ToString();
+                    returnedCarrier.Phone = row["Phone"].ToString();
+                    returnedCarrier.Email = row["Email"].ToString();
+                    returnedCarrier.LTLRate = Convert.ToDouble(row["LTL_Rate"]);
+                    returnedCarrier.FTLRate = Convert.ToDouble(row["FTL_Rate"]);
+                    returnedCarrier.ReeferCharge = Convert.ToDouble(row["Reefer"]);
+                }
+
+
+                return returnedCarrier;
+            }
+        }
+
+        public int GetCityIdByName(string name)
+        {
+            const string sqlStatement = @"Select City_Id FROM
+                                                city where City = @name;";
+
+            using (var myConn = new MySqlConnection(buyerConnectionString))
+            {
+
+                var myCommand = new MySqlCommand(sqlStatement, myConn);
+                myCommand.Parameters.AddWithValue("@name", name);
+
+                var myAdapter = new MySqlDataAdapter
+                {
+                    SelectCommand = myCommand
+                };
+
+                var dataTable = new DataTable();
+                myAdapter.Fill(dataTable);
+                int ID = 0;
+
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    ID = (Convert.ToInt32(row["City_Id"]));
+                }
+                return ID;
+            }
+        }
+
+        /// \brief To get a list of carriers by depot
+        /// 
+        /// \details This method takes in a string containing a city name. A list of carriers with depots
+        /// in the specified city is returned.
+        /// <param name="city"> - <b>String</b> - The city to look up</param>
+        /// \return List of Carriers
+        /// \see Carrier::getCarriersWithDepot
+        public List<Carrier> GetCarriersByCity(string origin, string destination)
+        {
+
+            int cityOrigin = GetCityIdByName(origin);
+            int cityDestination = GetCityIdByName(destination);
+
+
+            const string sqlStatement = @"Select Carrier_Id FROM
+                                                (select * from Depot
+                                                WHERE Delivery_City_Id = @Origin
+                                                OR Delivery_City_Id = @Destination) AS temp
+                                                GROUP BY Carrier_Id 
+                                                Having Count(*) > 1;";
+
+            using (var myConn = new MySqlConnection(buyerConnectionString))
+            {
+
+                var myCommand = new MySqlCommand(sqlStatement, myConn);
+                myCommand.Parameters.AddWithValue("@Origin", cityOrigin);
+                myCommand.Parameters.AddWithValue("@Destination", cityDestination);
+                //myCommand.Parameters.AddWithValue("@Destination", destination);
+
+                //For offline connection we will use  MySqlDataAdapter class.  
+                var myAdapter = new MySqlDataAdapter
+                {
+                    SelectCommand = myCommand
+                };
+
+                var dataTable = new DataTable();
+
+                List<int> CarrierId = new List<int>();
+
+                List<Carrier> carriers = new List<Carrier>();
+                myAdapter.Fill(dataTable);
+
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    CarrierId.Add(Convert.ToInt32(row["Carrier_Id"]));
+                }
+
+                foreach (int el in CarrierId)
+                {
+                    carriers.Add(GetCarrierByID(el));
+                }
 
                 return carriers;
             }

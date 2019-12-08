@@ -1,4 +1,5 @@
 ﻿using MPAG_Final.Utilities;
+using MPAG_OrderAndTrip;
 using System;
 using System.Collections.Generic;
 
@@ -48,7 +49,7 @@ namespace MPAG_Final.SharedModels
             LTLRate = rateLTL;
             ReeferCharge = charge;
 
-            DepotsLocation = initialDepots;   // The admin will list the availible cities for that carrier
+            //DepotsLocation = initialDepots;   // The admin will list the availible cities for that carrier
         }
 
         /// <summary>
