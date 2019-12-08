@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:MPAG_Final.Planner.ViewModels"
         xmlns:v="clr-namespace:MPAG_Final.Planner.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="675" Width="1200">
     <Window.DataContext>
         <local:AppViewModel/>
     </Window.DataContext>

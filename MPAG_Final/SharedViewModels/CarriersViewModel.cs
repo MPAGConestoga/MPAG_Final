@@ -1,4 +1,5 @@
-﻿using MPAG_Final.SharedModels;
+﻿using MPAG_Final.Services;
+using MPAG_Final.SharedModels;
 using MPAG_Final.Utilities;
 using System;
 using System.Collections.Generic;
@@ -12,17 +13,29 @@ namespace MPAG_Final.SharedViewModels
 {
     public class CarriersViewModel : ObservableObject
     {
-        private Carrier _selectedContract;
-        public Carrier SelectedContract
+        private Carrier _selectedCarrier;
+        public Carrier SelectedCarrier
         {
-            get { return _selectedContract; }
-            set { OnPropertyChanged(ref _selectedContract, value); }
+            get { return _selectedCarrier; }
+            set { OnPropertyChanged(ref _selectedCarrier, value); }
         }
 
         public ObservableCollection<Carrier> Carriers { get; private set; }
+        public ICommand UpdateCommand { get; private set; }
 
-        public CarriersViewModel()
+
+        //mock data service for testing UI
+        private ICarrierDataService _carrierDataService;
+
+        public CarriersViewModel(ICarrierDataService carrierDataService)
         {
+            _carrierDataService = carrierDataService;
+            UpdateCommand = new RelayCommand(Update);
+        }
+
+        private void Update()
+        {
+            //add this later
         }
 
         public void LoadCarriers(IEnumerable<Carrier> carrier)

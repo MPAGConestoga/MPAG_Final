@@ -106,9 +106,6 @@
     <Compile Include="Buyer\Models\Buyer.cs" />
     <Compile Include="Helpers\Converters.cs" />
     <Compile Include="Planner\Models\Planner.cs" />
-    <Compile Include="Planner\Views\CarriersView.xaml.cs">
-      <DependentUpon>CarriersView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Services\ICarrierDataService.cs" />
     <Compile Include="Services\IOrderCreation.cs" />
     <Compile Include="Services\MockCarrierMarketplace.cs" />
@@ -163,19 +160,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Planner\Views\ActiveView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Planner\Views\CarriersView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Planner\Views\OrderView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Planner\Views\PendingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -189,18 +174,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Planner\ViewModels\ActiveViewModel.cs" />
     <Compile Include="Planner\ViewModels\OrderViewModel.cs" />
-    <Compile Include="Planner\ViewModels\PendingViewModel.cs" />
     <Compile Include="Planner\ViewModels\SummaryReportsViewModel.cs" />
-    <Compile Include="Planner\Views\ActiveView.xaml.cs">
-      <DependentUpon>ActiveView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Planner\Views\OrderView.xaml.cs">
       <DependentUpon>OrderView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Planner\Views\PendingView.xaml.cs">
-      <DependentUpon>PendingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Planner\Views\SummaryReportsView.xaml.cs">
       <DependentUpon>SummaryReportsView.xaml</DependentUpon>
