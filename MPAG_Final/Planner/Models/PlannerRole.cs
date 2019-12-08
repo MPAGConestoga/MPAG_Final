@@ -1,14 +1,15 @@
 ﻿using MPAG_Final.SharedModels;
+using MPAG_OrderAndTrip;
 using System;
 using System.Collections.Generic;
 
-namespace MPAG_OrderAndTrip
+namespace MPAG_Final.Planner.Models
 {
     /*
     * \brief   The Planner class represents the planner role in the TMS.
     * \details The Planner is the one responsible for assigning a Carriers to Order and for tracking the completion of an Order 
     */
-    class Planner : Employee
+    public class PlannerRole : Employee
     {
         List<Carrier> relevantCarriers = null;
 
@@ -24,24 +25,13 @@ namespace MPAG_OrderAndTrip
         /// <param name="city"> <b>string</b> - Part of the Address object that will be generated</param>
         /// <param name="province"> <b>string</b> - Part of the Address object that will be generated</param>
         /// <param name="postalCode"> <b>string</b> - Part of the Address object that will be generated</param>
-        public Planner
+        public PlannerRole
            (string firstName, string lastName, string email, string phoneNum,
            string streetAddress, string city, string province, string postalCode) :
            base("Planner", firstName, lastName, email, phoneNum, streetAddress, city, province, postalCode)
         { }
 
         //---------------Methods-----------------------//
-        public void GetOrder(Order pendingOrder)
-        {
-            relevantCarriers = GetRelevantCarrier(pendingOrder.origin, pendingOrder.destination);
-
-            if (pendingOrder.jobType == true) // LTL
-            {
-
-            }
-
-
-        }
 
         public List<Carrier> GetRelevantCarrier(string origin, string destination)
         {
@@ -118,5 +108,3 @@ namespace MPAG_OrderAndTrip
         }
     }
 }
-
-// Remove from the carrier depot
