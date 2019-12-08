@@ -62,16 +62,15 @@ namespace MPAG_Final.Planner.ViewModels
         public OrderViewModel(PlannerRole planner)
         {
             var carrierMarketPlace = new MockCarrierMarketplace(); //mock service for the testing of the ui
-            var contractMarketPlace = new MockContractMarketplace(); //mock service for the testing of the ui
 
             PlannerRoleVM = planner;
 
             _carrierService = carrierMarketPlace;
-            _contractService = contractMarketPlace;
+
 
             RunTestCommand = new RelayCommand(RunTest);
 
-            ContractsVM = new ContractsViewModel(contractMarketPlace);
+            ContractsVM = new ContractsViewModel();
             CarriersVM = new CarriersViewModel(carrierMarketPlace);
             LoadCarriers();
             LoadContracts();

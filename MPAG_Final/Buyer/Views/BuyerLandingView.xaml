@@ -31,6 +31,8 @@
                             <GridViewColumn Header="Origin" Width="Auto" DisplayMemberBinding="{Binding Origin}" />
                             <GridViewColumn Header="Destination" Width="Auto" DisplayMemberBinding="{Binding Destination}" />
                             <GridViewColumn Header="Van Type" Width="Auto" DisplayMemberBinding="{Binding VanType}" />
+                            <GridViewColumn Header="Quantity" Width="Auto" DisplayMemberBinding="{Binding Quantity}" />
+
                         </GridView>
                     </ListView.View>
                 </ListView>

@@ -36,20 +36,20 @@ namespace MPAG_Final.Planner.ViewModels
             oDlg.Filter = "Text documents (.txt)|*.txt";
             int retCode = 0;
 
-            retCode = Text_Check();                                     //calls function for checking textbox contents
-            if (retCode == 1 && (oDlg.ShowDialog() == true))            //user chooses to save
-            {
-                SaveAs_Executed(null, new RoutedEventArgs());           //save function is called
-                textEditor.Text = File.ReadAllText(oDlg.FileName);      //file is opened
-            }
-            else if (retCode == 2 && (oDlg.ShowDialog() == true))       //user opts to open file without saving
-            {
-                textEditor.Text = File.ReadAllText(oDlg.FileName);
-            }
-            else if (retCode == 0 && (oDlg.ShowDialog() == true))       //no text is detected
-            {                                                           //file is opened
-                textEditor.Text = File.ReadAllText(oDlg.FileName);
-            }
+            //retCode = Text_Check();                                     //calls function for checking textbox contents
+            //if (retCode == 1 && (oDlg.ShowDialog() == true))            //user chooses to save
+            //{
+            //    SaveAs_Executed(null, new RoutedEventArgs());           //save function is called
+            //    textEditor.Text = File.ReadAllText(oDlg.FileName);      //file is opened
+            //}
+            //else if (retCode == 2 && (oDlg.ShowDialog() == true))       //user opts to open file without saving
+            //{
+            //    textEditor.Text = File.ReadAllText(oDlg.FileName);
+            //}
+            //else if (retCode == 0 && (oDlg.ShowDialog() == true))       //no text is detected
+            //{                                                           //file is opened
+            //    textEditor.Text = File.ReadAllText(oDlg.FileName);
+            //}
         }
     }
 }
