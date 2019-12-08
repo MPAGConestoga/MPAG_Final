@@ -49,6 +49,7 @@ namespace MPAG_Final.SharedViewModels
             }
         }
 
+        public Contract contractToSubmit { get; set; }
         //property for the management of selected contracts in the views that utilize lists
         //buyer page binds to them via the BuyerLandingView
         private Contract _selectedContract;
@@ -65,6 +66,7 @@ namespace MPAG_Final.SharedViewModels
         public ObservableCollection<string> JobTypes { get; private set; }
         public ObservableCollection<string> VanTypes { get; private set; }
         public ICommand UpdateCommand { get; private set; }
+        public ICommand SubmitContractCommand { get; private set; }
 
         //mock data service for testing UI
 
@@ -94,7 +96,34 @@ namespace MPAG_Final.SharedViewModels
             VanTypes = new ObservableCollection<string>();
             VanTypes.Add("Dry");
             VanTypes.Add("Reefer");
+            
+            
+            SubmitContractCommand = new AddContract(this);
 
+        }
+        public void SubmitContract(object parameter)
+        {
+            var list = (object[])parameter;
+            int jobType = 0;
+            int vanType = 0;
+            if (list[1].ToString() == "FTL")
+            {
+                jobType = 1;
+            }
+            if (list[2].ToString() == "Reefer")
+            {
+                vanType = 1;
+            }
+
+            Contract c = new Contract()
+            {
+                Customer = (list[0]).ToString(),
+                JobType = (JobType)jobType,
+                VanType = (VanType)vanType,
+                Origin = list[3].ToString(),
+                Destination = list[4].ToString()
+            };
+            new TMSDAL().InsertContract(c);
         }
 
         private void Update()

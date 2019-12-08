@@ -11,6 +11,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
+        <Converters:BtnParamConverter x:Key="multiConverter" />
         <Converters:AddContractConverter x:Key="AddContractEnabledConverter"/>
         <Converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
         <ObjectDataProvider x:Key="jobEnum" MethodName="GetValues" ObjectType="{x:Type ns:Enum}">
@@ -35,7 +36,7 @@
                 <StackPanel Orientation="Horizontal">
                     <StackPanel HorizontalAlignment="Center">
 
-                        <TextBox Text="{Binding SelectedContract.Customer, FallbackValue=NULL, Mode=TwoWay}"
+                        <TextBox x:Name="customerTxt" Text="{Binding SelectedContract.Customer, FallbackValue=NULL, Mode=TwoWay}"
                               
                               VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                               Margin="5"/>
@@ -193,8 +194,16 @@
             </StackPanel>
         </StackPanel>
         
-        <StackPanel Grid.Row="4" VerticalAlignment="Top" HorizontalAlignment="Right">
-            <Button Style="{StaticResource MenuIconButton}" Background="{StaticResource MaximumBlueGreen}"
+        <Grid Grid.Row="4"  VerticalAlignment="Top"  Margin="0,0,5,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="200"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Button Grid.Column="1" Command="{Binding SubmitContractCommand}" Style="{StaticResource MenuIconButton}" Background="{StaticResource MaximumBlueGreen}"
                        Width="90" Height="40" Margin="5">
                 <Button.IsEnabled>
                     <MultiBinding Converter="{StaticResource AddContractEnabledConverter}">
@@ -207,6 +216,15 @@
 
                     </MultiBinding>
                 </Button.IsEnabled>
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource multiConverter}">
+                        <Binding Path="Text" ElementName="customerTxt" />
+                        <Binding Path="Text" ElementName="jobTxt" />
+                        <Binding Path="Text" ElementName="vanTxt" />
+                        <Binding Path="Text" ElementName="originTxt" />
+                        <Binding Path="Text" ElementName="destTxt" />
+                    </MultiBinding>
+                </Button.CommandParameter>
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
                         <Image  />
@@ -216,10 +234,10 @@
                     
                 </Button.Content>
             </Button>
-            <TextBlock x:Name="error" Text="Please Select A Contract" FontWeight="Bold" Foreground="Red"/>
+            <TextBlock TextWrapping="WrapWithOverflow" TextAlignment="Center" Grid.Row="1" Grid.Column="1" x:Name="error" Text="Please Select A Contract" FontWeight="Bold" Foreground="Red"/>
 
             <TextBlock x:Name="checkSelection" Visibility="Collapsed" Text="{Binding SelectedContract}"/>
 
-        </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

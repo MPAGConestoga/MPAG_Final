@@ -86,4 +86,20 @@ namespace MPAG_Final.Helpers
             throw new NotImplementedException();
         }
     }
+
+    class BtnParamConverter : IMultiValueConverter
+    {
+        // Returns a copy of the parameters
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            return values.Clone();
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+
+    }
 }

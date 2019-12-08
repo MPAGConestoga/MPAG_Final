@@ -111,6 +111,35 @@ namespace MPAG_OrderAndTrip
             }
         }
 
+        /// \brief To insert an order into the TMS local database
+        /// 
+        /// \details After the buyer selects an order from the marketplace, it is uploaded to the database. This method
+        /// is called by the Order class to upload the order. Using the buyer login credentials, this method takes the Order
+        /// object attributes and inserts the values int a mysql insert statement.
+        /// <param name="order"> - <b>Order</b> - The order to be added to the database</param>
+        /// \return none
+        /// \see Order::AddOrder()
+        public void InsertContract(Contract contract)
+        {
+            using (var myConn = new MySqlConnection(buyerConnectionString))
+            {
+                const string sqlStatement = @"  INSERT INTO _order (Job_Type, Van_Type, Order_Status)
+	                                            VALUES (@Job_Type, @Van_Type, 0); ";
+
+                var myCommand = new MySqlCommand(sqlStatement, myConn);
+
+                //myCommand.Parameters.AddWithValue("@StartDate", order.dateCreated);
+                //myCommand.Parameters.AddWithValue("@Origin", contract.Origin);
+                //myCommand.Parameters.AddWithValue("@Destination", contract.Destination);
+                myCommand.Parameters.AddWithValue("@Job_Type", contract.JobType);
+                myCommand.Parameters.AddWithValue("@Van_Type", contract.VanType);
+
+                myConn.Open();
+
+                myCommand.ExecuteNonQuery();
+            }
+        }
+
         /// \brief To insert a new carrier into the TMS local database
         /// 
         /// \details The admin is able to add a new carrier into the database

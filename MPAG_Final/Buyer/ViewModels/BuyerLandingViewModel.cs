@@ -38,6 +38,7 @@ namespace MPAG_Final.Buyer.ViewModels
             //   /xaml command name/ = new RelayCommand(function from below)
         }
 
+       
         public void EmptyList()
         {
             ContractsVM.EmptyList();
