@@ -1,10 +1,6 @@
 ﻿using MPAG_Final.Services;
 using MPAG_Final.SharedModels;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MPAG_Final.Buyer.Models
 {
@@ -15,7 +11,7 @@ namespace MPAG_Final.Buyer.Models
       * \see Employee
       *
       */
-    public class Buyer : Employee, IOrderCreation
+    public class BuyerRole : Employee, IOrderCreation
     {
         private List<Order> CreatedOrders;
 
@@ -31,7 +27,7 @@ namespace MPAG_Final.Buyer.Models
         /// <param name="province"> <b>string</b> - Buyer's province</param>
         /// <param name="postalCode"> <b>string</b> - Buyer's postal code</param> 
 
-        public Buyer
+        public BuyerRole
             (string firstName, string lastName, string email, string phoneNum,
             string streetAddress, string city, string province, string postalCode) :
             base("Buyer", firstName, lastName, email, phoneNum, streetAddress, city, province, postalCode)

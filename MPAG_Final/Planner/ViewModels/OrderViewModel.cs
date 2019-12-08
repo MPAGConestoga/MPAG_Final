@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using MPAG_Final.Services;
+﻿using MPAG_Final.Planner.Models;
 using MPAG_Final.SharedViewModels;
 using MPAG_Final.Utilities;
+
 
 namespace MPAG_Final.Planner.ViewModels
 {
@@ -20,7 +15,8 @@ namespace MPAG_Final.Planner.ViewModels
    */
     public class OrderViewModel : ObservableObject
     {
-        //private object _currentView;
+        PlannerRole planner = new PlannerRole("Planner", "Test", "plannerTest@gmail.com",
+            "9009009000", "DamnStreet", "Toronto", "Ontario", "N2E0E2");
         //public object CurrentView
         //{
         //    get { return _currentView; }
