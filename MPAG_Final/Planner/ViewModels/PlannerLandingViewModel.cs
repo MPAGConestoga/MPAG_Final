@@ -20,6 +20,13 @@ namespace MPAG_Final.Planner.ViewModels
             set { OnPropertyChanged(ref _orderVM, value); }
         }
 
+        private SummaryReportsViewModel _summaryVM;
+        public SummaryReportsViewModel SummaryVM
+        {
+            get { return _summaryVM; }
+            set { OnPropertyChanged(ref _summaryVM, value); }
+        }
+
         private object _currentView;
         public object CurrentView
         {
@@ -38,6 +45,8 @@ namespace MPAG_Final.Planner.ViewModels
 
 
             OrderVM = new OrderViewModel();
+            SummaryVM = new SummaryReportsViewModel();
+            
             CurrentView = OrderVM;
 
         }

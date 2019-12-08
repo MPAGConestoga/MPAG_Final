@@ -16,7 +16,7 @@
     </UserControl.Resources>
     <DockPanel>
         <!--Tools-->
-        <Grid DockPanel.Dock="Top" Height="40" Background="{StaticResource BlueGreyGradient}">
+        <Grid DockPanel.Dock="Top" Height="30" Background="{StaticResource BlueGreyGradient}">
             <!--2 columns-->
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>

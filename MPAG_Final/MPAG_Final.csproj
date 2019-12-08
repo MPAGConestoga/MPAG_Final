@@ -91,6 +91,7 @@
     <Reference Include="Renci.SshNet, Version=2016.1.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
       <HintPath>..\packages\SSH.NET.2016.1.0\lib\net40\Renci.SshNet.dll</HintPath>
     </Reference>
+    <Reference Include="MySql.Data, Version=8.0.18.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -121,13 +122,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Buyer\Models\Buyer.cs" />
     <Compile Include="Helpers\Converters.cs" />
-    <Compile Include="Planner\Views\CarriersView.xaml.cs">
-      <DependentUpon>CarriersView.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Planner\Models\Planner.cs" />
     <Compile Include="Services\ICarrierDataService.cs" />
+    <Compile Include="Services\IOrderCreation.cs" />
     <Compile Include="Services\MockCarrierMarketplace.cs" />
+    <Compile Include="SharedModels\Address.cs" />
     <Compile Include="SharedModels\Carrier.cs" />
+    <Compile Include="SharedModels\CityDepot.cs" />
     <Compile Include="SharedModels\Contract.cs" />
     <Compile Include="Buyer\ViewModels\BuyerLandingViewModel.cs" />
     <Compile Include="Buyer\Views\BuyerLandingView.xaml.cs">
@@ -144,8 +147,15 @@
     </Compile>
     <Compile Include="Services\IContractDataService.cs" />
     <Compile Include="Services\MockContractMarketplace.cs" />
+    <Compile Include="SharedModels\Depot.cs" />
+    <Compile Include="SharedModels\Employee.cs" />
+    <Compile Include="SharedModels\Invoice.cs" />
+    <Compile Include="SharedModels\Order.cs" />
+    <Compile Include="SharedModels\Person.cs" />
+    <Compile Include="SharedModels\Trip.cs" />
     <Compile Include="SharedViewModels\CarriersViewModel.cs" />
     <Compile Include="SharedViewModels\ContractsViewModel.cs" />
+    <Compile Include="TMSDAL.cs" />
     <Compile Include="Utilities\ObservableObject.cs" />
     <Compile Include="Utilities\RelayCommand.cs" />
     <Page Include="Buyer\Views\BuyerLandingView.xaml">
@@ -169,19 +179,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Planner\Views\ActiveView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Planner\Views\CarriersView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Planner\Views\OrderView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Planner\Views\PendingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -195,18 +193,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Planner\ViewModels\ActiveViewModel.cs" />
     <Compile Include="Planner\ViewModels\OrderViewModel.cs" />
-    <Compile Include="Planner\ViewModels\PendingViewModel.cs" />
     <Compile Include="Planner\ViewModels\SummaryReportsViewModel.cs" />
-    <Compile Include="Planner\Views\ActiveView.xaml.cs">
-      <DependentUpon>ActiveView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Planner\Views\OrderView.xaml.cs">
       <DependentUpon>OrderView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Planner\Views\PendingView.xaml.cs">
-      <DependentUpon>PendingView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Planner\Views\SummaryReportsView.xaml.cs">
       <DependentUpon>SummaryReportsView.xaml</DependentUpon>
@@ -237,6 +227,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="MarketplaceAccess\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

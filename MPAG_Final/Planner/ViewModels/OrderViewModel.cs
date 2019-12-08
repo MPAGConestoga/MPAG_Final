@@ -20,6 +20,9 @@ namespace MPAG_Final.Planner.ViewModels
    */
     public class OrderViewModel : ObservableObject
     {
+        // mock contract service for testing UI
+        private ICarrierDataService _service;
+
         private object _currentView;
         public object CurrentView
         {
@@ -27,11 +30,11 @@ namespace MPAG_Final.Planner.ViewModels
             set { OnPropertyChanged(ref _currentView, value); }
         }
 
-        private PendingViewModel _pendingOrdersVM;
-        public PendingViewModel PendingOrdersVM
+        private CarriersViewModel _carriersVM;
+        public CarriersViewModel CarriersVM
         {
-            get { return _pendingOrdersVM; }
-            set { OnPropertyChanged(ref _pendingOrdersVM, value); }
+            get { return _carriersVM; }
+            set { OnPropertyChanged(ref _carriersVM, value); }
         }
 
         private ActiveViewModel _activeOrdersVM;
@@ -41,7 +44,7 @@ namespace MPAG_Final.Planner.ViewModels
             set { OnPropertyChanged(ref _activeOrdersVM, value); }
         }
 
-        
+
         public ICommand LoadPendingOrdersCommand { get; private set; }
         public ICommand LoadActiveOrdersCommand { get; private set; }
         public ICommand LoadCarriersCommand { get; private set; }
@@ -51,36 +54,19 @@ namespace MPAG_Final.Planner.ViewModels
         /// </summary>
         public OrderViewModel()
         {
-            var contractMarketPlace = new MockContractMarketplace(); //mock service for the testing of the ui
             var carrierMarketPlace = new MockCarrierMarketplace(); //mock service for the testing of the ui
 
+            CarriersVM = new CarriersViewModel(carrierMarketPlace);
+            _service = carrierMarketPlace;
 
-            PendingOrdersVM = new PendingViewModel(contractMarketPlace, carrierMarketPlace);
-            ActiveOrdersVM = new ActiveViewModel();
+            LoadCarriers();
 
-            CurrentView = PendingOrdersVM;
-
-            //these may have to be moved to pending and active viewmodels instead
-            LoadPendingOrdersCommand = new RelayCommand(LoadPendingOrders);
-            LoadActiveOrdersCommand = new RelayCommand(LoadActiveOrders);
         }
 
-    
-        /// <summary>
-        /// Method for the display of pending orders
-        /// </summary>
-        private void LoadPendingOrders()
+        //function for loading contracts; references ContractViewModel LoadContracts function
+        private void LoadCarriers()
         {
-            CurrentView = PendingOrdersVM; 
-        }
-
-        /// <summary>
-        /// Method for the display of active orders
-        /// </summary>
-        private void LoadActiveOrders()
-        {
-            CurrentView = ActiveOrdersVM;
-
+            CarriersVM.LoadCarriers(_service.GetCarriers());
         }
 
 

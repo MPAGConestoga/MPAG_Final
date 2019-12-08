@@ -16,6 +16,7 @@
         <DataTemplate DataType="{x:Type pvm:PlannerLandingViewModel}">
             <pv:PlannerLandingView/>
         </DataTemplate>
+        
 
         <helper:BoolToVisibilityConverter x:Key="IsEditConverter"/>
         <helper:NullToVisibilityConverter x:Key="SelectedContractConverter"/>
