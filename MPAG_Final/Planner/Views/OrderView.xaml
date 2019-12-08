@@ -24,9 +24,7 @@
                             <Label Style="{StaticResource DetailLabel}" Content="Orders" HorizontalAlignment="Center" Margin="57.2,5,164.4,0" FontSize="15" Grid.Column="1"/>
                             <DataGrid GridLinesVisibility="None" 
                                       IsReadOnly="True" 
-                                      ItemsSource="{Binding ContractsVM.Contracts}" 
                                       Margin="20,40,20.4,20" 
-                                      SelectedItem="{Binding ContractsVM.SelectedContracts}" 
                                       AutoGenerateColumns="True" 
                                       Grid.ColumnSpan="2">
                                 <DataGrid.Columns>
@@ -55,13 +53,11 @@
                             <Label Style="{StaticResource DetailLabel}" Content="Carriers" HorizontalAlignment="Center" Margin="0,5,0,0" FontSize="15"/>
                             <DataGrid GridLinesVisibility="None" 
                                       IsReadOnly="True" 
-                                      ItemsSource="{Binding CarriersVM.Carriers}" 
                                       Margin="20,40,20,80" 
-                                      SelectedItem="{Binding CarriersVM.SelectedCarriers}" 
                                       AutoGenerateColumns="False" >
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="ID" Width="Auto" Binding="{Binding carrierId}" />
-                                    <DataGridTextColumn Header="Origin" Width="Auto" Binding="{Binding carrierName}" />
+                                    <DataGridTextColumn Header="ID" Width="Auto"  />
+                                    <DataGridTextColumn Header="Origin" Width="Auto"  />
                                     <DataGridTemplateColumn Header="Selected">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
@@ -95,9 +91,7 @@
                             <Label Style="{StaticResource DetailLabel}" Content="Orders" HorizontalAlignment="Center" Margin="0,5,0,0" FontSize="15"/>
                             <DataGrid GridLinesVisibility="None" 
                                       IsReadOnly="True"
-                                      ItemsSource="{Binding CarriersVM.Carriers}" 
                                       Margin="20,40,20,20" 
-                                      SelectedItem="{Binding CarriersVM.SelectedCarriers}" 
                                       AutoGenerateColumns="False">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="ID" Width="Auto" Binding="{Binding carrierId}" />
@@ -124,9 +118,7 @@
                                     <Label Style="{StaticResource DetailLabel}" Content="Selected Orders" HorizontalAlignment="Center" Margin="0,5,0,0" FontSize="15"/>
                                     <DataGrid GridLinesVisibility="None" 
                                               IsReadOnly="True"
-                                              ItemsSource="{Binding CarriersVM.Carriers}" 
                                               Margin="20,40,20,20" 
-                                              SelectedItem="{Binding CarriersVM.SelectedCarriers}" 
                                               AutoGenerateColumns="False" >
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="ID" Width="Auto" Binding="{Binding carrierId}" />
@@ -150,9 +142,7 @@
                                     <Label Style="{StaticResource DetailLabel}" Content="Carriers" HorizontalAlignment="Center" Margin="0,5,0,0" FontSize="15"/>
                                     <DataGrid GridLinesVisibility="None" 
                                               IsReadOnly="True"
-                                              ItemsSource="{Binding CarriersVM.Carriers}" 
                                               Margin="20,40,20,50" 
-                                              SelectedItem="{Binding CarriersVM.SelectedCarriers}"
                                               AutoGenerateColumns="False" >
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="ID" Width="Auto" Binding="{Binding carrierId}" />
@@ -202,15 +192,13 @@
                     <Label Style="{StaticResource DetailLabel}" Content="Orders" HorizontalAlignment="Center" Margin="64,5,171.6,-0.4" FontSize="15" Grid.Column="2"/>
                     <DataGrid GridLinesVisibility="None" 
                               IsReadOnly="True"
-                              ItemsSource="{Binding CarriersVM.Carriers}" 
                               Margin="2.8,40,20.6,19.6" 
-                              SelectedItem="{Binding CarriersVM.SelectedCarriers}" 
                               AutoGenerateColumns="False" 
                               Grid.ColumnSpan="2" 
                               Grid.Column="1">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Width="Auto" Binding="{Binding carrierId}" />
-                            <DataGridTextColumn Header="Origin" Width="Auto" Binding="{Binding carrierName}" />
+                            <DataGridTextColumn Header="ID" Width="Auto"  />
+                            <DataGridTextColumn Header="Origin" Width="Auto"  />
                             <DataGridTemplateColumn Header="Selected">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>

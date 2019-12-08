@@ -71,10 +71,10 @@ namespace MPAG_Final.Planner.ViewModels
 
             RunTestCommand = new RelayCommand(RunTest);
 
-            ContractsVM = new ContractsViewModel(contractMarketPlace);
+          //  ContractsVM = new ContractsViewModel(contractMarketPlace);
             CarriersVM = new CarriersViewModel(carrierMarketPlace);
-            LoadCarriers();
-            LoadContracts();
+           // LoadCarriers();
+           // LoadContracts();
 
             int i = 0;          
         }
