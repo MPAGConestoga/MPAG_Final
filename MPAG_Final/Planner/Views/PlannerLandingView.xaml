@@ -17,18 +17,24 @@
     <DockPanel>
         <!--Tools-->
         <Grid DockPanel.Dock="Top" Height="40" Background="{StaticResource BlueGreyGradient}">
-            <!--2 columns-->
+            <!--8 columns-->
             <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0">
-                <Button Style="{StaticResource MenuTabButton}" Content="Orders"/>
+                <Button Content="Orders"/>
             </Grid>
 
             <Grid Grid.Column="1">
-                <Button Style="{StaticResource MenuTabButton}" Content="Summary Reports"/>
+                <Button Content="Summary Reports"/>
             </Grid>
 
             <!--Tool Buttons-->
