@@ -1,5 +1,6 @@
 ﻿using MPAG_Final.Services;
 using MPAG_Final.Utilities;
+using MPAG_OrderAndTrip;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace MPAG_Final.SharedModels
         private static readonly List<string> ValidCities = new List<string> { "Toronto", "Waterloo", "Windsor", "London" };
 
         //--------- Attributes ---------//
-        public int orderID { get; set; }
+        public int OrderID { get; set; }
 
         private string _origin;
         public string origin
@@ -58,7 +59,7 @@ namespace MPAG_Final.SharedModels
         public bool jobType { get; set; }
         public bool vanType { get; set; }
         public DateTime dateCreated { get; set; }
-        public List<Trip> assignedTrips = null;         // How do I attribute visibility to Collections
+        public List<Trip> AssignedTrips = null;         // How do I attribute visibility to Collections
         public DateTime dateCompleted { get; set; }
 
 
@@ -103,7 +104,7 @@ namespace MPAG_Final.SharedModels
         public Order(bool jobType, uint quantity, string origin, string destination, bool vanType)
         {
             Random rng = new Random();          // DEBUG: This is a placeholder for the orderId that will
-            orderID = rng.Next(10000, 99000);   // be grabbed from the database baased on the Id of the last order
+            OrderID = rng.Next(10000, 99000);   // be grabbed from the database baased on the Id of the last order
 
             if (jobType && quantity == 0)
             {

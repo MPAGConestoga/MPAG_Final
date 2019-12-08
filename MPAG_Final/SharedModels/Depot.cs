@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MPAG_Final.SharedModels
+namespace MPAG_OrderAndTrip
 {
     /**
     * \brief   The Depot represent one location where the Carrier has a delivery station.
@@ -14,9 +14,10 @@ namespace MPAG_Final.SharedModels
     */
     public class Depot
     {
+        public int DepotID { get; set; }
         string location;
-        private int availibleFTL;
-        private int avalibleLTL;
+        public int availibleFTL { get; set; }
+        public int avalibleLTL { get; set; }
         public List<Trip> Trips;
 
         /// <summary>
@@ -24,7 +25,7 @@ namespace MPAG_Final.SharedModels
         /// </summary>
         /// <param name="city"> <b>string</b> - City location of the carrier's depot </param>
         /// <param name="initialFTLs"> <b>int</b> - Initial quantity of FTL trucks in that depot </param>
-        /// <param name="initialLTLs"><b>int</b> - Initial quantity of LTL trucks in that depot </param>
+        /// <param name="initialLTLs"> <b>int</b> - Initial quantity of LTL trucks in that depot </param>
         public Depot(string city, int initialFTLs, int initialLTLs)
         {
             location = city;

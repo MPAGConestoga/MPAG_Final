@@ -20,15 +20,12 @@ namespace MPAG_Final.Planner.ViewModels
    */
     public class OrderViewModel : ObservableObject
     {
-        // mock contract service for testing UI
-        private ICarrierDataService _service;
-
-        private object _currentView;
-        public object CurrentView
-        {
-            get { return _currentView; }
-            set { OnPropertyChanged(ref _currentView, value); }
-        }
+        //private object _currentView;
+        //public object CurrentView
+        //{
+        //    get { return _currentView; }
+        //    set { OnPropertyChanged(ref _currentView, value); }
+        //}
 
         private CarriersViewModel _carriersVM;
         public CarriersViewModel CarriersVM
@@ -37,38 +34,12 @@ namespace MPAG_Final.Planner.ViewModels
             set { OnPropertyChanged(ref _carriersVM, value); }
         }
 
-        private ActiveViewModel _activeOrdersVM;
-        public ActiveViewModel ActiveOrdersVM 
-        {
-            get { return _activeOrdersVM; }
-            set { OnPropertyChanged(ref _activeOrdersVM, value); }
-        }
-
-
-        public ICommand LoadPendingOrdersCommand { get; private set; }
-        public ICommand LoadActiveOrdersCommand { get; private set; }
-        public ICommand LoadCarriersCommand { get; private set; }
-
         /// <summary>
         ///     Constructor that instantiates a new instance of the OrderViewModel class
         /// </summary>
         public OrderViewModel()
         {
-            var carrierMarketPlace = new MockCarrierMarketplace(); //mock service for the testing of the ui
-
-            CarriersVM = new CarriersViewModel(carrierMarketPlace);
-            _service = carrierMarketPlace;
-
-            LoadCarriers();
 
         }
-
-        //function for loading contracts; references ContractViewModel LoadContracts function
-        private void LoadCarriers()
-        {
-            CarriersVM.LoadCarriers(_service.GetCarriers());
-        }
-
-
     }
 }

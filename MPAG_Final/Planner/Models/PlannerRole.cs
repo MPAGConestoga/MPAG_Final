@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MPAG_Final.SharedModels;
+using System;
 using System.Collections.Generic;
 
 namespace MPAG_OrderAndTrip
@@ -42,52 +43,12 @@ namespace MPAG_OrderAndTrip
 
         }
 
-        private List<Carrier> GetRelevantCarrier(string origin, string destination)
+        public List<Carrier> GetRelevantCarrier(string origin, string destination)
         {
-            //--------------------------STUBBED OUT----------------------------//
-            Dictionary<string, Depot> depotCarrier1 = new Dictionary<string, Depot>
-            {
-                    {"Toronto",  new Depot("Toronto", 10, 500)},
-                    {"Waterloo", new Depot("Waterloo", 5, 200)},
-                    {"Quebec",   new Depot("Quebec", 20, 300) },
-                    {"Ottawa",   new Depot("Ottawa", 60, 400) }
-            };
-
-            // CARRIERS
-            Carrier carrier1 = new Carrier("Deliver", 0.5, 0.5, 23, depotCarrier1);
-            Carrier carrier2 = new Carrier("Try", 0.5, 0.5, 23, depotCarrier1);
-            Carrier carrier3 = new Carrier("WeedELIVER", 0.5, 0.5, 23, depotCarrier1);
-            Carrier carrier4 = new Carrier("OutOfIdeas", 0.5, 0.5, 23, depotCarrier1);
-            Carrier carrier5 = new Carrier("Why", 0.5, 0.5, 23, depotCarrier1);
-
-            List<Carrier> allCarriers = new List<Carrier>
-            {
-                carrier1, carrier2, carrier3, carrier4, carrier5
-            };
-
-            List<Carrier> returnCarriers = new List<Carrier>();
-
-            foreach (Carrier carrier in allCarriers)
-            {
-                if (carrier.DepotsLocation.ContainsKey(origin) && carrier.DepotsLocation.ContainsKey(origin))
-                {
-                    returnCarriers.Add(carrier);
-                }
-            }
-
-            return returnCarriers;
+            return null;
         }
 
-        public void LTLOrderManage(Order selectedOrder)
-        {
-            DeliveryCity deliveryCity = new DeliveryCity(selectedOrder.origin);
-            deliveryCity.Filter(selectedOrder.vanType, selectedOrder.direction);
-        }
 
-        public void AddToWaitingOrder(DeliveryCity deliveryCity, Order selectedOrder)
-        {
-            deliveryCity.WaitingOrders.Add(selectedOrder);
-        }
 
         // At this point, we know that the carrier has a depot city in that city
         // So we can attribute trips to carrier (through depot) 
@@ -105,38 +66,38 @@ namespace MPAG_OrderAndTrip
 
 
 
-        public void AddTripsToMulipletTrips(List<Order> bundledOrders)
-        {
-            uint totalPalletsQuantity = 0;
+        //public void AddTripsToMulipletTrips(List<Order> bundledOrders)
+        //{
+        //    uint totalPalletsQuantity = 0;
 
-            foreach (var order in bundledOrders)
-            {
-                totalPalletsQuantity += order.quantity;
-            }
+        //    foreach (var order in bundledOrders)
+        //    {
+        //        totalPalletsQuantity += order.quantity;
+        //    }
 
-            // Check division
-            int FTLAmount = (int)totalPalletsQuantity / Carrier.MaxLot;
-            totalPalletsQuantity -= (uint)(FTLAmount * Carrier.MaxLot);
+        //    // Check division
+        //    int FTLAmount = (int)totalPalletsQuantity / Carrier.MaxLot;
+        //    totalPalletsQuantity -= (uint)(FTLAmount * Carrier.MaxLot);
 
-            string origin = bundledOrders[0].origin;
-            string destination = bundledOrders[0].destination;
+        //    string origin = bundledOrders[0].origin;
+        //    string destination = bundledOrders[0].destination;
 
-            // Get the amount of LTL pallets in a City 
-            List<Carrier> relevantCarriers = GetRelevantCarrier(origin, destination);
+        //    // Get the amount of LTL pallets in a City 
+        //    List<Carrier> relevantCarriers = GetRelevantCarrier(origin, destination);
 
-            int totalPallets = 0;
-            foreach (var carrier in Carriers)
-            {
-                totalPallets = carrier.DepotsLocation[origin].avalibleLTL;
-            }
+        //    int totalPallets = 0;
+        //    foreach (var carrier in Carriers)
+        //    {
+        //        totalPallets = carrier.DepotsLocation[origin].avalibleLTL;
+        //    }
 
 
-            for (int counter = 0; counter < bundledOrders.Count; counter)
-            {
-                relevantCarriers[counter]. -= bundledOrders[counter].quantity;
-            }
+        //    for (int counter = 0; counter < bundledOrders.Count; counter)
+        //    {
+        //        relevantCarriers[counter]. -= bundledOrders[counter].quantity;
+        //    }
 
-        }
+        //}
 
         public void ChangeOrderSpeedTime(Order activeOrder, int daysToAdvance)
         {
