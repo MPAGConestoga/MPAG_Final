@@ -31,6 +31,57 @@ namespace MPAG_OrderAndTrip
         private string adminConnectionString;
 
 
+
+
+        public List<CityDepot> GetCityDepots()
+        {
+            const string sqlStatement = @"    SELECT 
+	                                    c.City_Id, City from 
+                                        city as c
+                                        INNER JOIN delivery_city as d
+                                        Where c.City_Id = d.City_Id;";
+
+            using (var myConn = new MySqlConnection(buyerConnectionString))
+            {
+
+                var myCommand = new MySqlCommand(sqlStatement, myConn);
+                //For offline connection we will use  MySqlDataAdapter class.  
+                var myAdapter = new MySqlDataAdapter
+                {
+                    SelectCommand = myCommand
+                };
+
+                var dataTable = new DataTable();
+
+                myAdapter.Fill(dataTable);
+
+                var cityDepots = DataTableToCityDepotList(dataTable);
+
+                return cityDepots;
+            }
+        }
+
+        /// \brief To convert a DataTable into a list of Orders
+        /// 
+        /// \details When multiple orders are returned from an sql query, this method is used to
+        /// convert the returned DataTable into a list of orders.
+        /// <param name="table"> - <b>DataTable</b> - The DataTable to be converted</param>
+        /// \return A list of orders.
+        /// \see TMSDAL:GetOrdersForPlanner
+        private List<CityDepot> DataTableToCityDepotList(DataTable table)
+        {
+            var orders = new List<CityDepot>();
+
+            foreach (DataRow row in table.Rows)
+            {
+                orders.Add(new CityDepot
+                {
+                    ID = Convert.ToInt32(row["City_Id"]),
+                    cityLocation = row["City"].ToString()
+                }); ;
+            }
+            return orders;
+        }
         /// \brief To insert an order into the TMS local database
         /// 
         /// \details After the buyer selects an order from the marketplace, it is uploaded to the database. This method
@@ -53,6 +104,35 @@ namespace MPAG_OrderAndTrip
                 myCommand.Parameters.AddWithValue("@Destination", order.destination);
                 myCommand.Parameters.AddWithValue("@Job_Type", order.jobType);
                 myCommand.Parameters.AddWithValue("@Van_Type", order.vanType);
+
+                myConn.Open();
+
+                myCommand.ExecuteNonQuery();
+            }
+        }
+
+        /// \brief To insert an order into the TMS local database
+        /// 
+        /// \details After the buyer selects an order from the marketplace, it is uploaded to the database. This method
+        /// is called by the Order class to upload the order. Using the buyer login credentials, this method takes the Order
+        /// object attributes and inserts the values int a mysql insert statement.
+        /// <param name="order"> - <b>Order</b> - The order to be added to the database</param>
+        /// \return none
+        /// \see Order::AddOrder()
+        public void InsertContract(Contract contract)
+        {
+            using (var myConn = new MySqlConnection(buyerConnectionString))
+            {
+                const string sqlStatement = @"  INSERT INTO _order (Job_Type, Van_Type, Order_Status)
+	                                            VALUES (@Job_Type, @Van_Type, 0); ";
+
+                var myCommand = new MySqlCommand(sqlStatement, myConn);
+
+                //myCommand.Parameters.AddWithValue("@StartDate", order.dateCreated);
+                //myCommand.Parameters.AddWithValue("@Origin", contract.Origin);
+                //myCommand.Parameters.AddWithValue("@Destination", contract.Destination);
+                myCommand.Parameters.AddWithValue("@Job_Type", contract.JobType);
+                myCommand.Parameters.AddWithValue("@Van_Type", contract.VanType);
 
                 myConn.Open();
 

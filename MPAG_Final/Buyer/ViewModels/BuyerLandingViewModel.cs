@@ -21,6 +21,8 @@ namespace MPAG_Final.Buyer.ViewModels
 
         //public ICommand /add the name of the command to bind to in xaml here/ { get; private set;}
         public ICommand RunDatabaseCommand { get; private set; }
+        public ICommand PauseCommand { get; private set; }
+        public ICommand EmptyCommand { get; private set; }
 
         /// <summary>
         /// Constructor that instantiates a new instance of the OrderViewModel class
@@ -30,11 +32,17 @@ namespace MPAG_Final.Buyer.ViewModels
             ContractsVM = new ContractsViewModel(/*contractMarketPlace*/);
 
             RunDatabaseCommand = new RelayCommand(RunDatabase);
+            PauseCommand = new RelayCommand(PauseDatabase);
+            EmptyCommand = new RelayCommand(EmptyList);
 
-           //   /xaml command name/ = new RelayCommand(function from below)
+            //   /xaml command name/ = new RelayCommand(function from below)
         }
 
-        //  Function to bind to xaml command
+       
+        public void EmptyList()
+        {
+            ContractsVM.EmptyList();
+        }
         public void RunDatabase()
         {
             var contractMarketPlace = new MockContractMarketplace(); //mock service for the testing of the ui
@@ -42,6 +50,12 @@ namespace MPAG_Final.Buyer.ViewModels
             _service = contractMarketPlace;
             ContractsVM.DatabaseRun();
             LoadContracts();
+        }
+        //  Function to bind to xaml command
+        public void PauseDatabase()
+        {
+            ContractsVM.PauseDatabase();
+
         }
         //function for loading contracts; references ContractViewModel LoadContracts function
         private void LoadContracts()

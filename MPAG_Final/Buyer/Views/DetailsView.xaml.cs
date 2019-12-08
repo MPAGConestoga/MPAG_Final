@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MPAG_Final.SharedModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,26 @@ namespace MPAG_Final.Buyer.Views
         public DetailsView()
         {
             InitializeComponent();
+        }
+
+        private void OriginComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            originTxt.Text = ((CityDepot)originCombo.SelectedItem).cityLocation;
+        }
+
+        private void DestinationComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            destTxt.Text = ((CityDepot)destCombo.SelectedItem).cityLocation;
+        }
+
+        private void jobCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            jobTxt.Text = (string)jobCombo.SelectedItem;
+        }
+
+        private void vanCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            vanTxt.Text = (string)vanCombo.SelectedItem;
         }
     }
 }
