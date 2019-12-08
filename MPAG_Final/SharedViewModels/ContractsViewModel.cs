@@ -14,11 +14,41 @@ using MySql.Data.MySqlClient;
 using System.Configuration;
 using System.Threading;
 using System.Windows.Threading;
+using MPAG_OrderAndTrip;
 
 namespace MPAG_Final.SharedViewModels
-{    
+{
     public class ContractsViewModel : ObservableObject
     {
+
+        public bool isRunning { get; set; }
+        private string _loadingText;
+        public string loadingText
+        {
+            get
+            {
+                return _loadingText;
+            }
+            set
+            {
+                _loadingText = value;
+                OnPropertyChanged("loadingText");
+            }
+        }
+        private int _loading;
+        public int loading
+        {
+            get
+            {
+                return _loading;
+            }
+            set
+            {
+                _loading = value;
+                OnPropertyChanged("loading");
+            }
+        }
+
         //property for the management of selected contracts in the views that utilize lists
         //buyer page binds to them via the BuyerLandingView
         private Contract _selectedContract;
@@ -30,10 +60,12 @@ namespace MPAG_Final.SharedViewModels
 
         // Contracts are stored here in a WPF friendly list
         public ObservableCollection<Contract> Contracts { get; private set; }
+        public ObservableCollection<Contract> Origin { get; private set; }
+        public ObservableCollection<CityDepot> Destination { get; private set; }
         public ICommand UpdateCommand { get; private set; }
 
         //mock data service for testing UI
-        
+
         //private IContractDataService _contractDataService;
 
         //ContractsViewModel contructor
@@ -42,9 +74,10 @@ namespace MPAG_Final.SharedViewModels
             Contracts = new ObservableCollection<Contract>();
             //_contractDataService = contractDataService;
             UpdateCommand = new RelayCommand(Update);
-            //Thread marketThread = new Thread(new ThreadStart(DatabaseRun));
-            //marketThread.Start();
-
+            isRunning = false;
+            loading = 0;
+            loadingText = "";
+            //Destination = new TMSDAL().Get
         }
 
         private void Update()
@@ -52,66 +85,90 @@ namespace MPAG_Final.SharedViewModels
             //add this later
         }
 
-
         //command for the loading of contracts
         public void LoadContracts(IList<Contract> contracts)
         {
-           // Contracts = new ObservableCollection<Contract>(contracts);
+            // Contracts = new ObservableCollection<Contract>(contracts);
             OnPropertyChanged("Contracts");
         }
+        public void PauseDatabase()
+        {
+            isRunning = false;
+            loadingText = "";
+        }
 
+        public void EmptyList()
+        {
+            Contracts.Clear();
+        }
         public void DatabaseRun()
         {
-            new Thread(() =>
+            if (!isRunning)
             {
-                Thread.CurrentThread.IsBackground = true;
-            
-                string connectionString = ConfigurationManager.ConnectionStrings["contractmarketplace"].ConnectionString;
-                List<Contract> newList = new List<Contract>();
-                for (int i = 0; i < 3; i++)
+                isRunning = true;
+                loadingText = "Loading More Contracts...";
+                new Thread(() =>
                 {
-                    Application.Current.Dispatcher.BeginInvoke(new Action(() => 
+                    Thread.CurrentThread.IsBackground = true;
+
+                    string connectionString = ConfigurationManager.ConnectionStrings["contractmarketplace"].ConnectionString;
+                    List<Contract> newList = new List<Contract>();
+                    //for (int i = 0; i < 3; i++)
+                    while (isRunning)
                     {
-                        using (MySqlConnection connection = new MySqlConnection(connectionString))
+                        Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                         {
-                            try
+                            using (MySqlConnection connection = new MySqlConnection(connectionString))
                             {
-                                connection.Open();
-                                string customerQuery = "SELECT * FROM cmp.Contract";
-                                MySqlCommand command = new MySqlCommand(customerQuery, connection);
-                                MySqlDataReader dataReader = command.ExecuteReader();
-
-
-                                while (dataReader.Read())
+                                try
                                 {
-                                    string city = dataReader["Origin"] as string;
-                                                            
-                                    Contracts.Add(new Contract()
+                                    connection.Open();
+                                    string customerQuery = "SELECT * FROM cmp.Contract";
+                                    MySqlCommand command = new MySqlCommand(customerQuery, connection);
+                                    MySqlDataReader dataReader = command.ExecuteReader();
+
+
+                                    while (dataReader.Read())
                                     {
-                                        Customer = (dataReader["Client_Name"] as string),
-                                        JobType = (JobType)((int)dataReader["Job_Type"]),
-                                        Origin = dataReader["Origin"] as string,
-                                        Destination = dataReader["Destination"] as string,
-                                        VanType = (VanType)(dataReader["Van_Type"]),
-                                        Quantity = (int)(dataReader["Quantity"])
-                                    });
-                          
+                                        string city = dataReader["Origin"] as string;
+
+                                        Contracts.Add(new Contract()
+                                        {
+                                            Customer = (dataReader["Client_Name"] as string),
+                                            JobType = (JobType)((int)dataReader["Job_Type"]),
+                                            Origin = dataReader["Origin"] as string,
+                                            Destination = dataReader["Destination"] as string,
+                                            VanType = (VanType)(dataReader["Van_Type"]),
+                                            Quantity = (int)(dataReader["Quantity"])
+                                        });
+
+                                    }
+                                    //_contracts = newList;
+                                    connection.Close();
                                 }
-                                //_contracts = newList;
-                                connection.Close();
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show(ex.ToString());
+                                }
                             }
-                            catch (Exception ex)
+                        }));
+                        loading = 0;
+                        while (loading < 100)
+                        {
+                            if (!isRunning)
                             {
-                                MessageBox.Show(ex.ToString());
+                                loading = 0;
+                                break;
                             }
+                            loading += 2;
+                            Thread.Sleep(200);
                         }
-                     }));
-                    Thread.Sleep(5000);
-                }
-            }).Start();
+                    }
+                }).Start();
+            }
         }
-            
+
     }
 
-    
+
 }

@@ -12,11 +12,11 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0">            
+        <Grid Grid.Column="0">
             <Grid.RowDefinitions>
-                 <RowDefinition/>
-                 <RowDefinition Height="50"/>
-            </Grid.RowDefinitions>            
+                <RowDefinition/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
             <Grid Grid.Row="0">
                 <ListView ItemsSource="{Binding ContractsVM.Contracts}"  SelectedItem="{Binding ContractsVM.SelectedContract}" HorizontalAlignment="Stretch" Margin="0,0,0,0" >
                     <ListView.ItemContainerStyle>
@@ -39,9 +39,19 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="25"/>
+
+                </Grid.RowDefinitions>
                 <Button Grid.Column="0" Content="Pull"  Command="{Binding RunDatabaseCommand}"/>
-                <Button Grid.Column="1" Content="Pause" />
+                <Button Grid.Column="1" Content="Pause" Command="{Binding PauseCommand}" />
+                <Button Grid.Column="2" Content="Clear" Command="{Binding EmptyCommand}" />
+                <ProgressBar Minimum="0" Maximum="100" Name="pbStatus" Grid.Row="1" Grid.ColumnSpan="3" Value="{Binding ContractsVM.loading}"/>
+                <TextBlock Text="{Binding ContractsVM.loadingText}" TextAlignment="Center" Grid.Row="1" Grid.ColumnSpan="3"/>
+
             </Grid>
 
         </Grid>
@@ -49,7 +59,7 @@
         <Grid Grid.Column="1">
             <ContentControl>
                 <ContentControl.Content>
-                     <local:DetailsView DataContext="{Binding ContractsVM}"/>
+                    <local:DetailsView DataContext="{Binding ContractsVM}"/>
                 </ContentControl.Content>
             </ContentControl>
         </Grid>
