@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MPAG_Final.SharedViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,7 +30,7 @@ namespace MPAG_Final.Utilities
             _execute = execute ?? throw new ArgumentNullException(nameof(execute));
             _canExecute = canExecute ?? (_ => true);
         }
-
+        
         public event EventHandler CanExecuteChanged
         {
             add => CommandManager.RequerySuggested += value;
@@ -64,5 +65,40 @@ namespace MPAG_Final.Utilities
         /// <param name="canExecute"></param> <b>Func</b> - N/A
         public RelayCommand(Action execute, Func<bool> canExecute)
             : base(_ => execute(), _ => canExecute()) { }
+    }
+
+    public class AddContract : ICommand
+    {
+
+        public AddContract(ContractsViewModel viewModel)
+        {
+            //get the view model associated with the command
+            _ViewModel = viewModel;
+        }
+
+        private ContractsViewModel _ViewModel;
+
+        public event System.EventHandler CanExecuteChanged
+        {
+            add
+            {
+                CommandManager.RequerySuggested += value;
+            }
+            remove
+            {
+                CommandManager.RequerySuggested -= value;
+            }
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            _ViewModel.SubmitContract(parameter);
+
+        }
     }
 }
