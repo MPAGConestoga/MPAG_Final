@@ -18,7 +18,7 @@
                         </Grid.ColumnDefinitions>
                         <Grid Grid.Column="0">
                             <Label Style="{StaticResource DetailLabel}" Content="Orders" HorizontalAlignment="Center" Margin="0,5,0,0" FontSize="15"/>
-                            <DataGrid ItemsSource="{Binding CarriersVM.Carriers}" Margin="20,40,20,20" SelectedItem="{Binding CarriersVM.SelectedCarriers}" AutoGenerateColumns="False" MouseDoubleClick="{Binding CarriersVM.SelectedCarriers}">
+                            <DataGrid ItemsSource="{Binding CarriersVM.Carriers}" Margin="20,40,20,20" SelectedItem="{Binding CarriersVM.SelectedCarriers}" AutoGenerateColumns="False">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="ID" Width="Auto" Binding="{Binding carrierId}" />
                                     <DataGridTextColumn Header="Origin" Width="Auto" Binding="{Binding carrierName}" />
