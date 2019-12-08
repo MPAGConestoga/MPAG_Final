@@ -6,9 +6,12 @@
              xmlns:local="clr-namespace:MPAG_Final.Buyer.Views"
              xmlns:ns="clr-namespace:System;assembly=mscorlib"
              xmlns:vm="clr-namespace:MPAG_Final.SharedViewModels"
+             xmlns:Converters="clr-namespace:MPAG_Final.Helpers"
+
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
+        <Converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
         <ObjectDataProvider x:Key="jobEnum" MethodName="GetValues" ObjectType="{x:Type ns:Enum}">
             <ObjectDataProvider.MethodParameters>
                 <!--<x:Type Type="vm:JobType"/>-->
@@ -53,30 +56,70 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
+                        <ColumnDefinition Width="50"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0">
-                        <!-- Job Type -->
-                        <Label Style="{StaticResource DetailLabel}" Content="Job Type" />
+                    <Grid Grid.Column="0">
+                     
+                            
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <!-- Origin City-->
+                            <Label Style="{StaticResource DetailLabel}" Content="Job Type" />
+                            <TextBlock x:Name="jobTxt" Grid.Row="1" Text="{Binding SelectedContract.JobType, FallbackValue=NULL, Mode=TwoWay}"/>
+                                <ComboBox x:Name="jobCombo" Grid.Row="2" Text="Update Origin" ItemsSource="{Binding JobTypes}" SelectedItem="{Binding SelectedItem}" SelectionChanged="jobCombo_SelectionChanged">
+
+                                    <!--<ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding cityLocation}"/>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>-->
+                                </ComboBox>
+                                <TextBlock Grid.Row="3"
+                       Visibility="{Binding SelectedItem, ElementName=jobCombo, Converter={StaticResource NullToVisibilityConverter}}"
+                       IsHitTestVisible="False"
+                       Text="... Change Job Type ..." />
+                            </Grid>
+                            <!-- Job Type -->
 
                         <!--Problem area is here. Properties bound via enums do not show at all. 
                         If bound to other data types, such as 'customer' which is a string, 
                         will display the customer name, but only one byte per line.-->
 
-                        <ComboBox ItemsSource="{Binding SelectedContract.JobType, FallbackValue=NULL, Mode=TwoWay}"/>
+                        <!--<ComboBox ItemsSource="{Binding SelectedContract.JobType, FallbackValue=NULL, Mode=TwoWay}"/>-->
 
                         <!--ItemsSource="{Binding Source={StaticResource jobEnum}}"-->
 
                         <!--<TextBox Text="{Binding SelectedContract.JobType, FallbackValue=NULL, Mode=TwoWay}"/>-->
 
-                    </StackPanel>
                     
-                    <StackPanel Grid.Column="1">
+                    
+                    <Grid Grid.Column="2">
+                        <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        </Grid.RowDefinitions>
                         <!-- Van Type -->
                         <Label Style="{StaticResource DetailLabel}"  Content="Van Type"/>
-                        <ComboBox ItemsSource="{Binding Origin}" SelectedItem="{Binding SelectedItem}" />
-                        <TextBox Text="{Binding SelectedContract.VanType, FallbackValue=NULL, Mode=TwoWay}"/>
-                    </StackPanel>
+
+                        <TextBlock x:Name="vanTxt" Grid.Row="1" Text="{Binding SelectedContract.VanType, FallbackValue=NULL, Mode=TwoWay}"/>
+                        <ComboBox x:Name="vanCombo" Grid.Row="2" Text="Update Origin" ItemsSource="{Binding VanTypes}" SelectedItem="{Binding SelectedItem}" SelectionChanged="vanCombo_SelectionChanged">
+
+                            <!--<ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding cityLocation}"/>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>-->
+                        </ComboBox>
+                        <TextBlock Grid.Row="3"
+                       Visibility="{Binding SelectedItem, ElementName=vanCombo, Converter={StaticResource NullToVisibilityConverter}}"
+                       IsHitTestVisible="False"
+                       Text="... Change Van Type ..." />
+                    </Grid>
                 </Grid>
             </StackPanel>
         </StackPanel>
@@ -90,18 +133,53 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
+                        <ColumnDefinition Width="50"/>
+
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <StackPanel Grid.Column="0">
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
                         <!-- Origin City-->
-                        <Label Style="{StaticResource DetailLabel}" Content="Origin" />
-                        <TextBox Text="{Binding SelectedContract.Origin., FallbackValue=NULL, Mode=TwoWay}"/>
-                    </StackPanel>
-                    <StackPanel Grid.Column="1">
+                        <Label Style="{StaticResource DetailLabel}" Content="Origin" Grid.Row="0" />
+                        <TextBlock x:Name="originTxt" Grid.Row="1" Text="{Binding SelectedContract.Origin, FallbackValue=NULL, Mode=TwoWay}"/>
+                        <ComboBox x:Name="originCombo" Grid.Row="2" Text="Update Origin" ItemsSource="{Binding Origins}" SelectedItem="{Binding SelectedItem}" SelectionChanged="OriginComboBox_SelectionChanged">
+
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding cityLocation}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <TextBlock Grid.Row="3"
+                       Visibility="{Binding SelectedItem, ElementName=originCombo, Converter={StaticResource NullToVisibilityConverter}}"
+                       IsHitTestVisible="False"
+                       Text="... Change Origin ..." />
+                    </Grid>
+                    <Grid Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
                         <!-- Destination City-->
                         <Label Style="{StaticResource DetailLabel}"  Content="Destination"/>
-                        <TextBox Text="{Binding SelectedContract.Destination, FallbackValue=NULL, Mode=TwoWay}"/>
-                    </StackPanel>
+                        <TextBlock Grid.Row="1" x:Name="destTxt" Text="{Binding SelectedContract.Destination, FallbackValue=NULL, Mode=TwoWay}"/>
+                        <ComboBox x:Name="destCombo" Grid.Row="2" Text="Update Origin" ItemsSource="{Binding Destinations}" SelectedItem="{Binding SelectedItem}" SelectionChanged="DestinationComboBox_SelectionChanged">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding cityLocation}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <TextBlock Grid.Row="3"
+                       Visibility="{Binding SelectedItem, ElementName=destCombo, Converter={StaticResource NullToVisibilityConverter}}"
+                       IsHitTestVisible="False"
+                       Text="... Change Destination ..." />
+                    </Grid>
                 </Grid>
             </StackPanel>
         </StackPanel>

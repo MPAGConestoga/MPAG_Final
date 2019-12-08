@@ -60,8 +60,10 @@ namespace MPAG_Final.SharedViewModels
 
         // Contracts are stored here in a WPF friendly list
         public ObservableCollection<Contract> Contracts { get; private set; }
-        public ObservableCollection<CityDepot> Origin { get; private set; }
-        public ObservableCollection<CityDepot> Destination { get; private set; }
+        public ObservableCollection<CityDepot> Origins { get; private set; }
+        public ObservableCollection<CityDepot> Destinations { get; private set; }
+        public ObservableCollection<string> JobTypes { get; private set; }
+        public ObservableCollection<string> VanTypes { get; private set; }
         public ICommand UpdateCommand { get; private set; }
 
         //mock data service for testing UI
@@ -77,14 +79,22 @@ namespace MPAG_Final.SharedViewModels
             isRunning = false;
             loading = 0;
             loadingText = "";
-            Origin = new ObservableCollection<CityDepot>();
-            Destination = new ObservableCollection<CityDepot>();
+            Origins = new ObservableCollection<CityDepot>();
+            Destinations = new ObservableCollection<CityDepot>();
             var cityDepots = new TMSDAL().GetCityDepots();
             foreach (CityDepot el in cityDepots)
             {
-                Origin.Add(el);
-                Destination.Add(el);
+                Origins.Add(el);
+                Destinations.Add(el);
             }
+            JobTypes = new ObservableCollection<string>();
+            JobTypes.Add("FTL");
+            JobTypes.Add("LTL");
+
+            VanTypes = new ObservableCollection<string>();
+            VanTypes.Add("Dry");
+            VanTypes.Add("Reefer");
+
         }
 
         private void Update()
