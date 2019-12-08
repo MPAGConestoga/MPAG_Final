@@ -6,36 +6,20 @@
              xmlns:local="clr-namespace:MPAG_Final.Planner.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="White">
+    <Grid Background="Orange">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="350"/>
+            <ColumnDefinition Width="225"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0">
-            <ListView ItemsSource="{Binding ContractsVM.Contracts}" SelectedItem="{Binding ContractsVM.SelectedContract}" HorizontalAlignment="Stretch" >
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                    </Style>
-                </ListView.ItemContainerStyle>
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Customer" Width="Auto" DisplayMemberBinding="{Binding Customer}" />
-                        <GridViewColumn Header="Job Type" Width="Auto" DisplayMemberBinding="{Binding JobType}" />
-                        <GridViewColumn Header="Origin" Width="Auto" DisplayMemberBinding="{Binding Origin}" />
-                        <GridViewColumn Header="Destination" Width="Auto" DisplayMemberBinding="{Binding Destination}" />
-                        <GridViewColumn Header="Van Type" Width="Auto" DisplayMemberBinding="{Binding VanType}" />
-                    </GridView>
-                </ListView.View>
+            <ListView ItemsSource="{Binding PendingOrdersVM.PendingOrders}" SelectedItem="{Binding ContactsVM.SelectedPendingOrder}" Background="Aquamarine">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
-        </Grid>
-        <Grid Grid.Column="1">
-            <ContentControl>
-                <ContentControl.Content>
-                    <local:CarriersView DataContext="{Binding CarriersVM}"/>
-                </ContentControl.Content>
-            </ContentControl>
         </Grid>
     </Grid>
 </UserControl>

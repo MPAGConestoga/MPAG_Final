@@ -1,6 +1,11 @@
-﻿using MPAG_Final.Utilities;
-using MPAG_Final.Services;
-using MPAG_Final.SharedViewModels;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MPAG_Final.Utilities;
+using MPAG_Final.Planner.Models;
+using System.Collections.ObjectModel;
 
 namespace MPAG_Final.Planner.ViewModels
 {
@@ -13,42 +18,33 @@ namespace MPAG_Final.Planner.ViewModels
    */
     public class PendingViewModel : ObservableObject
     {
-        private IContractDataService _contractService;
-        private ICarrierDataService _carrierService;
-
-        private ContractsViewModel _contractsVM;
-        public ContractsViewModel ContractsVM
+        private PendingModel _selectedPendingOrder;
+        public PendingModel SelectedPendingOrder
         {
-            get { return _contractsVM; }
-            set { OnPropertyChanged(ref _contractsVM, value); }
+            get { return _selectedPendingOrder; }
+            set { OnPropertyChanged(ref _selectedPendingOrder, value); }
         }
 
-        private CarriersViewModel _carriersVM;
-        public CarriersViewModel CarriersVM
-        {
-            get { return _carriersVM; }
-            set { OnPropertyChanged(ref _carriersVM, value); }
-        }
+
+        public ObservableCollection<PendingModel> PendingOrders { get; private set; }
 
         /// <summary>
         /// Constructor for PendingViewModel
         /// </summary>
-        public PendingViewModel(IContractDataService contractService, ICarrierDataService carrierService)
-        {
-            ContractsVM = new ContractsViewModel(contractService);
-            _contractService = contractService;
-            _carrierService = carrierService;
+        //public PendingOrdersViewModel()
+        //{
 
-            LoadContracts();
-        }
+        //}
 
-        private void LoadContracts()
+        /// <summary>
+        /// Creates a new ObservableCollection entry every time a new pendingOrders 
+        /// object is created
+        /// </summary>
+        /// <param name="pendingOrders"> <b>IEnumerable<PendingOrders></b> - a new pending order object to be added to the collection</param> 
+        public void LoadPendingOrders(IEnumerable<PendingModel> pendingOrders) // allows one to avoid doing a for each loop to add contacts manually
         {
-            ContractsVM.LoadContracts(_contractService.GetContracts());
-        }
-        private void LoadCarriers()
-        {
-            CarriersVM.LoadCarriers(_carrierService.GetCarriers());
+            PendingOrders = new ObservableCollection<PendingModel>(pendingOrders);
+            OnPropertyChanged("PendingOrders");
         }
     }
 }

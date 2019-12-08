@@ -14,35 +14,30 @@
 
     <DockPanel>
         <!--Tools-->
-
         <Grid DockPanel.Dock="Top" Height="20" Background="{StaticResource BlueGreyGradient}">
             <!--8 columns-->
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
-
+      
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0">
-                <Button Content="Buyer" Command="{Binding LoadBuyerCommand}"/>
+                <Button Content="Buyer" />
             </Grid>
 
             <Grid Grid.Column="1">
-                <Button Content="Planner" Command="{Binding LoadPlannerCommand}"/>
+                <Button Content="Planner"/>
             </Grid>
 
             <!--Tool Buttons-->
+
         </Grid>
 
         <!--Content-->
         <Grid DockPanel.Dock="Bottom">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="267*"/>
-                <ColumnDefinition Width="130*"/>
-            </Grid.ColumnDefinitions>
-            <ContentControl Content="{Binding CurrentView}" Grid.ColumnSpan="2" Margin="0,0,-0.4,0" />
+            <ContentControl Content="{Binding CurrentView}" />
         </Grid>
-
     </DockPanel>
 </Window>
