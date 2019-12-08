@@ -53,14 +53,14 @@ namespace MPAG_Final.Services
                         MessageBox.Show(ex.ToString());
                     }
                 }
-                //Thread.Sleep(5000);
+                Thread.Sleep(5000);
             }
         }
 
         public MockContractMarketplace()
         {
-            //Thread marketThread = new Thread(new ThreadStart(DatabaseRun));
-            //marketThread.Start();
+            Thread marketThread = new Thread(new ThreadStart(DatabaseRun));
+            marketThread.Start();
             DatabaseRun();
         }
 

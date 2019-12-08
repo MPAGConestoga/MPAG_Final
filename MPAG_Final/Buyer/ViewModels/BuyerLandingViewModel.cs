@@ -2,6 +2,7 @@
 using MPAG_Final.SharedModels;
 using MPAG_Final.SharedViewModels;
 using MPAG_Final.Utilities;
+using System.Windows.Input;
 
 namespace MPAG_Final.Buyer.ViewModels
 {
@@ -9,7 +10,7 @@ namespace MPAG_Final.Buyer.ViewModels
     {
         // mock contract service for testing UI
         private IContractDataService _service;
-        
+
         // for accessing the contracts view model
         private ContractsViewModel _contractsVM;
         public ContractsViewModel ContractsVM
@@ -18,15 +19,20 @@ namespace MPAG_Final.Buyer.ViewModels
             set { OnPropertyChanged(ref _contractsVM, value); }
         }
 
+        //public ICommand /add the name of the command to bind to in xaml here/ { get; private set;}
+        public ICommand RunDatabaseCommand { get; private set; }
+
         /// <summary>
         /// Constructor that instantiates a new instance of the OrderViewModel class
         /// </summary>
         public BuyerLandingViewModel()
         {
-
+            RunDatabaseCommand = new RelayCommand(RunDatabase);
+           //   /xaml command name/ = new RelayCommand(function from below)
         }
 
-        public async void RunDatabase()
+        //  Function to bind to xaml command
+        public void RunDatabase()
         {
             var contractMarketPlace = new MockContractMarketplace(); //mock service for the testing of the ui
 

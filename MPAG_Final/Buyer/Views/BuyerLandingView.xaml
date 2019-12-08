@@ -12,23 +12,38 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0">
-            <ListView ItemsSource="{Binding ContractsVM}"  SelectedItem="{Binding ContractsVM.SelectedContract}" HorizontalAlignment="Stretch" >
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                    </Style>
-                </ListView.ItemContainerStyle>
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Customer" Width="Auto" DisplayMemberBinding="{Binding Customer}" />
-                        <GridViewColumn Header="Job Type" Width="Auto" DisplayMemberBinding="{Binding JobType}" />
-                        <GridViewColumn Header="Origin" Width="Auto" DisplayMemberBinding="{Binding Origin}" />
-                        <GridViewColumn Header="Destination" Width="Auto" DisplayMemberBinding="{Binding Destination}" />
-                        <GridViewColumn Header="Van Type" Width="Auto" DisplayMemberBinding="{Binding VanType}" />
-                    </GridView>
-                </ListView.View>
-            </ListView>
+        <Grid Grid.Column="0">            
+            <Grid.RowDefinitions>
+                 <RowDefinition/>
+                 <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>            
+            <Grid Grid.Row="0">
+                <ListView ItemsSource="{Binding ContractsVM.Contracts}"  SelectedItem="{Binding ContractsVM.SelectedContract}" HorizontalAlignment="Stretch" Margin="0,0,0,0" >
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Customer" Width="Auto" DisplayMemberBinding="{Binding Customer}" />
+                            <GridViewColumn Header="Job Type" Width="Auto" DisplayMemberBinding="{Binding JobType}" />
+                            <GridViewColumn Header="Origin" Width="Auto" DisplayMemberBinding="{Binding Origin}" />
+                            <GridViewColumn Header="Destination" Width="Auto" DisplayMemberBinding="{Binding Destination}" />
+                            <GridViewColumn Header="Van Type" Width="Auto" DisplayMemberBinding="{Binding VanType}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+            <Grid Grid.Row="2" HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Pull"  Command="{Binding RunDatabaseCommand}"/>
+                <Button Grid.Column="1" Content="Pause" />
+            </Grid>
+
         </Grid>
 
         <Grid Grid.Column="1">
