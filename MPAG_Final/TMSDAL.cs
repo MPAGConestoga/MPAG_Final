@@ -129,7 +129,7 @@ namespace MPAG_OrderAndTrip
 
                 var myCommand = new MySqlCommand(sqlStatement, myConn);
 
-                myCommand.Parameters.AddWithValue("@Order_Id", order.orderID);
+                myCommand.Parameters.AddWithValue("@Order_Id", order.OrderID);
 
                 myConn.Open();
 
@@ -158,7 +158,7 @@ namespace MPAG_OrderAndTrip
                 var myCommand = new MySqlCommand(sqlStatement, myConn);
 
                 myCommand.Parameters.AddWithValue("@End_Date", order.dateCompleted);
-                myCommand.Parameters.AddWithValue("@Order_Id", order.orderID);
+                myCommand.Parameters.AddWithValue("@Order_Id", order.OrderID);
 
                 myConn.Open();
 
@@ -185,7 +185,7 @@ namespace MPAG_OrderAndTrip
 
                 var myCommand = new MySqlCommand(sqlStatement, myConn);
 
-                myCommand.Parameters.AddWithValue("@Order_Id", order.orderID);
+                myCommand.Parameters.AddWithValue("@Order_Id", order.OrderID);
 
                 myConn.Open();
 
@@ -437,7 +437,7 @@ namespace MPAG_OrderAndTrip
             {
                 orders.Add(new Order
                 {
-                    orderID = Convert.ToInt32(row["Order_Id"]),
+                    OrderID = Convert.ToInt32(row["Order_Id"]),
                     origin = row["Origin"].ToString(),
                     destination = row["Destination"].ToString(),
                     jobType = Convert.ToBoolean(row["Job_Type"]),

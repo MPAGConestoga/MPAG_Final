@@ -20,7 +20,7 @@ namespace MPAG_Final.SharedModels
         public string Email { get; set; }
 
         // Business Information
-        public Dictionary<string, Depot> CityDepots = null;             // Key can be city ID???
+        public Dictionary<string, Depot> DepotsLocation = null;             // Key can be city ID???
 
         public double FTLRate { get; set; }
         public double LTLRate { get; set; }
@@ -48,7 +48,7 @@ namespace MPAG_Final.SharedModels
             LTLRate = rateLTL;
             ReeferCharge = charge;
 
-            CityDepots = initialDepots;   // The admin will list the availible cities for that carrier
+            DepotsLocation = initialDepots;   // The admin will list the availible cities for that carrier
         }
 
         /// <summary>
