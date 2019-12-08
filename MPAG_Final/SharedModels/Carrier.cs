@@ -21,10 +21,11 @@ namespace MPAG_Final.SharedModels
 
         // Business Information
         public Dictionary<string, Depot> CityDepots = null;             // Key can be city ID???
+
         public double FTLRate { get; set; }
         public double LTLRate { get; set; }
         public double ReeferCharge { get; set; }
-
+        public const int MaxLot = 26;
 
         /* ---------- Constructors --------------- */
         // Temporary Constructor: the Carrier should only be created by the Admin Class -> Implement interface AdminRoles:CreateCarrier
