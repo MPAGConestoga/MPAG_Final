@@ -74,6 +74,7 @@
                     <StackPanel Grid.Column="1">
                         <!-- Van Type -->
                         <Label Style="{StaticResource DetailLabel}"  Content="Van Type"/>
+                        <ComboBox ItemsSource="{Binding Origin}" SelectedItem="{Binding SelectedItem}" />
                         <TextBox Text="{Binding SelectedContract.VanType, FallbackValue=NULL, Mode=TwoWay}"/>
                     </StackPanel>
                 </Grid>
@@ -94,7 +95,7 @@
                     <StackPanel Grid.Column="0">
                         <!-- Origin City-->
                         <Label Style="{StaticResource DetailLabel}" Content="Origin" />
-                        <TextBox Text="{Binding SelectedContract.Origin, FallbackValue=NULL, Mode=TwoWay}"/>
+                        <TextBox Text="{Binding SelectedContract.Origin., FallbackValue=NULL, Mode=TwoWay}"/>
                     </StackPanel>
                     <StackPanel Grid.Column="1">
                         <!-- Destination City-->

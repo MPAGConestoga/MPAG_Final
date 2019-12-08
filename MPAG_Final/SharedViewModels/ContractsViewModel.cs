@@ -60,7 +60,7 @@ namespace MPAG_Final.SharedViewModels
 
         // Contracts are stored here in a WPF friendly list
         public ObservableCollection<Contract> Contracts { get; private set; }
-        public ObservableCollection<Contract> Origin { get; private set; }
+        public ObservableCollection<CityDepot> Origin { get; private set; }
         public ObservableCollection<CityDepot> Destination { get; private set; }
         public ICommand UpdateCommand { get; private set; }
 
@@ -77,7 +77,14 @@ namespace MPAG_Final.SharedViewModels
             isRunning = false;
             loading = 0;
             loadingText = "";
-            //Destination = new TMSDAL().Get
+            Origin = new ObservableCollection<CityDepot>();
+            Destination = new ObservableCollection<CityDepot>();
+            var cityDepots = new TMSDAL().GetCityDepots();
+            foreach (CityDepot el in cityDepots)
+            {
+                Origin.Add(el);
+                Destination.Add(el);
+            }
         }
 
         private void Update()
