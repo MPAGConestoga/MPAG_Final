@@ -39,7 +39,6 @@ namespace MPAG_Final.Planner.Models
         }
 
 
-
         // At this point, we know that the carrier has a depot city in that city
         // So we can attribute trips to carrier (through depot) 
         public void AddTrip(Carrier selectedCarrier, Order selectedOrder)
@@ -100,11 +99,17 @@ namespace MPAG_Final.Planner.Models
             return true;
         }
 
-        public List<Invoice> ShowInvoiceSummary(Enum selectTime)
+        //public List<Invoice> ShowInvoiceSummary(Enum selectTime)
+        //{
+        //    // Stubbed Out ----------------------- IMPLEMENT -----------------------//
+        //    List<Invoice> SummaryInvoice = new List<Invoice>();
+        //    return SummaryInvoice;
+        //}
+
+        public void testFunction()
         {
-            // Stubbed Out ----------------------- IMPLEMENT -----------------------//
-            List<Invoice> SummaryInvoice = new List<Invoice>();
-            return SummaryInvoice;
+            int i = 0;
+            int y = 0;
         }
     }
 }

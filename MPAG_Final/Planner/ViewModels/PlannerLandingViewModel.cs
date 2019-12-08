@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MPAG_Final.Planner.Models;
 using MPAG_Final.Services;
 using MPAG_Final.SharedViewModels;
 using MPAG_Final.Utilities;
@@ -27,6 +28,13 @@ namespace MPAG_Final.Planner.ViewModels
             set { OnPropertyChanged(ref _summaryVM, value); }
         }
 
+        private PlannerRole _planner;
+        public PlannerRole Planner
+        {
+            get { return _planner; }
+            set { OnPropertyChanged(ref _planner, value); }
+        }
+
         private object _currentView;
         public object CurrentView
         {
@@ -42,10 +50,14 @@ namespace MPAG_Final.Planner.ViewModels
         public PlannerLandingViewModel()
         {
             var contractMarketPlace = new MockContractMarketplace(); //mock service for the testing of the ui
+            Planner = new PlannerRole("Planner", "Test", "plannerTest@gmail.com",
+            "9009009000", "DamnStreet", "Toronto", "Ontario", "N2E0E2");
 
+            
 
-            OrderVM = new OrderViewModel();
-            SummaryVM = new SummaryReportsViewModel();
+            OrderVM = new OrderViewModel(Planner);
+
+          
             
             CurrentView = OrderVM;
 

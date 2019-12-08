@@ -8,11 +8,10 @@
              xmlns:local="clr-namespace:MPAG_Final.Planner.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="Bisque">
-   <UserControl.Resources>
+    <UserControl.Resources >
         <DataTemplate DataType="{x:Type vm:OrderViewModel}">
             <v:OrderView/>
-        </DataTemplate>
-      
+        </DataTemplate>      
     </UserControl.Resources>
     <DockPanel>
         <!--Tools-->
