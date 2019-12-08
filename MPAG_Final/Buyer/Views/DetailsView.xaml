@@ -63,12 +63,11 @@
                         If bound to other data types, such as 'customer' which is a string, 
                         will display the customer name, but only one byte per line.-->
 
-                        <ComboBox ItemsSource="{Binding SelectedContract.Customer}"
-                                  />
+                        <ComboBox ItemsSource="{Binding SelectedContract.JobType, FallbackValue=NULL, Mode=TwoWay}"/>
 
                         <!--ItemsSource="{Binding Source={StaticResource jobEnum}}"-->
 
-                        <TextBox Text="{Binding SelectedContract.JobType, FallbackValue=NULL, Mode=TwoWay}"/>
+                        <!--<TextBox Text="{Binding SelectedContract.JobType, FallbackValue=NULL, Mode=TwoWay}"/>-->
 
                     </StackPanel>
                     

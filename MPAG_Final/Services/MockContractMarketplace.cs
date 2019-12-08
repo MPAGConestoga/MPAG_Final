@@ -3,6 +3,7 @@ using MPAG_Final.SharedViewModels;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,8 @@ namespace MPAG_Final.Services
 {
     public class MockContractMarketplace : IContractDataService
     {
-        public IList<Contract> _contracts;
+        public ObservableCollection<Contract> _contracts;
+
         public void DatabaseRun()
         {
             string connectionString = ConfigurationManager.ConnectionStrings["contractmarketplace"].ConnectionString;
@@ -35,7 +37,7 @@ namespace MPAG_Final.Services
                         {
                             string city = dataReader["Origin"] as string;
 
-                            newList.Add(new Contract()
+                            _contracts.Add(new Contract()
                             {
                                 Customer = (dataReader["Client_Name"] as string),
                                 JobType = (JobType)((int)dataReader["Job_Type"]),
@@ -45,7 +47,7 @@ namespace MPAG_Final.Services
                                 Quantity = (int)(dataReader["Quantity"])
                             });
                         }
-                        _contracts = newList;
+                        //_contracts = newList;
                         connection.Close();
                     }
                     catch (Exception ex)
@@ -59,17 +61,18 @@ namespace MPAG_Final.Services
 
         public MockContractMarketplace()
         {
+            _contracts = new ObservableCollection<Contract>();
             Thread marketThread = new Thread(new ThreadStart(DatabaseRun));
             marketThread.Start();
-            DatabaseRun();
+            //DatabaseRun();
         }
 
-        public IList<Contract> GetContracts()
+        public ObservableCollection<Contract> GetContracts()
         {
             return _contracts;
         }
 
-        public void Save(IList<Contract> contracts)
+        public void Save(ObservableCollection<Contract> contracts)
         {
             _contracts = contracts;
         }

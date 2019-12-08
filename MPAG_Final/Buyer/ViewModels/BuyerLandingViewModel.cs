@@ -27,7 +27,10 @@ namespace MPAG_Final.Buyer.ViewModels
         /// </summary>
         public BuyerLandingViewModel()
         {
+            ContractsVM = new ContractsViewModel(/*contractMarketPlace*/);
+
             RunDatabaseCommand = new RelayCommand(RunDatabase);
+
            //   /xaml command name/ = new RelayCommand(function from below)
         }
 
@@ -36,9 +39,8 @@ namespace MPAG_Final.Buyer.ViewModels
         {
             var contractMarketPlace = new MockContractMarketplace(); //mock service for the testing of the ui
 
-            ContractsVM = new ContractsViewModel(contractMarketPlace);
             _service = contractMarketPlace;
-
+            ContractsVM.DatabaseRun();
             LoadContracts();
         }
         //function for loading contracts; references ContractViewModel LoadContracts function
