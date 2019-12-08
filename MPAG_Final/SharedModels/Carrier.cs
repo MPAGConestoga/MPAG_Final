@@ -22,7 +22,7 @@ namespace MPAG_Final.SharedModels
         private double FTLRate;
         private double LTLRate;
         private double ReeferCharge;
-
+        public const int MaxLot = 26;
 
         /* ---------- Constructors --------------- */
         // Temporary Constructor: the Carrier should only be created by the Admin Class -> Implement interface AdminRoles:CreateCarrier
