@@ -43,4 +43,47 @@ namespace MPAG_Final.Helpers
             throw new NotImplementedException();
         }
     }
+
+    public class AddContractConverter : IMultiValueConverter
+    {
+        // Method Name: Convert
+        // Description: This method is used to check if all the order fields
+        //              are entered by the user.
+        // Parameters:
+        // 
+        // Returns: true if all entered, false if not
+        //
+        public object Convert(object[] values, Type targetType, object parameter,
+            System.Globalization.CultureInfo culture)
+        {
+            bool retValue = true;
+            string job = (values[0]).ToString();
+            string van = (values[1]).ToString();
+            string origin = (values[2]).ToString();
+            string destination = (values[3]).ToString();
+            string check = (values[4]).ToString();
+            
+            ((System.Windows.Controls.TextBlock)values[5]).Text = "";
+            if (origin == destination)
+            {
+                ((System.Windows.Controls.TextBlock)values[5]).Text = "The Origin and Destination must be different";
+                retValue = false;
+            }
+            if ((job == "NULL") || (van == "NULL") ||(origin == "NULL") || (destination == "NULL") || (check == ""))
+            {
+                ((System.Windows.Controls.TextBlock)values[5]).Text = "Please Select A Contract";
+                retValue = false;
+            }
+            
+
+            return retValue;
+        }
+
+        // Must be defined, but is not implemented
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter,
+        System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

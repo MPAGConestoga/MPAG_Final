@@ -11,6 +11,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
+        <Converters:AddContractConverter x:Key="AddContractEnabledConverter"/>
         <Converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
         <ObjectDataProvider x:Key="jobEnum" MethodName="GetValues" ObjectType="{x:Type ns:Enum}">
             <ObjectDataProvider.MethodParameters>
@@ -191,18 +192,34 @@
                 </Border>
             </StackPanel>
         </StackPanel>
-
+        
         <StackPanel Grid.Row="4" VerticalAlignment="Top" HorizontalAlignment="Right">
             <Button Style="{StaticResource MenuIconButton}" Background="{StaticResource MaximumBlueGreen}"
                        Width="90" Height="40" Margin="5">
+                <Button.IsEnabled>
+                    <MultiBinding Converter="{StaticResource AddContractEnabledConverter}">
+                        <Binding Path="Text" ElementName="jobTxt" />
+                        <Binding Path="Text" ElementName="vanTxt" />
+                        <Binding Path="Text" ElementName="originTxt" />
+                        <Binding Path="Text" ElementName="destTxt" />
+                        <Binding Path="Text" ElementName="checkSelection" />
+                        <Binding ElementName="error" Mode="TwoWay"/>
+
+                    </MultiBinding>
+                </Button.IsEnabled>
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
                         <Image  />
                         <!--Possibly add later-->
                         <Label FontWeight="Bold">Save</Label>
                     </StackPanel>
+                    
                 </Button.Content>
             </Button>
+            <TextBlock x:Name="error" Text="Please Select A Contract" FontWeight="Bold" Foreground="Red"/>
+
+            <TextBlock x:Name="checkSelection" Visibility="Collapsed" Text="{Binding SelectedContract}"/>
+
         </StackPanel>
     </Grid>
 </UserControl>
