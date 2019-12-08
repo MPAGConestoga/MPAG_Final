@@ -46,7 +46,7 @@ namespace MPAG_Final.SharedViewModels
 
 
         //command for the loading of contracts
-        public void LoadContracts(IEnumerable<Contract> contracts)
+        public void LoadContracts(IList<Contract> contracts)
         {
             Contracts = new ObservableCollection<Contract>(contracts);
             OnPropertyChanged("Contracts");

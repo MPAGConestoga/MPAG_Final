@@ -3,8 +3,6 @@ using MPAG_Final.SharedModels;
 using MPAG_Final.SharedViewModels;
 using MPAG_Final.Utilities;
 
-
-
 namespace MPAG_Final.Buyer.ViewModels
 {
     public class BuyerLandingViewModel : ObservableObject
@@ -25,15 +23,18 @@ namespace MPAG_Final.Buyer.ViewModels
         /// </summary>
         public BuyerLandingViewModel()
         {
+
+        }
+
+        public async void RunDatabase()
+        {
             var contractMarketPlace = new MockContractMarketplace(); //mock service for the testing of the ui
 
-            ContractsVM = new ContractsViewModel(contractMarketPlace);  
+            ContractsVM = new ContractsViewModel(contractMarketPlace);
             _service = contractMarketPlace;
 
             LoadContracts();
-            
         }
-
         //function for loading contracts; references ContractViewModel LoadContracts function
         private void LoadContracts()
         {

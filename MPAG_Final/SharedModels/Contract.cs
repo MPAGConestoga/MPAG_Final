@@ -17,7 +17,12 @@ namespace MPAG_Final.SharedModels
             get { return orderID; }
             set { OnPropertyChanged(ref orderID, value); }
         }
-
+        private int quantity;
+        public int Quantity
+        {
+            get { return quantity; }
+            set { OnPropertyChanged(ref quantity, value); }
+        }
         private string customer;
         public string Customer
         {
@@ -32,15 +37,15 @@ namespace MPAG_Final.SharedModels
             set { OnPropertyChanged(ref jobType, value); }
         }
 
-        private City origin;
-        public City Origin
+        private string origin;
+        public string Origin
         {
             get { return origin; }
             set { OnPropertyChanged(ref origin, value); }
         }     
 
-        private City destination;
-        public City Destination
+        private string destination;
+        public string Destination
         {
             get { return destination; }
             set { OnPropertyChanged(ref destination, value); }
@@ -52,6 +57,8 @@ namespace MPAG_Final.SharedModels
             get { return vanType; }
             set { OnPropertyChanged(ref vanType, value); }
         }
+
+        
     }
     public enum VanType
     {
@@ -65,15 +72,15 @@ namespace MPAG_Final.SharedModels
         LTL
     }
 
-    public enum City
-    {
-        Windsor,
-        London,
-        Hamilton,
-        Toronto,
-        Oshawa,
-        Belleville,
-        Kingston,
-        Ottawa
-    }
+    //public enum City
+    //{
+    //    Windsor,
+    //    London,
+    //    Hamilton,
+    //    Toronto,
+    //    Oshawa,
+    //    Belleville,
+    //    Kingston,
+    //    Ottawa
+    //}
 }

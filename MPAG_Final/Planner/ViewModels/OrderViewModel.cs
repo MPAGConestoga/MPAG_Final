@@ -37,13 +37,20 @@ namespace MPAG_Final.Planner.ViewModels
             set { OnPropertyChanged(ref _carriersVM, value); }
         }
 
+        private ActiveViewModel _activeOrdersVM;
+        public ActiveViewModel ActiveOrdersVM 
+        {
+            get { return _activeOrdersVM; }
+            set { OnPropertyChanged(ref _activeOrdersVM, value); }
+        }
+
 
         public ICommand LoadPendingOrdersCommand { get; private set; }
         public ICommand LoadActiveOrdersCommand { get; private set; }
         public ICommand LoadCarriersCommand { get; private set; }
 
         /// <summary>
-        /// Constructor that instantiates a new instance of the OrderViewModel class
+        ///     Constructor that instantiates a new instance of the OrderViewModel class
         /// </summary>
         public OrderViewModel()
         {
