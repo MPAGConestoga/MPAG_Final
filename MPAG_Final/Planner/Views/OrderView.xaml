@@ -197,26 +197,20 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0">
-                        <DataGrid GridLinesVisibility="None" 
-                              IsReadOnly="True"
-                              Margin="20,20,20,20" 
-                              AutoGenerateColumns="False" 
-                              Grid.ColumnSpan="2" 
-                              Grid.Column="1">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="ID" Width="Auto"  />
-                                <DataGridTextColumn Header="Origin" Width="Auto"  />
-                                <DataGridTemplateColumn Header="Selected">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <CheckBox HorizontalAlignment="Center" 
-                                                          IsChecked="{Binding Path=IsSelected, 
-                                                          UpdateSourceTrigger=PropertyChanged}"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                            </DataGrid.Columns>
-                        </DataGrid>
+                        <ListView ItemsSource="{Binding ActiveOrders}"  SelectedItem="{Binding SelectedActiveOrder}" HorizontalAlignment="Stretch" Margin="0,0,0,0" >
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="ID" Width="Auto" DisplayMemberBinding="{Binding OrderID}" />
+                                    <GridViewColumn Header="Origin" Width="Auto" DisplayMemberBinding="{Binding Origin}" />
+                                    <GridViewColumn Header="Destination" Width="Auto" DisplayMemberBinding="{Binding Destination}" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
                     </Grid>
                     <Grid Grid.Column="1">
                         <Grid.RowDefinitions>
@@ -254,7 +248,7 @@
                                         </Grid.RowDefinitions>
                                         <!-- Origin City-->
                                         <Label Style="{StaticResource DetailLabel}" Content="Order Number" />
-                                        <TextBlock FontSize="18" FontWeight="Bold"  Grid.Row="1" Text="{Binding SelectedContract.OrderID, FallbackValue=[Order ID], Mode=TwoWay}"/>
+                                        <TextBlock FontSize="18" FontWeight="Bold"  Grid.Row="1" Text="{Binding SelectedActiveOrder.OrderID, FallbackValue=[Order ID], Mode=TwoWay}"/>
                                     </Grid>
                                     <Grid Grid.Column="2">
                                         <Grid.RowDefinitions>
@@ -263,8 +257,8 @@
                                             <RowDefinition/>
                                         </Grid.RowDefinitions>
                                         <!-- Van Type -->
-                                        <Label Style="{StaticResource DetailLabel}"  Content="Customer"/>
-                                        <TextBlock FontSize="18" FontWeight="Bold"  Grid.Row="1" Text="{Binding SelectedContract.Customer, FallbackValue=[Customer], Mode=TwoWay}"/>
+                                        <Label Style="{StaticResource DetailLabel}"  Content="Delivery Time"/>
+                                        <TextBlock FontSize="18" FontWeight="Bold"  Grid.Row="1" Text="{Binding SelectedActiveOrder.AssignedTrips[0].EndsAt, FallbackValue=[Time], Mode=TwoWay}"/>
                                     </Grid>
                                 </Grid>
                             </StackPanel>
@@ -288,7 +282,7 @@
                                         </Grid.RowDefinitions>
                                         <!-- Origin City-->
                                         <Label Style="{StaticResource DetailLabel}" Content="Job Type" />
-                                        <TextBlock FontSize="18" FontWeight="Bold" x:Name="jobTxt" Grid.Row="1" Text="{Binding SelectedContract.JobType, FallbackValue=[Job Type], Mode=TwoWay}"/>
+                                        <TextBlock FontSize="18" FontWeight="Bold" x:Name="jobTxt" Grid.Row="1" Text="{Binding SelectedActiveOrder.JobType, FallbackValue=[Job Type], Mode=TwoWay}"/>
                                     </Grid>                                   
                                     <Grid Grid.Column="2">
                                         <Grid.RowDefinitions>
@@ -298,7 +292,7 @@
                                         </Grid.RowDefinitions>
                                         <!-- Van Type -->
                                         <Label Style="{StaticResource DetailLabel}"  Content="Van Type"/>
-                                        <TextBlock FontSize="18" FontWeight="Bold" x:Name="vanTxt" Grid.Row="1" Text="{Binding SelectedContract.VanType, FallbackValue=[Van Type], Mode=TwoWay}"/>
+                                        <TextBlock FontSize="18" FontWeight="Bold" x:Name="vanTxt" Grid.Row="1" Text="{Binding SelectedActiveOrder.VanType, FallbackValue=[Van Type], Mode=TwoWay}"/>
                                     </Grid>
                                 </Grid>
                             </StackPanel>
@@ -321,7 +315,7 @@
                                         </Grid.RowDefinitions>
                                         <!-- Origin City-->
                                         <Label Style="{StaticResource DetailLabel}" Content="Origin" Grid.Row="0" />
-                                        <TextBlock FontSize="18" FontWeight="Bold" x:Name="originTxt" Grid.Row="1" Text="{Binding SelectedContract.Origin, FallbackValue=NULL, Mode=TwoWay}"/>
+                                        <TextBlock FontSize="18" FontWeight="Bold" x:Name="originTxt" Grid.Row="1" Text="{Binding SelectedActiveOrder.Origin, FallbackValue=NULL, Mode=TwoWay}"/>
                                     </Grid>
                                     <Grid Grid.Column="2">
                                         <Grid.RowDefinitions>
@@ -331,7 +325,7 @@
                                         </Grid.RowDefinitions>
                                         <!-- Destination City-->
                                         <Label Style="{StaticResource DetailLabel}"  Content="Destination"/>
-                                        <TextBlock FontSize="18" FontWeight="Bold" Grid.Row="1" x:Name="destTxt" Text="{Binding SelectedContract.Destination, FallbackValue=NULL, Mode=TwoWay}"/>
+                                        <TextBlock FontSize="18" FontWeight="Bold" Grid.Row="1" x:Name="destTxt" Text="{Binding SelectedActiveOrder.Destination, FallbackValue=NULL, Mode=TwoWay}"/>
                                     </Grid>
                                 </Grid>
                             </StackPanel>
@@ -342,7 +336,7 @@
                         <StackPanel Grid.Row="5">
                             <Label Style="{StaticResource DetailLabel}" HorizontalAlignment="Center" Content="Progress Bar"/>
 
-                            <ProgressBar Minimum="0" Maximum="100" Height="25" Margin="20,0,20,0" Name="pbStatus" Grid.Row="1" Grid.ColumnSpan="3" />
+                            <ProgressBar Minimum="0" Maximum="100" Height="25" Margin="20,0,20,0" Name="pbStatus" Grid.Row="1" Grid.ColumnSpan="3" Value="{Binding ContractsVM.loading}" />
                             <Button Content="Add Day" 
                                     Margin="0,10,20,0"
                                     HorizontalAlignment="Right" 
