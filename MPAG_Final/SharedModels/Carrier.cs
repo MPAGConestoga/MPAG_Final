@@ -21,7 +21,7 @@ namespace MPAG_Final.SharedModels
         public string Email { get; set; }
 
         // Business Information
-        public Dictionary<string, Depot> DepotsLocation = null;             // Key can be city ID???
+        public Dictionary<int, Depot> DepotsLocation = null;             // Key can be city ID???
 
         public double FTLRate { get; set; }
         public double LTLRate { get; set; }

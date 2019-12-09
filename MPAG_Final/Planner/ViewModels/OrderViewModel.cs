@@ -81,7 +81,7 @@ namespace MPAG_Final.Planner.ViewModels
 
         private void LoadContracts()
         {
-            ContractsVM.LoadContracts(_contractService.GetContracts());
+            //ContractsVM.LoadContracts(_contractService.GetContracts());
         }
 
         private void LoadCarriers()

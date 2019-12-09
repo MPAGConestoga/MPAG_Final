@@ -123,14 +123,14 @@ namespace MPAG_OrderAndTrip
         {
             using (var myConn = new MySqlConnection(buyerConnectionString))
             {
-                const string sqlStatement = @"  INSERT INTO _order (Job_Type, Van_Type, Order_Status)
-	                                            VALUES (@Job_Type, @Van_Type, 0); ";
+                const string sqlStatement = @"  INSERT INTO _order (Customer_Id, Origin, Destination, Job_Type, Van_Type, Order_Status)
+	                                            VALUES (@Customer, @Origin, @Destination, @Job_Type, @Van_Type, 0); ";
 
                 var myCommand = new MySqlCommand(sqlStatement, myConn);
 
-                //myCommand.Parameters.AddWithValue("@StartDate", order.dateCreated);
-                //myCommand.Parameters.AddWithValue("@Origin", contract.Origin);
-                //myCommand.Parameters.AddWithValue("@Destination", contract.Destination);
+                myCommand.Parameters.AddWithValue("@Customer", contract.CustomerID);
+                myCommand.Parameters.AddWithValue("@Origin", contract.OriginID);
+                myCommand.Parameters.AddWithValue("@Destination", contract.DestinationID);
                 myCommand.Parameters.AddWithValue("@Job_Type", contract.JobType);
                 myCommand.Parameters.AddWithValue("@Van_Type", contract.VanType);
 
@@ -272,7 +272,42 @@ namespace MPAG_OrderAndTrip
                 myCommand.ExecuteNonQuery();
             }
         }
+        /// \brief To get a customer's id
+        /// 
+        /// \details This method takes in a person object with partially filled out information:
+        /// The customer's first name, last name, and phone number. The returned information is 
+        /// set in the person object passed to the method.
+        /// <param name="person"> - <b>Person</b> - The customer to look up</param>
+        /// \return none
+        /// \see Person::getPersonInfo() 
+        public int GetCustomerInformation(string customer)
+        {
+            int customerId = 0;
 
+            const string sqlStatement = @"SELECT 
+                                        p.Person_Id
+	                                    FROM person AS p Where p.First_Name = @FirstName
+                                        ;";
+            using (var myConn = new MySqlConnection(buyerConnectionString))
+            {
+                var myCommand = new MySqlCommand(sqlStatement, myConn);
+                myCommand.Parameters.AddWithValue("@FirstName", customer);
+
+                var myAdapter = new MySqlDataAdapter
+                {
+                    SelectCommand = myCommand
+                };
+
+                var table = new DataTable();
+
+                myAdapter.Fill(table);
+                foreach (DataRow row in table.Rows)
+                {
+                    customerId = Convert.ToInt32(row["Person_Id"]);
+                }
+            }
+            return customerId;
+        }
         /// \brief To get a customer's information
         /// 
         /// \details This method takes in a person object with partially filled out information:
@@ -409,6 +444,71 @@ namespace MPAG_OrderAndTrip
             }
         }
 
+        /// \brief To insert a new customer
+        /// 
+        /// \details This method takes in a carrier object and gets all the carrier information
+        /// by searching the databse by carrier name.
+        /// <param name="carrier"> - <b>Carrier</b> - The customer to look up</param>
+        /// \return List of Carriers
+        /// \see Carrier 
+        public int AddCustomer(string companyName)
+        {
+            const string sqlStatement = @"Insert into person(First_Name)
+                                            VALUES (@name);";
+
+            using (var myConn = new MySqlConnection(buyerConnectionString))
+            {
+
+                var myCommand = new MySqlCommand(sqlStatement, myConn);
+                myCommand.Parameters.AddWithValue("@name", companyName);
+
+                //For offline connection we will use  MySqlDataAdapter class.  
+                myConn.Open();
+
+                myCommand.ExecuteNonQuery();
+            }
+
+            const string sqlStatement2 = @"SELECT Max(Person_Id) as ID FROM person;";
+            int customerId = 0;
+            using (var myConn = new MySqlConnection(buyerConnectionString))
+            {
+
+                var myCommand = new MySqlCommand(sqlStatement2, myConn);
+
+                //For offline connection we will use  MySqlDataAdapter class.  
+                var myAdapter = new MySqlDataAdapter
+                {
+                    SelectCommand = myCommand
+                };
+
+                var dataTable = new DataTable();
+
+                myAdapter.Fill(dataTable);
+
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    customerId = (Convert.ToInt32(row["ID"]));
+                }
+            }
+
+            const string sqlStatement3 = @"Insert into customer(Customer_Id)
+                                            VALUES (@id);";
+
+            using (var myConn = new MySqlConnection(buyerConnectionString))
+            {
+
+                var myCommand = new MySqlCommand(sqlStatement3, myConn);
+                myCommand.Parameters.AddWithValue("@id", customerId);
+
+                //For offline connection we will use  MySqlDataAdapter class.  
+                myConn.Open();
+
+                myCommand.ExecuteNonQuery();
+            }
+            return customerId;
+
+        }
+
         /// \brief To get a carrier's information by its id
         /// 
         /// \details This method takes in a carrier object and gets all the carrier information
@@ -456,7 +556,6 @@ namespace MPAG_OrderAndTrip
                     returnedCarrier.FTLRate = Convert.ToDouble(row["FTL_Rate"]);
                     returnedCarrier.ReeferCharge = Convert.ToDouble(row["Reefer"]);
                 }
-
 
                 return returnedCarrier;
             }
@@ -563,7 +662,7 @@ namespace MPAG_OrderAndTrip
                                          Origin,
                                          Destination,
                                          Job_Type,
-                                         Van_Type,
+                                         Van_Type
                                          FROM _order
                                          WHERE Order_Status = 0
                                          ORDER BY Order_Id;";
@@ -572,6 +671,48 @@ namespace MPAG_OrderAndTrip
             {
 
                 var myCommand = new MySqlCommand(sqlStatement, myConn);
+
+                //For offline connection we will use  MySqlDataAdapter class.  
+                var myAdapter = new MySqlDataAdapter
+                {
+                    SelectCommand = myCommand
+                };
+
+                var dataTable = new DataTable();
+
+                myAdapter.Fill(dataTable);
+
+                var orders = DataTableToOrderList(dataTable);
+
+                return orders;
+            }
+        }
+
+        /// \brief To get orders for the planner, filtered by job type
+        /// 
+        /// \details After an order is first added to the database, the planner must then select the carrier(s)
+        /// for the order. To get the orders that have yet to be assigned a carrier, the orders are filtered by
+        /// order-status. A list of orders is returned from this method.
+        /// <param>None</param>
+        /// \return A list of orders.
+        /// \see Order
+        public List<Order> GetOrdersByJobType(int jobType)
+        {
+            const string sqlStatement = @"SELECT
+                                         Order_Id,
+                                         Start_Date,
+                                         Origin,
+                                         Destination,
+                                         Job_Type,
+                                         Van_Type
+                                         FROM _order
+                                         WHERE Job_Type = @job
+                                         ORDER BY Order_Id;";
+
+            using (var myConn = new MySqlConnection(buyerConnectionString))
+            {
+                var myCommand = new MySqlCommand(sqlStatement, myConn);
+                myCommand.Parameters.AddWithValue("@job", jobType);
 
                 //For offline connection we will use  MySqlDataAdapter class.  
                 var myAdapter = new MySqlDataAdapter
@@ -605,10 +746,10 @@ namespace MPAG_OrderAndTrip
                 orders.Add(new Order
                 {
                     OrderID = Convert.ToInt32(row["Order_Id"]),
-                    origin = row["Origin"].ToString(),
-                    destination = row["Destination"].ToString(),
+                    origin = Convert.ToInt32(row["Origin"]),
+                    destination = Convert.ToInt32(row["Destination"]),
                     jobType = Convert.ToBoolean(row["Job_Type"]),
-                    vanType = Convert.ToBoolean(row["Order_Status"]),
+                    vanType = Convert.ToBoolean(row["Van_Type"]),
                     //dateCompleted = Convert.ToDateTime(row["Start_Date"])
                 }); ;
             }

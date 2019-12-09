@@ -31,21 +31,21 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
-            <StackPanel Grid.Column="0" HorizontalAlignment="Left"
+            <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"
                        Margin="5">
                 <StackPanel Orientation="Horizontal">
                     <StackPanel HorizontalAlignment="Center">
 
-                        <TextBox x:Name="customerTxt" Text="{Binding SelectedContract.Customer, FallbackValue=NULL, Mode=TwoWay}"
+                        <TextBlock FontSize="28" x:Name="customerTxt" Text="{Binding SelectedContract.Customer, FallbackValue=[Customer Name], Mode=TwoWay}"
+                              TextAlignment="Center"
                               
-                              VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                               Margin="5"/>
-                        
+
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
 
-            
+
         </Grid>
 
         <!-- Job Details -->
@@ -62,54 +62,54 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0">
-                     
-                            
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
-                                <!-- Origin City-->
-                            <Label Style="{StaticResource DetailLabel}" Content="Job Type" />
-                            <TextBlock x:Name="jobTxt" Grid.Row="1" Text="{Binding SelectedContract.JobType, FallbackValue=NULL, Mode=TwoWay}"/>
-                                <ComboBox x:Name="jobCombo" Grid.Row="2" Text="Update Origin" ItemsSource="{Binding JobTypes}" SelectedItem="{Binding SelectedItem}" SelectionChanged="jobCombo_SelectionChanged">
 
-                                    <!--<ComboBox.ItemTemplate>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <!-- Origin City-->
+                        <Label Style="{StaticResource DetailLabel}" Content="Job Type" />
+                        <TextBlock FontSize="18" FontWeight="Bold" x:Name="jobTxt" Grid.Row="1" Text="{Binding SelectedContract.JobType, FallbackValue=[Job Type], Mode=TwoWay}"/>
+                        <ComboBox x:Name="jobCombo" Grid.Row="2" Text="Update Origin" ItemsSource="{Binding JobTypes}" SelectedItem="{Binding SelectedItem}" Margin="0,5,0,0" SelectionChanged="jobCombo_SelectionChanged">
+
+                            <!--<ComboBox.ItemTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding cityLocation}"/>
                                         </DataTemplate>
                                     </ComboBox.ItemTemplate>-->
-                                </ComboBox>
-                                <TextBlock Grid.Row="3"
+                        </ComboBox>
+                        <TextBlock Margin="5,6,0,0" Grid.Row="3"
                        Visibility="{Binding SelectedItem, ElementName=jobCombo, Converter={StaticResource NullToVisibilityConverter}}"
                        IsHitTestVisible="False"
                        Text="... Change Job Type ..." />
-                            </Grid>
-                            <!-- Job Type -->
+                    </Grid>
+                    <!-- Job Type -->
 
-                        <!--Problem area is here. Properties bound via enums do not show at all. 
+                    <!--Problem area is here. Properties bound via enums do not show at all. 
                         If bound to other data types, such as 'customer' which is a string, 
                         will display the customer name, but only one byte per line.-->
 
-                        <!--<ComboBox ItemsSource="{Binding SelectedContract.JobType, FallbackValue=NULL, Mode=TwoWay}"/>-->
+                    <!--<ComboBox ItemsSource="{Binding SelectedContract.JobType, FallbackValue=NULL, Mode=TwoWay}"/>-->
 
-                        <!--ItemsSource="{Binding Source={StaticResource jobEnum}}"-->
+                    <!--ItemsSource="{Binding Source={StaticResource jobEnum}}"-->
 
-                        <!--<TextBox Text="{Binding SelectedContract.JobType, FallbackValue=NULL, Mode=TwoWay}"/>-->
+                    <!--<TextBox Text="{Binding SelectedContract.JobType, FallbackValue=NULL, Mode=TwoWay}"/>-->
 
-                    
-                    
+
+
                     <Grid Grid.Column="2">
                         <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
                         <!-- Van Type -->
                         <Label Style="{StaticResource DetailLabel}"  Content="Van Type"/>
 
-                        <TextBlock x:Name="vanTxt" Grid.Row="1" Text="{Binding SelectedContract.VanType, FallbackValue=NULL, Mode=TwoWay}"/>
-                        <ComboBox x:Name="vanCombo" Grid.Row="2" Text="Update Origin" ItemsSource="{Binding VanTypes}" SelectedItem="{Binding SelectedItem}" SelectionChanged="vanCombo_SelectionChanged">
+                        <TextBlock FontSize="18" FontWeight="Bold" x:Name="vanTxt" Grid.Row="1" Text="{Binding SelectedContract.VanType, FallbackValue=NULL, Mode=TwoWay}"/>
+                        <ComboBox x:Name="vanCombo" Grid.Row="2" Text="Update Origin"  Margin="0,5,0,0" ItemsSource="{Binding VanTypes}" SelectedItem="{Binding SelectedItem}" SelectionChanged="vanCombo_SelectionChanged">
 
                             <!--<ComboBox.ItemTemplate>
                                         <DataTemplate>
@@ -119,7 +119,7 @@
                         </ComboBox>
                         <TextBlock Grid.Row="3"
                        Visibility="{Binding SelectedItem, ElementName=vanCombo, Converter={StaticResource NullToVisibilityConverter}}"
-                       IsHitTestVisible="False"
+                       IsHitTestVisible="False" Margin="5,6,0,0" 
                        Text="... Change Van Type ..." />
                     </Grid>
                 </Grid>
@@ -147,8 +147,8 @@
                         </Grid.RowDefinitions>
                         <!-- Origin City-->
                         <Label Style="{StaticResource DetailLabel}" Content="Origin" Grid.Row="0" />
-                        <TextBlock x:Name="originTxt" Grid.Row="1" Text="{Binding SelectedContract.Origin, FallbackValue=NULL, Mode=TwoWay}"/>
-                        <ComboBox x:Name="originCombo" Grid.Row="2" Text="Update Origin" ItemsSource="{Binding Origins}" SelectedItem="{Binding SelectedItem}" SelectionChanged="OriginComboBox_SelectionChanged">
+                        <TextBlock FontSize="18" FontWeight="Bold" x:Name="originTxt" Grid.Row="1" Text="{Binding SelectedContract.Origin, FallbackValue=NULL, Mode=TwoWay}"/>
+                        <ComboBox x:Name="originCombo" Grid.Row="2" Text="Update Origin"  Margin="0,5,0,0" ItemsSource="{Binding Origins}" SelectedItem="{Binding SelectedItem}" SelectionChanged="OriginComboBox_SelectionChanged">
 
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
@@ -158,7 +158,7 @@
                         </ComboBox>
                         <TextBlock Grid.Row="3"
                        Visibility="{Binding SelectedItem, ElementName=originCombo, Converter={StaticResource NullToVisibilityConverter}}"
-                       IsHitTestVisible="False"
+                       IsHitTestVisible="False" Margin="5,6,0,0" 
                        Text="... Change Origin ..." />
                     </Grid>
                     <Grid Grid.Column="2">
@@ -169,8 +169,8 @@
                         </Grid.RowDefinitions>
                         <!-- Destination City-->
                         <Label Style="{StaticResource DetailLabel}"  Content="Destination"/>
-                        <TextBlock Grid.Row="1" x:Name="destTxt" Text="{Binding SelectedContract.Destination, FallbackValue=NULL, Mode=TwoWay}"/>
-                        <ComboBox x:Name="destCombo" Grid.Row="2" Text="Update Origin" ItemsSource="{Binding Destinations}" SelectedItem="{Binding SelectedItem}" SelectionChanged="DestinationComboBox_SelectionChanged">
+                        <TextBlock FontSize="18" FontWeight="Bold" Grid.Row="1" x:Name="destTxt" Text="{Binding SelectedContract.Destination, FallbackValue=NULL, Mode=TwoWay}"/>
+                        <ComboBox x:Name="destCombo" Grid.Row="2" Margin="0,5,0,0" Text="Update Origin" ItemsSource="{Binding Destinations}" SelectedItem="{Binding SelectedItem}" SelectionChanged="DestinationComboBox_SelectionChanged">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding cityLocation}"/>
@@ -179,7 +179,7 @@
                         </ComboBox>
                         <TextBlock Grid.Row="3"
                        Visibility="{Binding SelectedItem, ElementName=destCombo, Converter={StaticResource NullToVisibilityConverter}}"
-                       IsHitTestVisible="False"
+                       IsHitTestVisible="False" Margin="5,6,0,0" 
                        Text="... Change Destination ..." />
                     </Grid>
                 </Grid>
@@ -191,20 +191,40 @@
                 <Border Style="{StaticResource DetailBorder}">
                     <Label FontWeight="Bold" Foreground="#FFF5F7F9"/>
                 </Border>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <!-- Destination City-->
+                    <Label Style="{StaticResource DetailLabel}"  Content="Quantity"/>
+                    <TextBlock FontSize="18" FontWeight="Bold" Grid.Row="1" x:Name="quantityTxt" Text="{Binding SelectedContract.Quantity, FallbackValue=NULL, Mode=OneWay}"/>
+                    <TextBox  Margin="0,5,0,0" x:Name="quantityText" Grid.Row="2" Text="... Change Quantity ..." TextChanged="quantityText_TextChanged" LostFocus="quantityText_LostFocus"  PreviewMouseLeftButtonDown="quantityText_MouseLeftButtonDown">
+                    </TextBox>
+
+                </Grid>
             </StackPanel>
         </StackPanel>
-        
+
         <Grid Grid.Row="4"  VerticalAlignment="Top"  Margin="0,0,5,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="29*"/>
                 <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Button Grid.Column="1" Command="{Binding SubmitContractCommand}" Style="{StaticResource MenuIconButton}" Background="{StaticResource MaximumBlueGreen}"
-                       Width="90" Height="40" Margin="5">
+            <TextBlock Text="{Binding SuccessMessage}" TextAlignment="Center"  FontSize="16" Grid.ColumnSpan="2"/>
+            <Button Grid.Column="2" Command="{Binding SubmitContractCommand }" Style="{StaticResource MenuIconButton}" Background="{StaticResource MaximumBlueGreen}"
+                       Width="90" Height="40" Margin="55,5,55,0">
                 <Button.IsEnabled>
                     <MultiBinding Converter="{StaticResource AddContractEnabledConverter}">
                         <Binding Path="Text" ElementName="jobTxt" />
@@ -213,7 +233,7 @@
                         <Binding Path="Text" ElementName="destTxt" />
                         <Binding Path="Text" ElementName="checkSelection" />
                         <Binding ElementName="error" Mode="TwoWay"/>
-
+                        <Binding Path="Text" ElementName="quantityTxt" />
                     </MultiBinding>
                 </Button.IsEnabled>
                 <Button.CommandParameter>
@@ -223,6 +243,7 @@
                         <Binding Path="Text" ElementName="vanTxt" />
                         <Binding Path="Text" ElementName="originTxt" />
                         <Binding Path="Text" ElementName="destTxt" />
+                        <Binding Path="Text" ElementName="quantityTxt" />
                     </MultiBinding>
                 </Button.CommandParameter>
                 <Button.Content>
@@ -231,12 +252,12 @@
                         <!--Possibly add later-->
                         <Label FontWeight="Bold">Save</Label>
                     </StackPanel>
-                    
+
                 </Button.Content>
             </Button>
-            <TextBlock TextWrapping="WrapWithOverflow" TextAlignment="Center" Grid.Row="1" Grid.Column="1" x:Name="error" Text="Please Select A Contract" FontWeight="Bold" Foreground="Red"/>
+            <TextBlock TextWrapping="WrapWithOverflow" TextAlignment="Center" Grid.Row="1" Grid.Column="2" x:Name="error" Text="Please Select A Contract" FontWeight="Bold" Foreground="Red"/>
 
-            <TextBlock x:Name="checkSelection" Visibility="Collapsed" Text="{Binding SelectedContract}"/>
+            <TextBlock x:Name="checkSelection" Visibility="Collapsed" Text="{Binding SelectedContract}" Grid.ColumnSpan="2"/>
 
         </Grid>
     </Grid>
