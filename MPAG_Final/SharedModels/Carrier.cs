@@ -40,19 +40,18 @@ namespace MPAG_Final.SharedModels
         /// <param name="rateLTL"> <b>double</b> - Charging rate for the LTL type trips</param>
         /// <param name="charge"> <b>double</b> - Reefer charge of the carrier</param>
         /// <param name="initialDepots"><b>Dictionary<string, Depot></b> - Initial city-depot dictionary of the carrier</param>
-        public Carrier(string name, double rateFTL, double rateLTL, double charge, Dictionary<string, Depot> initialDepots)
-        {
-            Random rng = new Random();            // DEBUG: This is a placeholder for the CarrierId that will
-            carrierId = rng.Next(10000, 99000);   // be grabbed from the database baased on the Id of the last order
+        //public Carrier(string name, double rateFTL, double rateLTL, double charge, Dictionary<string, Depot> initialDepots)
+        //{
+            
 
-            //-----------------------PART of the ADMIN ROLE------------------------------------------------//
-            carrierName = name;
-            FTLRate = rateFTL;
-            LTLRate = rateLTL;
-            ReeferCharge = charge;
+        //    //-----------------------PART of the ADMIN ROLE------------------------------------------------//
+        //    carrierName = name;
+        //    FTLRate = rateFTL;
+        //    LTLRate = rateLTL;
+        //    ReeferCharge = charge;
 
-            //DepotsLocation = initialDepots;   // The admin will list the availible cities for that carrier
-        }
+        //    DepotsLocation = initialDepots;   // The admin will list the availible cities for that carrier
+        //}
 
         /// <summary>
         /// Default Contructor for Carrier Class - Instantiate to get database information

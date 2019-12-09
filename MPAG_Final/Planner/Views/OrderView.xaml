@@ -89,19 +89,13 @@
                         </Grid.ColumnDefinitions>
                         <Grid Grid.Column="0">
                             <Label Style="{StaticResource DetailLabel}" Content="Orders" HorizontalAlignment="Center" Margin="0,5,0,0" FontSize="15" />
-                            <DataGrid ItemsSource="{Binding LTLOrders}" 
+                            <DataGrid Name="LTLPending"
+                                ItemsSource="{Binding LTLOrders}" 
                                       GridLinesVisibility="None" 
                                       IsReadOnly="True"
                                       Margin="20,40,20,20" 
                                       AutoGenerateColumns="False">
                                 <DataGrid.Columns>
-                                    <DataGridCheckBoxColumn Binding="{Binding Path=SelectedOrder}" Header="Check">
-                                        <DataGridCheckBoxColumn.CellStyle>
-                                            <Style>
-                                                <EventSetter Event="CheckBox.Checked" Handler="{Binding CheckOrderCommand}"/>
-                                            </Style>
-                                        </DataGridCheckBoxColumn.CellStyle>
-                                    </DataGridCheckBoxColumn>
                                     <DataGridTextColumn Header="ID" Width="Auto" Binding="{Binding OrderID}" />
                                     <DataGridTextColumn Header="Origin" Width="Auto" Binding="{Binding origin}" />
                                     <DataGridTextColumn Header="Destination" Width="Auto" Binding="{Binding destination}" />
@@ -109,6 +103,7 @@
                                     <DataGridTextColumn Header="Date Created" Width="Auto" Binding="{Binding dateCreated}" />
                                 </DataGrid.Columns >
                             </DataGrid>
+                            <Button Content="Button" HorizontalAlignment="Left" Margin="281,395,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
                         </Grid>
                         <Grid Grid.Column="1">
                             <Grid>
@@ -118,13 +113,15 @@
                                 </Grid.RowDefinitions>
                                 <Grid Grid.Row="0">
                                     <Label Style="{StaticResource DetailLabel}" Content="Selected Orders" HorizontalAlignment="Center" Margin="0,5,0,0" FontSize="15"/>
-                                    <DataGrid GridLinesVisibility="None" 
+                                    <DataGrid Name="SelectedOrdersGrid"
+                                              ItemsSource="{Binding SelectedOrders}" 
+                                              GridLinesVisibility="None" 
                                               IsReadOnly="True"
                                               Margin="20,40,20,20" 
                                               AutoGenerateColumns="False" >
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Header="ID" Width="Auto" Binding="{Binding carrierId}" />
-                                            <DataGridTextColumn Header="Origin" Width="Auto" Binding="{Binding carrierName}" />
+                                            <DataGridTextColumn Header="ID" Width="Auto" Binding="{Binding OrderID}" />
+                                            <DataGridTextColumn Header="Origin" Width="Auto" Binding="{Binding origin}" />
                                             <DataGridTemplateColumn Header="Selected">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
@@ -142,7 +139,9 @@
                                     <Rectangle Fill="Black" Height="1" VerticalAlignment="Top" Margin="0,-1,0,0" Opacity="0.5"/>
 
                                     <Label Style="{StaticResource DetailLabel}" Content="Carriers" HorizontalAlignment="Center" Margin="0,5,0,0" FontSize="15"/>
-                                    <DataGrid GridLinesVisibility="None" 
+                                    <DataGrid Name="RelevantCarriersGrid"
+                                              ItemsSource="{Binding RelevantCarriers}" 
+                                              GridLinesVisibility="None" 
                                               IsReadOnly="True"
                                               Margin="20,40,20,50" 
                                               AutoGenerateColumns="False" >

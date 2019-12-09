@@ -18,18 +18,20 @@ namespace MPAG_OrderAndTrip
         public int OrderID { get; set; }
         public int DepotID { get; set; }
 
+        public double baseSpeed = 60;
+        TimeSpan timeAdvanced = TimeSpan.Zero;
+
         // Trip Information 
         public DateTime StartedAt { get; set; }
-        public DateTime EndsAt { get; set; }
-        private double _kilometersPerHour;
-        public double KilometersPerHour
+        public DateTime CurrentTime
         {
-            get { return _kilometersPerHour; }
-            set
-            {
-                _kilometersPerHour = value;
-            }
+            get { return DateTime.Now + timeAdvanced; }
         }
+
+        public DateTime EndsAt { get; set; }
+   
+
+        public double positionDelta { get; set; }
 
         /// <summary>
         /// Constructor for the Trip class. It requires the initial last stop (where the cargo will be unloaded), and the cumuluative hours and kilometers to finish.
@@ -37,27 +39,27 @@ namespace MPAG_OrderAndTrip
         /// <param name="initialStop"> <b>string</b> - The city where the cargo will be unloaded </param>
         /// <param name="initialHours"> <b>int</b> - represent the initial hours required to do a trip </param>
         /// <param name="initialKm"> <b>double</b> - represent the initial kilometers required to complete an order </param>
-        public Trip(Order selectedOrder, Carrier selectedCarrier, double initialKmH = 60.0)         // Km and hours should be self generated        
+        public Trip(Order selectedOrder, Carrier selectedCarrier)         // Km and hours should be self generated        
         {
             StartedAt = DateTime.Now;
+            CurrentTime = DateTime.Now;
 
             OrderID = selectedOrder.OrderID;
             DepotID = selectedCarrier.DepotsLocation[selectedOrder.origin].DepotID;
 
-            KilometersPerHour = initialKmH;
-
             //--> DEBUG: Get origin and destination to get total kilometers for a trip
-            double positionDelta = 100;
+            positionDelta = 100;
 
             // Determine initial ETA
-            TimeSpan timeInterval = TimeSpan.FromHours(positionDelta / KilometersPerHour);
+            TimeSpan timeInterval = TimeSpan.FromHours(positionDelta / baseSpeed);
             EndsAt = StartedAt + timeInterval;
+        }
 
-            // Algorithm for determining the ETA by taking the origin and destination-------//
-            // Get start city and end city -> Determine total Amount of kilometers
-            // Use the average speed to determine the amount of hours will take 
-            EndsAt = StartedAt.AddHours(10);
-            //------------------- END OF DEBUG ---------------------------------------------//
+        public void SpeedUp(int increment)
+        {
+            CurrentTime.AddDays(increment);
+            TimeSpan secondsIncrement = TimeSpan.FromDays(increment);
+            timeAdvanced.Add(secondsIncrement);
         }
     }
 }

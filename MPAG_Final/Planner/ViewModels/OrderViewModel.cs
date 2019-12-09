@@ -22,6 +22,8 @@ namespace MPAG_Final.Planner.ViewModels
     {
         // Current selected order information
         private Order FirstOrderSelected = null;
+        int totalPallets = 0;
+
         public ICommand CheckOrderCommand { get; private set; }
         // For accessing planner methods 
         private PlannerRole _plannerRoleVM;
@@ -82,7 +84,7 @@ namespace MPAG_Final.Planner.ViewModels
             }
         }
 
-
+        public ObservableCollection<Carrier> carriers;
         private List<Carrier> _selectedCarriers = new List<Carrier>();
         public List<Carrier> SelectedCarriers
         {
@@ -102,25 +104,24 @@ namespace MPAG_Final.Planner.ViewModels
         /// </summary>
         public OrderViewModel(PlannerRole planner)
         {
+            carriers = new ObservableCollection<Carrier>();
             PlannerRoleVM = planner;
 
             // DEBUG: Include FTL Order 
-            LTLOrders = new ObservableCollection<Order>(new SampleData().SampleLTLOrders());
+            LTLOrders = new ObservableCollection<Order>();
             SelectedOrders = new ObservableCollection<Order>();
-            CheckOrderCommand = new SelectOrder(this);
+            //CheckOrderCommand = new SelectOrder(this);
         }
 
-        public void OrderChecked(object parameter)
+        public void OrderChecked(Order selectedOrder)
         {
-            var list = (object[])parameter;
-            Order selectedOrder = (Order)list[0];
             if (FirstOrderSelected == null)
             {
                 FirstOrderSelected = selectedOrder;
 
                 // Populate LTL order 
-                LTLOrders = new ObservableCollection<Order>(new SampleData().FilterLTLs(selectedOrder.origin, selectedOrder.vanType));
-                LTLOrders.Remove(selectedOrder);
+                LTLOrders = new ObservableCollection<Order>();
+                LTLOrders.RemoveAt(0);
                 OnPropertyChanged("LTLOrders");
 
                 // Send selected order to bundled orders
@@ -134,11 +135,48 @@ namespace MPAG_Final.Planner.ViewModels
 
             OnPropertyChanged("SelectedOrders");
 
-            // Populate Relevant Carriers list
-            RelevantCarriers = new ObservableCollection<Carrier>(new SampleData().GetRelevantCarrier(selectedOrder.origin, selectedOrder.destination));
+            totalPallets += selectedOrder.quantity;
+            // Populate Relevant Carriers lists
+            RelevantCarriers = new ObservableCollection<Carrier>(new TMSDAL().GetCarriersByCity(selectedOrder.origin, selectedOrder.destination)); // Change to int 
 
             OnPropertyChanged("RelevantCarriers");
         }
 
+        public void ActivateOrders()
+        {
+            int orderCounter = 0;
+            int carrierCounter = 0;
+
+            // Only Pallets 
+            while (orderCounter < SelectedOrders.Count)
+            {
+                // Convert to FTL truck if possible
+                if (SelectedOrders[orderCounter].quantity % Carrier.MaxLot == 0 && SelectedCarriers[carrierCounter].TargetDepot.availibleFTL > 0)
+                {
+                    int howManyFTL = SelectedCarriers[carrierCounter].TargetDepot.availibleFTL;
+                    SelectedOrders[orderCounter].quantity -= (howManyFTL * Carrier.MaxLot);
+                }
+                // Remove from pallets 
+                else
+                {
+                    int howMuchToRemoved = SelectedCarriers[carrierCounter].TargetDepot.avalibleLTL;
+
+                    SelectedOrders[orderCounter].quantity -= howMuchToRemoved;
+                    SelectedCarriers[carrierCounter].TargetDepot.avalibleLTL -= howMuchToRemoved;
+                }
+
+                // Add trips
+                PlannerRoleVM.AddTrip(SelectedCarriers[carrierCounter], SelectedOrders[orderCounter]);
+                if (SelectedOrders[orderCounter].quantity == 0)
+                {
+                    orderCounter++;
+                }
+
+                // Move to next carrier
+                carrierCounter++;
+
+                SelectedOrders[orderCounter].status = 0; // SET to ENROUTE
+            }
+        }
     }
 }

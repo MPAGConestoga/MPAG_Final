@@ -88,9 +88,12 @@ namespace MPAG_Final.Planner.Models
 
         //}
 
-        public void ChangeOrderSpeedTime(Order activeOrder, int daysToAdvance)
+        public void ChangeOrderSpeedTime(Order activeOrder, double increment)
         {
-            // Stubbed Out ----------------------- IMPLEMENT -----------------------// 
+            foreach(var trip in activeOrder.AssignedTrips)
+            {
+                trip.SpeedUp(increment);
+            }
         }
 
         public bool ConfirmOrderCompletion(Order activeOrder)
@@ -106,10 +109,5 @@ namespace MPAG_Final.Planner.Models
         //    return SummaryInvoice;
         //}
 
-        public void testFunction()
-        {
-            int i = 0;
-            int y = 0;
-        }
     }
 }

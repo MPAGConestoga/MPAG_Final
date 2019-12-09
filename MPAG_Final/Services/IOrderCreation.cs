@@ -9,7 +9,7 @@ namespace MPAG_Final.Services
 {
     interface IOrderCreation
     {
-        Order CreateOrder(bool jobType, uint quantity, string origin, string destination, bool vanType);
+        Order CreateOrder(bool jobType, int quantity, string origin, string destination, bool vanType);
 
     }
 }

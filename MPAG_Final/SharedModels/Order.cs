@@ -55,7 +55,7 @@ namespace MPAG_Final.SharedModels
         }
 
         public int status { get; set; }
-        public uint quantity { get; set; }
+        public int quantity { get; set; }
         public bool jobType { get; set; }
         public bool vanType { get; set; }
         public DateTime dateCreated { get; set; }
@@ -101,10 +101,9 @@ namespace MPAG_Final.SharedModels
         /// <param name="origin"> <b>string</b> - City origin of the order </param>
         /// <param name="destination"> <b>string</b> - City destination, where the cargo will be unloaded </param>
         /// <param name="vanType"> <b>bool</b> - True if the cargo load is Reefer, false if it is Dry </param>
-        public Order(bool jobType, uint quantity, string origin, string destination, bool vanType)
+        public Order(bool jobType, int quantity, string origin, string destination, bool vanType)
         {
-            Random rng = new Random();          // DEBUG: This is a placeholder for the orderId that will
-            OrderID = rng.Next(10000, 99000);   // be grabbed from the database baased on the Id of the last order
+            OrderID = 0; // Debug
 
             if (jobType && quantity == 0)
             {
@@ -129,7 +128,7 @@ namespace MPAG_Final.SharedModels
         /// <param name="destination"> <b>string</b> - City destination, where the cargo will be unloaded </param>
         /// <param name="vanType"> <b>bool</b> - True if the cargo load is Reefer, false if it is Dry </param>
         /// <returns>Returns the order with the information provided by the parameters (if valid)</returns>
-        public Order CreateOrder(bool jobType, uint quantity, string origin, string destination, bool vanType)
+        public Order CreateOrder(bool jobType, int quantity, string origin, string destination, bool vanType)
         {
             Order newOrder = new Order(jobType, quantity, origin, destination, vanType);
             return newOrder;

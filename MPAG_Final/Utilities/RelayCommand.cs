@@ -103,38 +103,38 @@ namespace MPAG_Final.Utilities
         }
     }
 
-    public class SelectOrder : ICommand
-    {
+    //public class SelectOrder : ICommand
+    //{
 
-        public SelectOrder(OrderViewModel viewModel)
-        {
-            //get the view model associated with the command
-            _ViewModel = viewModel;
-        }
+    //    public SelectOrder(OrderViewModel viewModel)
+    //    {
+    //        //get the view model associated with the command
+    //        _ViewModel = viewModel;
+    //    }
 
-        private OrderViewModel _ViewModel;
+    //    private OrderViewModel _ViewModel;
 
-        public event System.EventHandler CanExecuteChanged
-        {
-            add
-            {
-                CommandManager.RequerySuggested += value;
-            }
-            remove
-            {
-                CommandManager.RequerySuggested -= value;
-            }
-        }
+    //    public event System.EventHandler CanExecuteChanged
+    //    {
+    //        add
+    //        {
+    //            CommandManager.RequerySuggested += value;
+    //        }
+    //        remove
+    //        {
+    //            CommandManager.RequerySuggested -= value;
+    //        }
+    //    }
 
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
+    //    public bool CanExecute(object parameter)
+    //    {
+    //        return true;
+    //    }
 
-        public void Execute(object parameter)
-        {
-            _ViewModel.OrderChecked(parameter);
+    //    public void Execute(object parameter)
+    //    {
+    //        _ViewModel.OrderChecked(parameter);
 
-        }
-    }
+    //    }
+    //}
 }
