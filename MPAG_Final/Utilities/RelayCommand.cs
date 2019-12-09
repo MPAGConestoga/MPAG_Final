@@ -1,4 +1,5 @@
-﻿using MPAG_Final.SharedViewModels;
+﻿using MPAG_Final.Planner.ViewModels;
+using MPAG_Final.SharedViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -98,6 +99,41 @@ namespace MPAG_Final.Utilities
         public void Execute(object parameter)
         {
             _ViewModel.SubmitContract(parameter);
+
+        }
+    }
+
+    public class SelectOrder : ICommand
+    {
+
+        public SelectOrder(OrderViewModel viewModel)
+        {
+            //get the view model associated with the command
+            _ViewModel = viewModel;
+        }
+
+        private OrderViewModel _ViewModel;
+
+        public event System.EventHandler CanExecuteChanged
+        {
+            add
+            {
+                CommandManager.RequerySuggested += value;
+            }
+            remove
+            {
+                CommandManager.RequerySuggested -= value;
+            }
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            _ViewModel.OrderChecked(parameter);
 
         }
     }

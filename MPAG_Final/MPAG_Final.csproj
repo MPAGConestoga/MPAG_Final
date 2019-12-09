@@ -132,6 +132,7 @@
     <Compile Include="Buyer\Models\BuyerRole.cs" />
     <Compile Include="Helpers\Converters.cs" />
     <Compile Include="Planner\Models\PlannerRole.cs" />
+    <Compile Include="SampleData.cs" />
     <Compile Include="Services\ICarrierDataService.cs" />
     <Compile Include="Services\IOrderCreation.cs" />
     <Compile Include="Services\MockCarrierMarketplace.cs" />
