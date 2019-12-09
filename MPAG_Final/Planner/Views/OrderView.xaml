@@ -88,23 +88,25 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Grid Grid.Column="0">
-                            <Label Style="{StaticResource DetailLabel}" Content="Orders" HorizontalAlignment="Center" Margin="0,5,0,0" FontSize="15"/>
-                            <DataGrid GridLinesVisibility="None" 
+                            <Label Style="{StaticResource DetailLabel}" Content="Orders" HorizontalAlignment="Center" Margin="0,5,0,0" FontSize="15" />
+                            <DataGrid ItemsSource="{Binding LTLOrders}" 
+                                      GridLinesVisibility="None" 
                                       IsReadOnly="True"
                                       Margin="20,40,20,20" 
                                       AutoGenerateColumns="False">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="ID" Width="Auto" Binding="{Binding carrierId}" />
-                                    <DataGridTextColumn Header="Origin" Width="Auto" Binding="{Binding carrierName}" />
-                                    <DataGridTemplateColumn Header="Selected">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <CheckBox HorizontalAlignment="Center" 
-                                                          IsChecked="{Binding Path=IsSelected, 
-                                                          UpdateSourceTrigger=PropertyChanged}" />
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
+                                    <DataGridCheckBoxColumn Binding="{Binding Path=SelectedOrder}" Header="Check">
+                                        <DataGridCheckBoxColumn.CellStyle>
+                                            <Style>
+                                                <EventSetter Event="CheckBox.Checked" Handler="{Binding CheckOrderCommand}"/>
+                                            </Style>
+                                        </DataGridCheckBoxColumn.CellStyle>
+                                    </DataGridCheckBoxColumn>
+                                    <DataGridTextColumn Header="ID" Width="Auto" Binding="{Binding OrderID}" />
+                                    <DataGridTextColumn Header="Origin" Width="Auto" Binding="{Binding origin}" />
+                                    <DataGridTextColumn Header="Destination" Width="Auto" Binding="{Binding destination}" />
+                                    <DataGridTextColumn Header="Van Type" Width="Auto" Binding="{Binding vanType}" />
+                                    <DataGridTextColumn Header="Date Created" Width="Auto" Binding="{Binding dateCreated}" />
                                 </DataGrid.Columns >
                             </DataGrid>
                         </Grid>
