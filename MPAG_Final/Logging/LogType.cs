@@ -26,7 +26,7 @@ namespace MPAG_Final.Logging
             if (type == LoggingType.buyer)
             {
                 string pathBuyer = "Buyer";
-                string filepathBuyer = "Buyer\\BServiceLog_" + DateTime.Now.Date.ToShortDateString().Replace('/', '_') + ".txt";
+                string filepathBuyer = "Buyer\\Buyer_" + DateTime.Now.Date.ToShortDateString().Replace('/', '_') + ".txt";
 
                 FilePath(pathBuyer);
                 RunFile(filepathBuyer, message);
@@ -34,7 +34,7 @@ namespace MPAG_Final.Logging
             else if (type == LoggingType.planner)
             {
                 string pathPlanner = "Planner";
-                string filepathPlanner = "Planner\\PServiceLog_" + DateTime.Now.Date.ToShortDateString().Replace('/', '_') + ".txt";
+                string filepathPlanner = "Planner\\Planner_" + DateTime.Now.Date.ToShortDateString().Replace('/', '_') + ".txt";
 
                 FilePath(pathPlanner);
                 RunFile(filepathPlanner, message);
@@ -42,7 +42,7 @@ namespace MPAG_Final.Logging
             else if (type == LoggingType.admin)
             {
                 string pathAdmin = "Admin";
-                string filepathAdmin = "Admin\\AServiceLog_" + DateTime.Now.Date.ToShortDateString().Replace('/', '_') + ".txt";
+                string filepathAdmin = "Admin\\Admin_" + DateTime.Now.Date.ToShortDateString().Replace('/', '_') + ".txt";
 
                 FilePath(pathAdmin);
                 RunFile(filepathAdmin, message);
@@ -50,7 +50,7 @@ namespace MPAG_Final.Logging
             else if (type == LoggingType.database)
             {
                 string pathDatabase = "Database";
-                string filepathDatabase = "Database\\DServiceLog_" + DateTime.Now.Date.ToShortDateString().Replace('/', '_') + ".txt";
+                string filepathDatabase = "Database\\Database_" + DateTime.Now.Date.ToShortDateString().Replace('/', '_') + ".txt";
 
                 FilePath(pathDatabase);
                 RunFile(filepathDatabase, message);

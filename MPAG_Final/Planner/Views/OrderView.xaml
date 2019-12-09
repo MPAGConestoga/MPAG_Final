@@ -181,21 +181,18 @@
 
         </TabItem>
         <TabItem Header="Active Orders">
-            <Grid Background="LightSalmon">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="17*"/>
-                        <ColumnDefinition Width="95*"/>
-                        <ColumnDefinition Width="286*"/>
-                    </Grid.ColumnDefinitions>
+            <Grid Background="Bisque">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height=".3*"/>
+                    <RowDefinition Height=".3*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    
                     <Label Style="{StaticResource DetailLabel}" Content="Orders" HorizontalAlignment="Center" Margin="64,5,171.6,-0.4" FontSize="15" Grid.Column="2"/>
                     <DataGrid GridLinesVisibility="None" 
                               IsReadOnly="True"
-                              Margin="2.8,40,20.6,19.6" 
+                              Margin="20,40,20,20" 
                               AutoGenerateColumns="False" 
                               Grid.ColumnSpan="2" 
                               Grid.Column="1">
@@ -216,8 +213,20 @@
 
                     </DataGrid>
                 </Grid>
-                <Grid Grid.Column="1">
-
+                <Grid Grid.Row="1">
+                    <ProgressBar Minimum="0" Maximum="100" Height="100" Margin="10,0,10,0" Name="pbStatus" Grid.Row="1" Grid.ColumnSpan="3" Value="{Binding ContractsVM.loading}"/>
+                    <TextBlock Text="{Binding ContractsVM.loadingText}" TextAlignment="Center" Grid.Row="1" Grid.ColumnSpan="3"/>                    
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Button Content="Add Day" 
+                                    Margin="20,20,20,20"
+                                    HorizontalAlignment="Center" 
+                                    VerticalAlignment="Bottom"
+                                    Width="150"
+                                    Height="20"
+                                    Foreground="WhiteSmoke"
+                                    Background="#13242C"
+                                    Command="{Binding RunTestCommand}"/>
                 </Grid>
             </Grid>
         </TabItem>
