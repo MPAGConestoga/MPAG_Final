@@ -1,6 +1,8 @@
 ﻿using MPAG_Final.Services;
 using MPAG_Final.SharedModels;
+using System;
 using System.Collections.Generic;
+using MPAG_Final.Logging;
 
 namespace MPAG_Final.Buyer.Models
 {
@@ -51,9 +53,11 @@ namespace MPAG_Final.Buyer.Models
             {
                 newOrder = new Order(jobType, quantity, origin, destination, vanType);
                 CreatedOrders.Add(newOrder);      // Attribute the Order to the buyer
+                
             }
-            catch
+            catch(Exception ex)
             {
+                LogType.ErrorType(LogType.LoggingType.buyer, ex.ToString());
                 newOrder = null;
             }
 

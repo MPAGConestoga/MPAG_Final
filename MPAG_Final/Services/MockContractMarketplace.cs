@@ -1,4 +1,5 @@
-﻿using MPAG_Final.SharedModels;
+﻿using MPAG_Final.Logging;
+using MPAG_Final.SharedModels;
 using MPAG_Final.SharedViewModels;
 using MySql.Data.MySqlClient;
 using System;
@@ -19,6 +20,7 @@ namespace MPAG_Final.Services
 
         public void DatabaseRun()
         {
+
             string connectionString = ConfigurationManager.ConnectionStrings["contractmarketplace"].ConnectionString;
             List<Contract> newList = new List<Contract>();
             for (int i = 0; i < 3; i++)
@@ -52,10 +54,10 @@ namespace MPAG_Final.Services
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.ToString());
+                        LogType.ErrorType(LogType.LoggingType.buyer, ex.ToString());
                     }
                 }
-                Thread.Sleep(5000);
+                Thread.Sleep(10000);
             }
         }
 
@@ -64,7 +66,6 @@ namespace MPAG_Final.Services
             _contracts = new ObservableCollection<Contract>();
             Thread marketThread = new Thread(new ThreadStart(DatabaseRun));
             marketThread.Start();
-            //DatabaseRun();
         }
 
         public ObservableCollection<Contract> GetContracts()

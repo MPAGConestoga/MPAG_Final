@@ -55,8 +55,6 @@
             <Rectangle Fill="Black" Width="1" HorizontalAlignment="Left" Margin="-1,0,0,0" Opacity="0.5"/>
             <TextBox Name="textEditor" Margin="20,40,20,20"  AcceptsReturn="True"/>
 
-            
-
         </Grid>
     </Grid>
 </UserControl>

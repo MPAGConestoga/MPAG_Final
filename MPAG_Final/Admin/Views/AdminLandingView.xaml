@@ -4,8 +4,18 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MPAG_Final.Admin.Views"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key = "TriggerStyle" TargetType="{x:Type Button}">
+            <Style.Triggers>
+                <Trigger Property = "IsPressed" Value = "True">
+                    <Setter Property = "Background" Value = "Red" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
     <Grid Background="Beige">
         
         <Grid.ColumnDefinitions>
@@ -27,7 +37,7 @@
                 </Border>
             </Grid>
             <Grid Grid.Row="1">
-                <TabControl Margin="20,20,20,20">
+                <TabControl Margin="20,18,20,20">
                     <TabItem Header="Log ID">
                         
                     </TabItem>
@@ -37,7 +47,10 @@
                     <TabItem Header="Alter Fees">
                         
                     </TabItem>
+
                 </TabControl>
+                <Rectangle Fill="Black" Height="1" VerticalAlignment="Bottom" Margin="0,0,0,0" Opacity="0.5"/>
+
             </Grid>
             <Grid Grid.Row="2">
                 <Border Style="{StaticResource DetailBorder}">
@@ -45,8 +58,6 @@
                 </Border>
             </Grid>
             <Grid Grid.Row="3">
-                <Rectangle Fill="Black" Height="1" VerticalAlignment="Top" Margin="0,-1,0,0" Opacity="0.5"/>
-
                 <DataGrid GridLinesVisibility="None" 
                                       IsReadOnly="True" 
                                       Margin="20,20,20,20" 
@@ -72,17 +83,19 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition/>
+                <RowDefinition Height="50"/>
             </Grid.RowDefinitions>           
             <Grid Grid.Row="0">
-                <Rectangle Fill="Black" Width="1" HorizontalAlignment="Left" Margin="-1,0,0,0" Opacity="0.5"/>
                 <Border Style="{StaticResource DetailBorder}">
                     <Label FontWeight="Bold" Foreground="#FFF5F7F9" Content="Log Files" HorizontalAlignment="Center" FontSize="15"/>
                 </Border>
             </Grid>
             <Grid Grid.Row="1">
+                <Rectangle Fill="Black" Width="1" HorizontalAlignment="Left" Margin="0,0,0,0" Opacity="0.5"/>
+
                 <DataGrid GridLinesVisibility="All" 
                                       IsReadOnly="False" 
-                                      Margin="20,40,20,60" 
+                                      Margin="20,40,20,20" 
                                       AutoGenerateColumns="False" >
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Width="Auto"  />
@@ -97,17 +110,33 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                     </DataGrid.Columns >
-                </DataGrid>
-                <Button Content="Submit" 
-                    Margin="20,20,20,20"
-                    HorizontalAlignment="Center" 
-                    VerticalAlignment="Bottom"
-                    Width="150"
-                    Height="20"
-                    Foreground="WhiteSmoke"
-                    Background="#13242C"
-                    Command="{Binding RunTestCommand}"/>
-            </Grid>            
+                </DataGrid>               
+            </Grid>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <DatePicker x:Name="dpEventDate"  HorizontalAlignment="Left" Margin="0,0,0,0" 
+                            VerticalAlignment="Center" SelectedDateFormat="Long" 
+                            SelectedDate="{Binding MyDateTimeProperty, Mode=TwoWay}"/>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <ComboBox HorizontalAlignment="Left" Margin="0,0,0,0" Width="100" Height="25">
+                        <ComboBoxItem Content="Buyer"/>
+                        <ComboBoxItem Content="Planner"/>
+                        <ComboBoxItem Content="Admin"/>
+                        <ComboBoxItem Content="Database"/>
+                    </ComboBox>
+                </Grid>
+                
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>
+
+<!--<Button Style="{StaticResource MenuTabButton}" Grid.Column="0" Content="Buyer"  Command="{Binding RunDatabaseCommand}"/>
+<Button Style="{StaticResource MenuTabButton}" Grid.Column="1" Content="Planner" Command="{Binding PauseCommand}" />
+<Button Style="{StaticResource MenuTabButton}" Grid.Column="2" Content="Admin" Command="{Binding EmptyCommand}" />-->

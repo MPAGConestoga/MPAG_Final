@@ -27,6 +27,7 @@ namespace MPAG_Final.Planner.ViewModels
         public ICommand CheckOrderCommand { get; private set; }
         public ICommand RemoveOrderCommand { get; private set; }
         // For accessing planner methods 
+
         public ICommand ResetCommand { get; private set; }
         private ICarrierDataService _carrierService;
         private IContractDataService _contractService;
@@ -44,8 +45,7 @@ namespace MPAG_Final.Planner.ViewModels
                 OnPropertyChanged("Message");
 
 
-            }
-        }
+
         // for accessing the contracts view model
         private ContractsViewModel _contractsVM;
         public ContractsViewModel ContractsVM
@@ -78,7 +78,6 @@ namespace MPAG_Final.Planner.ViewModels
         private ObservableCollection<Order> _ltlOrders;
         public ObservableCollection<Order> LTLOrders
         {
-          //mock service for the testing of the ui
 
             get { return _ltlOrders; }
             set
@@ -90,9 +89,15 @@ namespace MPAG_Final.Planner.ViewModels
             }
         }
 
+
         public ObservableCollection<Order> LTLOrdersMaster { get; set; }
 
 
+
+        //ContractsVM = new ContractsViewModel();
+        //CarriersVM = new CarriersViewModel(carrierMarketPlace);
+        //LoadCarriers();
+        //LoadContracts();
         //-> Relevant Carriers
         private ObservableCollection<Carrier> _relevantCarriers;
         public ObservableCollection<Carrier> RelevantCarriers
@@ -102,11 +107,9 @@ namespace MPAG_Final.Planner.ViewModels
             {
                 _relevantCarriers = value;
                 OnPropertyChanged("RelevantCarriers");
-
-
             }
         }
-          
+
         //-> Selected Propreties
         private ObservableCollection<Order> _selectedOrders;
         public ObservableCollection<Order> SelectedOrders
@@ -134,6 +137,25 @@ namespace MPAG_Final.Planner.ViewModels
             }
         }
 
+        private Order _selectedActiveOrder;
+        public Order SelectedActiveOrder
+        {
+            get { return _selectedActiveOrder; }
+            set { OnPropertyChanged(ref _selectedActiveOrder, value); }
+        }
+
+
+        private ObservableCollection<Order> _activeOrders;
+        public ObservableCollection<Order> ActiveOrders
+        {
+
+            get { return _activeOrders; }
+            set
+            {
+                _activeOrders = value;
+                OnPropertyChanged("ActiveOrders");
+            }
+        }
 
 
         /// <summary>
@@ -148,6 +170,7 @@ namespace MPAG_Final.Planner.ViewModels
             //LoadCarriers();
             //LoadContracts();
             // DEBUG: Include FTL Order 
+
             LTLOrders = new ObservableCollection<Order>(new TMSDAL().GetOrdersByJobType(0));
             LTLOrdersMaster = new ObservableCollection<Order>(new TMSDAL().GetOrdersByJobType(0));
             
@@ -155,6 +178,16 @@ namespace MPAG_Final.Planner.ViewModels
             CheckOrderCommand = new SelectOrder(this);
             ResetCommand = new RelayCommand(ResetFilters);
             RemoveOrderCommand = new RemoveOrder(this);
+
+           // LTLOrders = new ObservableCollection<Order>(new SampleData().SampleLTLOrders());
+            SelectedOrders = new ObservableCollection<Order>();
+            CheckOrderCommand = new SelectOrder(this);
+            ActiveOrders = new ObservableCollection<Order>()
+            {
+                new Order(true, 10, "Toronto", "Windsor", false),
+                new Order(true, 4, "Waterloo", "London", false )
+            };
+
         }
 
 
@@ -190,6 +223,11 @@ namespace MPAG_Final.Planner.ViewModels
 
                 }
             }
+
+                // Populate LTL order 
+                //LTLOrders = new ObservableCollection<Order>(new SampleData().FilterLTLs(selectedOrder.origin, selectedOrder.vanType));
+                LTLOrders.Remove(selectedOrder);
+                OnPropertyChanged("LTLOrders");
 
             if (RelevantCarriers.Count != 0)
             {
@@ -281,6 +319,10 @@ namespace MPAG_Final.Planner.ViewModels
 
         }
 
+            // Populate Relevant Carriers list
+            //RelevantCarriers = new ObservableCollection<Carrier>(new SampleData().GetRelevantCarrier(selectedOrder.origin, selectedOrder.destination));
+
+
         public void RemoveOrder(object parameter)
         {
             int ID = Convert.ToInt32(parameter);
@@ -327,5 +369,43 @@ namespace MPAG_Final.Planner.ViewModels
             }
         }
 
+        public void ActivateOrders()
+        {
+            int orderCounter = 0;
+            int carrierCounter = 0;
+
+            // Only Pallets 
+            while (orderCounter < SelectedOrders.Count)
+            {
+                // Convert to FTL truck if possible
+                if (SelectedOrders[orderCounter].quantity % Carrier.MaxLot == 0 && SelectedCarriers[carrierCounter].TargetDepot.availibleFTL > 0)
+                {
+                    int howManyFTL = SelectedCarriers[carrierCounter].TargetDepot.availibleFTL;
+                    SelectedOrders[orderCounter].quantity -= (howManyFTL * Carrier.MaxLot);
+                }
+                // Remove from pallets 
+                else
+                {
+                    int howMuchToRemoved = SelectedCarriers[carrierCounter].TargetDepot.avalibleLTL;
+
+                    SelectedOrders[orderCounter].quantity -= howMuchToRemoved;
+                    SelectedCarriers[carrierCounter].TargetDepot.avalibleLTL -= howMuchToRemoved;
+                }
+
+                // Add trips
+                PlannerRoleVM.AddTrip(SelectedCarriers[carrierCounter], SelectedOrders[orderCounter]);
+                if (SelectedOrders[orderCounter].quantity == 0)
+                {
+                    orderCounter++;
+                }
+
+                // Move to next carrier
+                carrierCounter++;
+                SelectedOrders[orderCounter].status = 2;
+                ActiveOrders.Add(SelectedOrders[orderCounter]);
+            }
+
+
+        }
     }
 }

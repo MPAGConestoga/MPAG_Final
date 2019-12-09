@@ -52,41 +52,6 @@ namespace MPAG_Final.Planner.Models
             selectedCarrier.DepotsLocation[selectedOrder.origin].Trips.Add(newTrip);
         }
 
-
-
-        //public void AddTripsToMulipletTrips(List<Order> bundledOrders)
-        //{
-        //    uint totalPalletsQuantity = 0;
-
-        //    foreach (var order in bundledOrders)
-        //    {
-        //        totalPalletsQuantity += order.quantity;
-        //    }
-
-        //    // Check division
-        //    int FTLAmount = (int)totalPalletsQuantity / Carrier.MaxLot;
-        //    totalPalletsQuantity -= (uint)(FTLAmount * Carrier.MaxLot);
-
-        //    string origin = bundledOrders[0].origin;
-        //    string destination = bundledOrders[0].destination;
-
-        //    // Get the amount of LTL pallets in a City 
-        //    List<Carrier> relevantCarriers = GetRelevantCarrier(origin, destination);
-
-        //    int totalPallets = 0;
-        //    foreach (var carrier in Carriers)
-        //    {
-        //        totalPallets = carrier.DepotsLocation[origin].avalibleLTL;
-        //    }
-
-
-        //    for (int counter = 0; counter < bundledOrders.Count; counter)
-        //    {
-        //        relevantCarriers[counter]. -= bundledOrders[counter].quantity;
-        //    }
-
-        //}
-
         public void ChangeOrderSpeedTime(Order activeOrder, int daysToAdvance)
         {
             // Stubbed Out ----------------------- IMPLEMENT -----------------------// 
@@ -96,19 +61,6 @@ namespace MPAG_Final.Planner.Models
         {
             // Stubbed Out ----------------------- IMPLEMENT -----------------------//
             return true;
-        }
-
-        //public List<Invoice> ShowInvoiceSummary(Enum selectTime)
-        //{
-        //    // Stubbed Out ----------------------- IMPLEMENT -----------------------//
-        //    List<Invoice> SummaryInvoice = new List<Invoice>();
-        //    return SummaryInvoice;
-        //}
-
-        public void testFunction()
-        {
-            int i = 0;
-            int y = 0;
         }
     }
 }

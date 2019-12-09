@@ -14,6 +14,8 @@ using MySql.Data.MySqlClient;
 using System.Configuration;
 using System.Threading;
 using System.Windows.Threading;
+using MPAG_Final.Logging;
+
 
 namespace MPAG_Final.SharedViewModels
 {
@@ -190,6 +192,7 @@ namespace MPAG_Final.SharedViewModels
                     //for (int i = 0; i < 3; i++)
                     while (isRunning)
                     {
+                        try { 
                         Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                         {
                             using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -222,10 +225,15 @@ namespace MPAG_Final.SharedViewModels
                                 }
                                 catch (Exception ex)
                                 {
-                                    MessageBox.Show(ex.ToString());
+                                    LogType.ErrorType(LogType.LoggingType.buyer, ex.ToString());
                                 }
                             }
                         }));
+                        }
+                        catch(Exception ex)
+                        {
+                            LogType.ErrorType(LogType.LoggingType.buyer, ex.ToString());
+                        }
                         loading = 0;
                         while (loading < 100)
                         {

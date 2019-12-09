@@ -1,4 +1,7 @@
 ﻿using MPAG_Final.Utilities;
+﻿using MPAG_Final.Logging;
+using MPAG_Final.Utilities;
+using MPAG_OrderAndTrip;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,6 +79,7 @@ namespace MPAG_Final.SharedModels
             }
             catch (FormatException)
             {
+                LogType.ErrorType(LogType.LoggingType.buyer, "Email not entered");
                 return false;
             }
         }

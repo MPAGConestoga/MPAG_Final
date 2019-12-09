@@ -108,6 +108,15 @@
                                       Margin="0,50,40,10" 
                                       AutoGenerateColumns="False">
                                 <DataGrid.Columns>
+
+                                    <!--<DataGridCheckBoxColumn Binding="{Binding Path=SelectedOrder}" Header="Check">
+                                        <DataGridCheckBoxColumn.CellStyle>
+                                            <Style>
+                                                <EventSetter Event="CheckBox.Checked" Handler="{Binding CheckOrderCommand}"/>
+                                            </Style>
+                                        </DataGridCheckBoxColumn.CellStyle>
+                                    </DataGridCheckBoxColumn>-->
+
                                     <DataGridTextColumn Header="ID" Width="Auto" Binding="{Binding OrderID}" />
                                     <DataGridTextColumn Header="Origin" Width="Auto" Binding="{Binding originString}" />
                                     <DataGridTextColumn Header="Destination" Width="Auto" Binding="{Binding destinationString}" />
@@ -209,17 +218,22 @@
 
         </TabItem>
         <TabItem Header="Active Orders">
-            <Grid Background="LightSalmon">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0">
+            <Grid Background="Bisque">
+                <Grid.RowDefinitions>
+                    <RowDefinition  Height="30"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Border Style="{StaticResource DetailBorder}">
+                        <Label FontWeight="Bold" Foreground="#FFF5F7F9" Content="Active Orders" HorizontalAlignment="Center" FontSize="15"/>
+                    </Border>
+                </Grid>
+                <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="17*"/>
-                        <ColumnDefinition Width="95*"/>
-                        <ColumnDefinition Width="286*"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
+
                     <Label Style="{StaticResource DetailLabel}" Content="Orders" HorizontalAlignment="Center" Margin="64,5,171.6,-0.4" FontSize="15" Grid.Column="2"/>
                     <DataGrid GridLinesVisibility="None" 
                               IsReadOnly="True"
@@ -243,13 +257,162 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns >
 
-                    </DataGrid>
-                </Grid>
-                <Grid Grid.Column="1">
+                    <Grid Grid.Column="0">
+                        <ListView ItemsSource="{Binding ActiveOrders}"  SelectedItem="{Binding SelectedActiveOrder}" HorizontalAlignment="Stretch" Margin="0,0,0,0" >
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="ID" Width="Auto" DisplayMemberBinding="{Binding OrderID}" />
+                                    <GridViewColumn Header="Origin" Width="Auto" DisplayMemberBinding="{Binding Origin}" />
+                                    <GridViewColumn Header="Destination" Width="Auto" DisplayMemberBinding="{Binding Destination}" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height=".2*"/>
+                            <RowDefinition Height=".5*"/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" Margin="5"/>
+                        <StackPanel Grid.Row="1" Margin="5">
+                            <StackPanel>
+                                <Border Style="{StaticResource DetailBorder}">
+                                    <Label  FontWeight="Bold" Foreground="#FFF5F7F9" Content="Details"/>
+                                </Border>
+                            </StackPanel>
+                        </StackPanel>
 
-                </Grid>
+
+                        <StackPanel Grid.Row="2" Margin="5">
+                            <StackPanel>
+                                
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Grid.Column="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <!-- Origin City-->
+                                        <Label Style="{StaticResource DetailLabel}" Content="Order Number" />
+                                        <TextBlock FontSize="18" FontWeight="Bold"  Grid.Row="1" Text="{Binding SelectedActiveOrder.OrderID, FallbackValue=[Order ID], Mode=TwoWay}"/>
+                                    </Grid>
+                                    <Grid Grid.Column="2">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <!-- Van Type -->
+                                        <Label Style="{StaticResource DetailLabel}"  Content="Delivery Time"/>
+                                        <TextBlock FontSize="18" FontWeight="Bold"  Grid.Row="1" Text="{Binding SelectedActiveOrder.AssignedTrips[0].EndsAt, FallbackValue=[Time], Mode=TwoWay}"/>
+                                    </Grid>
+                                </Grid>
+                            </StackPanel>
+                        </StackPanel>
+                        <!-- Job Details -->
+                        <StackPanel Grid.Row="3" Margin="5">
+                            <StackPanel>
+                               
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Grid.Column="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <!-- Origin City-->
+                                        <Label Style="{StaticResource DetailLabel}" Content="Job Type" />
+                                        <TextBlock FontSize="18" FontWeight="Bold" x:Name="jobTxt" Grid.Row="1" Text="{Binding SelectedActiveOrder.JobType, FallbackValue=[Job Type], Mode=TwoWay}"/>
+                                    </Grid>                                   
+                                    <Grid Grid.Column="2">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <!-- Van Type -->
+                                        <Label Style="{StaticResource DetailLabel}"  Content="Van Type"/>
+                                        <TextBlock FontSize="18" FontWeight="Bold" x:Name="vanTxt" Grid.Row="1" Text="{Binding SelectedActiveOrder.VanType, FallbackValue=[Van Type], Mode=TwoWay}"/>
+                                    </Grid>
+                                </Grid>
+                            </StackPanel>
+                        </StackPanel>
+                        <!-- Origin and Destination-->
+                        <StackPanel Grid.Row="4" Margin="5">
+                            <StackPanel>
+                               
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Grid.Column="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <!-- Origin City-->
+                                        <Label Style="{StaticResource DetailLabel}" Content="Origin" Grid.Row="0" />
+                                        <TextBlock FontSize="18" FontWeight="Bold" x:Name="originTxt" Grid.Row="1" Text="{Binding SelectedActiveOrder.Origin, FallbackValue=NULL, Mode=TwoWay}"/>
+                                    </Grid>
+                                    <Grid Grid.Column="2">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <!-- Destination City-->
+                                        <Label Style="{StaticResource DetailLabel}"  Content="Destination"/>
+                                        <TextBlock FontSize="18" FontWeight="Bold" Grid.Row="1" x:Name="destTxt" Text="{Binding SelectedActiveOrder.Destination, FallbackValue=NULL, Mode=TwoWay}"/>
+                                    </Grid>
+                                </Grid>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Grid.Row="3">
+                            
+                        </StackPanel>
+                        <StackPanel Grid.Row="5">
+                            <Label Style="{StaticResource DetailLabel}" HorizontalAlignment="Center" Content="Progress Bar"/>
+
+                            <ProgressBar Minimum="0" Maximum="100" Height="25" Margin="20,0,20,0" Name="pbStatus" Grid.Row="1" Grid.ColumnSpan="3" Value="{Binding ContractsVM.loading}" />
+                            <Button Content="Add Day" 
+                                    Margin="0,10,20,0"
+                                    HorizontalAlignment="Right" 
+                                    VerticalAlignment="Top"
+                                    Width="150"
+                                    Height="25"
+                                    Foreground="WhiteSmoke"
+                                    Background="#13242C"
+                                    />
+                        </StackPanel>
+                    </Grid>
+                </Grid>                
             </Grid>
         </TabItem>
     </TabControl>
-
 </UserControl>
+
