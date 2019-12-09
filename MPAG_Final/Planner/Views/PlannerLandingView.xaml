@@ -12,6 +12,9 @@
         <DataTemplate DataType="{x:Type vm:OrderViewModel}">
             <v:OrderView/>
         </DataTemplate>      
+        <DataTemplate DataType="{x:Type vm:SummaryReportsViewModel}">
+            <v:SummaryReportsView/>
+        </DataTemplate>      
     </UserControl.Resources>
     <DockPanel>
         <!--Tools-->
@@ -23,11 +26,11 @@
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0">
-                <Button Style="{StaticResource MenuTabButton}" Content="Orders"/>
+                <Button Style="{StaticResource MenuTabButton}" Content="Orders" Command="{Binding LoadOrderViewCommand}"/>
             </Grid>
 
             <Grid Grid.Column="1">
-                <Button Style="{StaticResource MenuTabButton}" Content="Summary Reports"/>
+                <Button Style="{StaticResource MenuTabButton}" Content="Summary Reports" Command="{Binding LoadSummaryViewCommand}"/>
             </Grid>
 
             <!--Tool Buttons-->

@@ -62,8 +62,21 @@ namespace MPAG_Final.Helpers
             string origin = (values[2]).ToString();
             string destination = (values[3]).ToString();
             string check = (values[4]).ToString();
-            
+            string count = (values[6]).ToString();
+            int number;
+            bool val = Int32.TryParse(count, out number);
             ((System.Windows.Controls.TextBlock)values[5]).Text = "";
+
+            if (!val)
+            {
+                ((System.Windows.Controls.TextBlock)values[5]).Text = "The Quantity must be a whole number";
+                retValue = false;
+            }
+            if ((val) && (number <= 0))
+            {
+                ((System.Windows.Controls.TextBlock)values[5]).Text = "The Quantity must be a value greater than 0";
+                retValue = false;
+            }
             if (origin == destination)
             {
                 ((System.Windows.Controls.TextBlock)values[5]).Text = "The Origin and Destination must be different";

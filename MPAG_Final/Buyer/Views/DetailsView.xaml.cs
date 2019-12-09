@@ -28,22 +28,58 @@ namespace MPAG_Final.Buyer.Views
 
         private void OriginComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            originTxt.Text = ((CityDepot)originCombo.SelectedItem).cityLocation;
+            if (originCombo.SelectedIndex != -1)
+            {
+                originTxt.Text = ((CityDepot)originCombo.SelectedItem).cityLocation;
+            }
+            originCombo.SelectedIndex = -1;
         }
 
         private void DestinationComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            destTxt.Text = ((CityDepot)destCombo.SelectedItem).cityLocation;
+            if (destCombo.SelectedIndex != -1)
+            {
+                destTxt.Text = ((CityDepot)destCombo.SelectedItem).cityLocation;
+            }
+            destCombo.SelectedIndex = -1;
         }
 
         private void jobCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            jobTxt.Text = (string)jobCombo.SelectedItem;
+            if (jobCombo.SelectedIndex != -1)
+            {
+                jobTxt.Text = (string)jobCombo.SelectedItem;
+            }jobCombo.SelectedIndex = -1;
         }
 
         private void vanCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if(vanCombo.SelectedIndex != -1) { 
             vanTxt.Text = (string)vanCombo.SelectedItem;
+            }
+            vanCombo.SelectedIndex = -1;
+        }
+
+        private void quantityText_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (quantityText.Text == "... Change Quantity ...")
+            {
+                quantityText.Text = "";
+            }
+        }
+
+        private void quantityText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (quantityText.Text != "... Change Quantity ...")
+            {
+                quantityTxt.Text = quantityText.Text;
+            }
+            
+        }
+
+        private void quantityText_LostFocus(object sender, RoutedEventArgs e)
+        {
+            quantityText.Text = "... Change Quantity ...";
         }
     }
 }

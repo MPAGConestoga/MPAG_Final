@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -22,14 +23,18 @@ namespace MPAG_Final.Planner.ViewModels
     public class SummaryReportsViewModel 
     {
 
-        private RelayCommand _openCommand;
-        public RelayCommand OpenCommand
+
+        public ICommand LoadTwoWeekReportCommand { get; private set; }
+        public ICommand LoadAllTimeReportCommand { get; private set; }
+
+        public SummaryReportsViewModel(PlannerRole planner)
         {
-            get; set;
+
         }
 
-        private void Open_Executed(object sender, ExecutedRoutedEventArgs e)
+        public void LoadTwoWeekReport()
         {
+
             OpenFileDialog oDlg = new OpenFileDialog();                 //new OpenFileDialog is defined for later use
             oDlg.FileName = "Document";                                 //Open File messages and filters established
             oDlg.DefaultExt = ".txt";
@@ -50,6 +55,21 @@ namespace MPAG_Final.Planner.ViewModels
             //{                                                           //file is opened
             //    textEditor.Text = File.ReadAllText(oDlg.FileName);
             //}
+
+            // insert object here
+            // ContractsVM.LoadContracts(_service.GetContracts());
+
         }
+
+        //function for loading contracts; references ContractViewModel LoadContracts function
+        public void LoadAllTimeReport()
+        {
+            // insert object here
+            // ContractsVM.LoadContracts(_service.GetContracts());
+        }
+
     }
+        
+
 }
+

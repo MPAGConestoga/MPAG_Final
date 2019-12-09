@@ -42,6 +42,9 @@ namespace MPAG_Final.Planner.ViewModels
             set { OnPropertyChanged(ref _currentView, value); }
         }
 
+        public ICommand LoadSummaryViewCommand { get; private set; }
+        public ICommand LoadOrderViewCommand { get; private set; }
+
         /// <summary>
         /// Constructor that instantiates a new instance of the OrderViewModel class
         /// </summary>
@@ -51,8 +54,23 @@ namespace MPAG_Final.Planner.ViewModels
             Planner = new PlannerRole("Planner", "Test", "plannerTest@gmail.com",
             "9009009000", "DamnStreet", "Toronto", "Ontario", "N2E0E2");
 
+            SummaryVM = new SummaryReportsViewModel(Planner);
             OrderVM = new OrderViewModel(Planner);
 
+            LoadSummaryViewCommand = new RelayCommand(LoadSummaryView);
+            LoadOrderViewCommand = new RelayCommand(LoadOrderView);
+
+
+            CurrentView = OrderVM;
+        }
+
+        private void LoadSummaryView()
+        {
+            CurrentView = SummaryVM;
+        }
+
+        private void LoadOrderView()
+        {
             CurrentView = OrderVM;
         }
     }

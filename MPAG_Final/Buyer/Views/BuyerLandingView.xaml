@@ -6,63 +6,73 @@
              xmlns:local="clr-namespace:MPAG_Final.Buyer.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="White">
-    <Grid Background="White">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="350"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-
-        <Grid Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition Height="50"/>
-            </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
-                <ListView ItemsSource="{Binding ContractsVM.Contracts}"  SelectedItem="{Binding ContractsVM.SelectedContract}" HorizontalAlignment="Stretch" Margin="0,0,0,0" >
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Header="Customer" Width="Auto" DisplayMemberBinding="{Binding Customer}" />
-                            <GridViewColumn Header="Job Type" Width="Auto" DisplayMemberBinding="{Binding JobType}" />
-                            <GridViewColumn Header="Origin" Width="Auto" DisplayMemberBinding="{Binding Origin}" />
-                            <GridViewColumn Header="Destination" Width="Auto" DisplayMemberBinding="{Binding Destination}" />
-                            <GridViewColumn Header="Van Type" Width="Auto" DisplayMemberBinding="{Binding VanType}" />
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </Grid>
-            <Grid Grid.Row="2" HorizontalAlignment="Stretch">
+    <TabControl>
+        <TabItem Header="Contract Management" >
+            <Grid Background="White">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="400"/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="25"/>
 
-                </Grid.RowDefinitions>
-                <Button Grid.Column="0" Content="Pull"  Command="{Binding RunDatabaseCommand}"/>
-                <Button Grid.Column="1" Content="Pause" Command="{Binding PauseCommand}" />
-                <Button Grid.Column="2" Content="Clear" Command="{Binding EmptyCommand}" />
-                <ProgressBar Minimum="0" Maximum="100" Name="pbStatus" Grid.Row="1" Grid.ColumnSpan="3" Value="{Binding ContractsVM.loading}"/>
-                <TextBlock Text="{Binding ContractsVM.loadingText}" TextAlignment="Center" Grid.Row="1" Grid.ColumnSpan="3"/>
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <ListView ItemsSource="{Binding ContractsVM.Contracts}"  SelectedItem="{Binding ContractsVM.SelectedContract}" HorizontalAlignment="Stretch" Margin="0,0,0,0" >
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Customer" Width="Auto" DisplayMemberBinding="{Binding Customer}" />
+                                    <GridViewColumn Header="Job Type" Width="Auto" DisplayMemberBinding="{Binding JobType}" />
+                                    <GridViewColumn Header="Origin" Width="Auto" DisplayMemberBinding="{Binding Origin}" />
+                                    <GridViewColumn Header="Destination" Width="Auto" DisplayMemberBinding="{Binding Destination}" />
+                                    <GridViewColumn Header="Van Type" Width="Auto" DisplayMemberBinding="{Binding VanType}" />
+                                    <GridViewColumn Header="Quantity" Width="Auto" DisplayMemberBinding="{Binding Quantity}" />
 
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+                    <Grid Grid.Row="2" HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="25"/>
+
+                        </Grid.RowDefinitions>
+                        <Button Grid.Column="0" Content="Pull"  Command="{Binding RunDatabaseCommand}"/>
+                        <Button Grid.Column="1" Content="Pause" Command="{Binding PauseCommand}" />
+                        <Button Grid.Column="2" Content="Clear" Command="{Binding EmptyCommand}" />
+                        <ProgressBar Minimum="0" Maximum="100" Name="pbStatus" Grid.Row="1" Grid.ColumnSpan="3" Value="{Binding ContractsVM.loading}"/>
+                        <TextBlock Text="{Binding ContractsVM.loadingText}" TextAlignment="Center" Grid.Row="1" Grid.ColumnSpan="3"/>
+
+                    </Grid>
+
+                </Grid>
+
+                <Grid Grid.Column="1">
+                    <ContentControl>
+                        <ContentControl.Content>
+                            <local:DetailsView DataContext="{Binding ContractsVM}"/>
+                        </ContentControl.Content>
+                    </ContentControl>
+                </Grid>
             </Grid>
+        </TabItem>
+        <TabItem Header="Complete Orders">
 
-        </Grid>
-
-        <Grid Grid.Column="1">
-            <ContentControl>
-                <ContentControl.Content>
-                    <local:DetailsView DataContext="{Binding ContractsVM}"/>
-                </ContentControl.Content>
-            </ContentControl>
-        </Grid>
-    </Grid>
+        </TabItem>
+    </TabControl>
+    
 
 </UserControl>

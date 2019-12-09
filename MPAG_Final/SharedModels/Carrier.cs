@@ -14,6 +14,8 @@ namespace MPAG_Final.SharedModels
     public class Carrier
     {
         /* ---------- Attributes --------------- */
+        public const int MaxLot = 26;
+
         // Contact information
         public int carrierId { get; set; }
         public string carrierName { get; set; }
@@ -21,12 +23,16 @@ namespace MPAG_Final.SharedModels
         public string Email { get; set; }
 
         // Business Information
-        public Dictionary<string, Depot> DepotsLocation = null;             // Key can be city ID???
+
+        public Dictionary<int, Depot> DepotsLocation = null;             // Key can be city ID???
+
+
+        public Depot TargetDepot { get; set; }                 
 
         public double FTLRate { get; set; }
         public double LTLRate { get; set; }
         public double ReeferCharge { get; set; }
-        public const int MaxLot = 26;
+       
 
         /* ---------- Constructors --------------- */
         // Temporary Constructor: the Carrier should only be created by the Admin Class -> Implement interface AdminRoles:CreateCarrier
