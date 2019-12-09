@@ -19,8 +19,6 @@ namespace MPAG_Final.Services
         /// <param name="destination"><b>Destination</b> - Final destination for the order</param>
         /// <param name="vanType"><b>bool</b> - Van type of Dry(0) or reefer(1)</param>
         /// <returns></returns>
-        Order CreateOrder(bool jobType, uint quantity, string origin, string destination, bool vanType);
-
         Order CreateOrder(bool jobType, int quantity, string origin, string destination, bool vanType);
 
     }

@@ -257,6 +257,7 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns >
 
+                    </DataGrid>
                     <Grid Grid.Column="0">
                         <ListView ItemsSource="{Binding ActiveOrders}"  SelectedItem="{Binding SelectedActiveOrder}" HorizontalAlignment="Stretch" Margin="0,0,0,0" >
                             <ListView.ItemContainerStyle>
@@ -273,7 +274,8 @@
                             </ListView.View>
                         </ListView>
                     </Grid>
-                    <Grid Grid.Column="1">
+                </Grid>
+                <Grid Grid.Column="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height=".2*"/>
                             <RowDefinition Height=".5*"/>
@@ -328,8 +330,6 @@
                         <!-- Job Details -->
                         <StackPanel Grid.Row="3" Margin="5">
                             <StackPanel>
-                               
-
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
@@ -409,8 +409,9 @@
                                     Background="#13242C"
                                     />
                         </StackPanel>
-                    </Grid>
-                </Grid>                
+                    
+                </Grid>  
+              
             </Grid>
         </TabItem>
     </TabControl>

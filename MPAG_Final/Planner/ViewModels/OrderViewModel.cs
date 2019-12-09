@@ -43,6 +43,8 @@ namespace MPAG_Final.Planner.ViewModels
             {
                 _message = value;
                 OnPropertyChanged("Message");
+            }
+        }
 
 
 
