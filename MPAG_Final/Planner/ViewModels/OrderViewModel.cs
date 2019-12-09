@@ -26,9 +26,6 @@ namespace MPAG_Final.Planner.ViewModels
         public ICommand CheckOrderCommand { get; private set; }
         // For accessing planner methods 
 
-        private ICarrierDataService _carrierService;
-        private IContractDataService _contractService;
-
         // for accessing the contracts view model
         private ContractsViewModel _contractsVM;
         public ContractsViewModel ContractsVM
