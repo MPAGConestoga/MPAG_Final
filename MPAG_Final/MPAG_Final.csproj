@@ -122,6 +122,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Admin\ViewModels\AdminLandingViewModel.cs" />
+    <Compile Include="Admin\Views\AdminLandingView.xaml.cs">
+      <DependentUpon>AdminLandingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Views\TestView.xaml.cs">
+      <DependentUpon>TestView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Buyer\Models\BuyerRole.cs" />
     <Compile Include="Helpers\Converters.cs" />
     <Compile Include="Planner\Models\PlannerRole.cs" />
@@ -158,6 +165,14 @@
     <Compile Include="TMSDAL.cs" />
     <Compile Include="Utilities\ObservableObject.cs" />
     <Compile Include="Utilities\RelayCommand.cs" />
+    <Page Include="Admin\Views\AdminLandingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Admin\Views\TestView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Buyer\Views\BuyerLandingView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -228,6 +243,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Admin\Models\" />
     <Folder Include="MarketplaceAccess\" />
   </ItemGroup>
   <ItemGroup>

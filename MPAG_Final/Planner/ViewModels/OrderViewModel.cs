@@ -20,14 +20,7 @@ namespace MPAG_Final.Planner.ViewModels
    */
     public class OrderViewModel : ObservableObject
     {
-        //PlannerRole planner = new PlannerRole("Planner", "Test", "plannerTest@gmail.com",
-        //    "9009009000", "DamnStreet", "Toronto", "Ontario", "N2E0E2");
-        //public object CurrentView
-        //{
-        //    get { return _currentView; }
-        //    set { OnPropertyChanged(ref _currentView, value); }
-        //}
-
+        
         private ICarrierDataService _carrierService;
         private IContractDataService _contractService;
 
