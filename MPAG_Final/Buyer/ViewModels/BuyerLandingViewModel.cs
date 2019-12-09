@@ -34,17 +34,16 @@ namespace MPAG_Final.Buyer.ViewModels
         public ICommand EmptyCommand { get; private set; }
 
         /// <summary>
-        /// Constructor that instantiates a new instance of the OrderViewModel class
+        ///         Constructor that instantiates a new instance of the OrderViewModel class
         /// </summary>
         public BuyerLandingViewModel()
         {
-            ContractsVM = new ContractsViewModel(/*contractMarketPlace*/);
+            ContractsVM = new ContractsViewModel();
 
             RunDatabaseCommand = new RelayCommand(RunDatabase);
             PauseCommand = new RelayCommand(PauseDatabase);
             EmptyCommand = new RelayCommand(EmptyList);
 
-            //   /xaml command name/ = new RelayCommand(function from below)
         }
 
        /// <summary>

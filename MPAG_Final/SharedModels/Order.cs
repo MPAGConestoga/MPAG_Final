@@ -144,6 +144,9 @@ namespace MPAG_Final.SharedModels
             new TMSDAL().confirmOrder(this);
         }
 
-
+        public Order CreateOrder(bool jobType, uint quantity, string origin, string destination, bool vanType)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

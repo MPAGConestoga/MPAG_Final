@@ -66,7 +66,7 @@ namespace MPAG_Final.Buyer.Models
         }
 
         public Order CreateOrder(bool jobType, uint quantity, string origin, string destination, bool vanType)
-        {
+        { 
             throw new NotImplementedException();
         }
 

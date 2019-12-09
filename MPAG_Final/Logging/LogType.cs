@@ -26,53 +26,64 @@ namespace MPAG_Final.Logging
             database
         }
 
-        /// <summary>
-        ///        Uses try/ catch block to catch any exceptions
-        /// </summary>
+        /// \brief Uses try/ catch block to catch any exception
+        /// 
+        /// \details This method enters in the logging type and message to append to a text file
         /// <param name="type"><b>LoggingType</b> - The type of logging that needs to be accessed</param>
         /// <param name="message"><b>string</b> - The error message that is to be sent in</param>
-       public static void ErrorType(LoggingType type, string message)
+        /// \return none      
+        public static void ErrorType(LoggingType type, string message)
        {
             message = DateTime.Now + " [Exception]: " + message;
 
+            string path = "Logs";
+            FilePath(path);
+
             if (type == LoggingType.buyer)
             {
-                string pathBuyer = "Buyer";
-                string filepathBuyer = "Buyer\\Buyer_" + DateTime.Now.Date.ToShortDateString().Replace('/', '_') + ".txt";
+                string filepathBuyer = "Logs\\Buyer_" + DateTime.Now.Date.ToShortDateString().Replace('/', '_') + ".txt";
 
-                FilePath(pathBuyer);
                 RunFile(filepathBuyer, message);
             }
             else if (type == LoggingType.planner)
             {
-                string pathPlanner = "Planner";
-                string filepathPlanner = "Planner\\Planner_" + DateTime.Now.Date.ToShortDateString().Replace('/', '_') + ".txt";
-
-                FilePath(pathPlanner);
+                string filepathPlanner = "Logs\\Planner_" + DateTime.Now.Date.ToShortDateString().Replace('/', '_') + ".txt";
                 RunFile(filepathPlanner, message);
             }
             else if (type == LoggingType.admin)
             {
-                string pathAdmin = "Admin";
-                string filepathAdmin = "Admin\\Admin_" + DateTime.Now.Date.ToShortDateString().Replace('/', '_') + ".txt";
-
-                FilePath(pathAdmin);
+                string filepathAdmin = "Logs\\Admin_" + DateTime.Now.Date.ToShortDateString().Replace('/', '_') + ".txt";
                 RunFile(filepathAdmin, message);
             }
             else if (type == LoggingType.database)
             {
-                string pathDatabase = "Database";
-                string filepathDatabase = "Database\\Database_" + DateTime.Now.Date.ToShortDateString().Replace('/', '_') + ".txt";
-
-                FilePath(pathDatabase);
+                string filepathDatabase = "Logs\\Database_" + DateTime.Now.Date.ToShortDateString().Replace('/', '_') + ".txt";
                 RunFile(filepathDatabase, message);
             }
+       }
+
+        /// \brief Demonstrates the functionalities that have been successfully completed
+        /// 
+        /// \details This method enters in the logging type and message to append to a text file
+        /// <param name="message"><b>string</b> - The success message to be written into </param>
+        /// \return none
+        public static void Functionalities(string message)
+        {
+            message = DateTime.Now + " [Operation Success]: " + message;
+
+            string path = "Logs";
+            FilePath(path);
+
+            string filepathOperations = "Logs\\Operation_"  + DateTime.Now.Date.ToShortDateString().Replace('/', '_') + ".txt";
+            RunFile(filepathOperations, message);
+
         }
 
-        /// <summary>
-        ///         Check to see if the filepath directory has been created
-        /// </summary>
-        /// <param name="directory"><b>string</b> - assigned file path for the log file</param>
+        /// \brief Creates filepath is non-existant 
+        /// 
+        /// \details This method creates a directory to be used
+        /// <param name="directory"><b>string</b> - Directory to be created</param>
+        /// \return none
         public static void FilePath(string directory)
         {
             if (!Directory.Exists(directory))
@@ -81,11 +92,12 @@ namespace MPAG_Final.Logging
             }
         }
 
-        /// <summary>
-        ///     Write to the file path 
-        /// </summary>
-        /// <param name="filepath"><b>string</b> - String that is the requred file path</param>
-        /// <param name="message"><b>string</b> - The error message to be sent</param>
+        /// \brief Write to file
+        /// 
+        /// \details Check to see if there is the file existing and then appends to the existing file
+        /// <param name="filepath"><b>string</b> - The type of logging that needs to be accessed</param>
+        /// <param name="message"><b>string</b> - The error message that is to be sent in</param>
+        /// \return none
         public static void RunFile(string filepath, string message)
         {
             if (!File.Exists(filepath))
@@ -106,6 +118,5 @@ namespace MPAG_Final.Logging
                 }
             }
         }
-
     }
 }

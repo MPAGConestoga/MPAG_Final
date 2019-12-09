@@ -131,7 +131,7 @@ namespace MPAG_Final.SharedViewModels
         /// <summary>
         ///     Submit Contract into the TMS database
         /// </summary>
-        /// <param name="parameter"><b>object</b> -  take the contract and submits it to the TMS</param>
+        /// <param name="parameter"><b>object</b> - take the contract and submits it to the TMS</param>
         public void SubmitContract(object parameter)
         {
 
@@ -177,7 +177,7 @@ namespace MPAG_Final.SharedViewModels
 
         //command for the loading of contracts
         /// <summary>
-        /// 
+        ///     Use for the command of loading the contracts 
         /// </summary>
         /// <param name="contracts"><b>IList<Contract></b> - UI List of contracts for the property</param>
         public void LoadContracts(IList<Contract> contracts)
@@ -185,6 +185,7 @@ namespace MPAG_Final.SharedViewModels
             // Contracts = new ObservableCollection<Contract>(contracts);
             OnPropertyChanged("Contracts");
         }
+
         public void PauseDatabase()
         {
             isRunning = false;
