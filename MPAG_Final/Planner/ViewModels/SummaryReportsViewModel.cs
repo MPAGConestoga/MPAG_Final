@@ -23,8 +23,9 @@ namespace MPAG_Final.Planner.ViewModels
     public class SummaryReportsViewModel 
     {
 
-
+        //Command to load the report of two weeks
         public ICommand LoadTwoWeekReportCommand { get; private set; }
+        //Command to load all of the reports from history
         public ICommand LoadAllTimeReportCommand { get; private set; }
 
         public SummaryReportsViewModel(PlannerRole planner)
@@ -32,6 +33,9 @@ namespace MPAG_Final.Planner.ViewModels
 
         }
 
+        /// <summary>
+        ///     Load the reports from two weeks previous of the current date
+        /// </summary>
         public void LoadTwoWeekReport()
         {
 
@@ -62,6 +66,9 @@ namespace MPAG_Final.Planner.ViewModels
         }
 
         //function for loading contracts; references ContractViewModel LoadContracts function
+        /// <summary>
+        ///     function for loading contracts; references ContractViewModel LoadContracts function     
+        /// </summary>
         public void LoadAllTimeReport()
         {
             // insert object here

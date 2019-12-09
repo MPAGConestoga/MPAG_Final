@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace MPAG_OrderAndTrip
 {
     /**
+     * \Class Trip
      * \brief   The Trip class represent the one trip associated with an order.
      * \details The Trip links the order to the depots, which in turn links one order to all the carriers that are completing that order.
      *          It contains the last stop, the total of hours and kilometers required to completed a order.

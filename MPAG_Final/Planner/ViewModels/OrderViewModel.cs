@@ -39,6 +39,10 @@ namespace MPAG_Final.Planner.ViewModels
         // for accessing the contracts view model_plannerRole
 
         private PlannerRole _plannerRoleVM;
+
+        /// <summary>
+        ///     Property for the planer role view model
+        /// </summary>
         public PlannerRole PlannerRoleVM
         {
             get { return _plannerRoleVM; }
@@ -47,6 +51,9 @@ namespace MPAG_Final.Planner.ViewModels
 
         //-> Order's lists
         private ObservableCollection<Order> _ftlOrders;
+        /// <summary>
+        ///         Creates an order list for the FTL orders
+        /// </summary>
         public ObservableCollection<Order> FTLOrders
         {
             get { return _ftlOrders; }
@@ -59,16 +66,16 @@ namespace MPAG_Final.Planner.ViewModels
         }
 
         private ObservableCollection<Order> _ltlOrders;
+        /// <summary>
+        ///         Creates an order list for the LTL's
+        /// </summary>
         public ObservableCollection<Order> LTLOrders
         {
-
             get { return _ltlOrders; }
             set
             {
                 _ltlOrders = value;
                 OnPropertyChanged("LTLOrders");
-
-
             }
         }
 
@@ -80,6 +87,9 @@ namespace MPAG_Final.Planner.ViewModels
             //LoadContracts();
         //-> Relevant Carriers
         private ObservableCollection<Carrier> _relevantCarriers;
+        /// <summary>
+        ///         Relevant carriers' list for the use of the order
+        /// </summary>
         public ObservableCollection<Carrier> RelevantCarriers
         {
             get { return _relevantCarriers; }
@@ -96,6 +106,9 @@ namespace MPAG_Final.Planner.ViewModels
             //LoadContracts();
         //-> Selected Propreties
         private ObservableCollection<Order> _selectedOrders;
+        /// <summary>
+        ///     Sets the selected order from the grid view
+        /// </summary>
         public ObservableCollection<Order> SelectedOrders
         {
             get { return _selectedOrders; }
@@ -109,6 +122,9 @@ namespace MPAG_Final.Planner.ViewModels
 
 
         private List<Carrier> _selectedCarriers = new List<Carrier>();
+        /// <summary>
+        ///     Carrier that has been chosen
+        /// </summary>
         public List<Carrier> SelectedCarriers
         {
             //ContractsVM.LoadContracts(_contractService.GetContracts());

@@ -7,6 +7,13 @@ using System.Threading.Tasks;
 
 namespace MPAG_Final.Logging
 {
+    /**
+     * \Class   LogType
+     * \brief   Used for creating text logs
+     * \details Creates the types of logs for the different types which are
+     *          for the buyer, planner, admin and the database
+     */
+
     public class LogType
     {
         public LoggingType loggingType;
@@ -19,6 +26,11 @@ namespace MPAG_Final.Logging
             database
         }
 
+        /// <summary>
+        ///        Uses try/ catch block to catch any exceptions
+        /// </summary>
+        /// <param name="type"><b>LoggingType</b> - The type of logging that needs to be accessed</param>
+        /// <param name="message"><b>string</b> - The error message that is to be sent in</param>
        public static void ErrorType(LoggingType type, string message)
        {
             message = DateTime.Now + " [Exception]: " + message;
@@ -57,6 +69,10 @@ namespace MPAG_Final.Logging
             }
         }
 
+        /// <summary>
+        ///         Check to see if the filepath directory has been created
+        /// </summary>
+        /// <param name="directory"><b>string</b> - assigned file path for the log file</param>
         public static void FilePath(string directory)
         {
             if (!Directory.Exists(directory))
@@ -65,6 +81,11 @@ namespace MPAG_Final.Logging
             }
         }
 
+        /// <summary>
+        ///     Write to the file path 
+        /// </summary>
+        /// <param name="filepath"><b>string</b> - String that is the requred file path</param>
+        /// <param name="message"><b>string</b> - The error message to be sent</param>
         public static void RunFile(string filepath, string message)
         {
             if (!File.Exists(filepath))

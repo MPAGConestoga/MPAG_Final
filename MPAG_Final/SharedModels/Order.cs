@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace MPAG_Final.SharedModels
 {
     /**
+    * \Class   Order
     * \brief   The Order class contains all the information relating to the delivery of a customer's goods
     * \details The Order defines all information for the realization of a shipment. It contains the type of delivery (FTL or LTL), quantity,
     *          origin, destination and van type (Dry or Reefer). This information, that will be grabbed from the contract marketplace, plus

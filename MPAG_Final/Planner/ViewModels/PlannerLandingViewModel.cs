@@ -12,6 +12,14 @@ using MPAG_Final.Utilities;
 
 namespace MPAG_Final.Planner.ViewModels
 {
+    /**
+    * \Class PlannerLandingViewModel
+    * \Brief View model for the handling the planner user control page
+    * \Details The Planner Landing Viewmodel loads and handles the information that will be 
+    * displayed to the user in the Planner view for the planner role. Will handle 
+    * the generation the choices from the buyer and allow adjustments accordingly for LTL and
+    * FTL
+    */
     public class PlannerLandingViewModel : ObservableObject
     {
         private OrderViewModel _orderVM;
@@ -48,6 +56,8 @@ namespace MPAG_Final.Planner.ViewModels
         /// <summary>
         /// Constructor that instantiates a new instance of the OrderViewModel class
         /// </summary>
+        /// 
+ 
         public PlannerLandingViewModel()
         {
             var contractMarketPlace = new MockContractMarketplace(); //mock service for the testing of the ui
@@ -64,11 +74,18 @@ namespace MPAG_Final.Planner.ViewModels
             CurrentView = OrderVM;
         }
 
+        /// <summary>
+        ///     Load summary view for the current view of the 
+        ///     summaries
+        /// </summary>
         private void LoadSummaryView()
         {
             CurrentView = SummaryVM;
         }
 
+        /// <summary>
+        ///     Current view of the Orders
+        /// </summary>
         private void LoadOrderView()
         {
             CurrentView = OrderVM;

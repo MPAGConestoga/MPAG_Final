@@ -9,6 +9,12 @@ using System.Threading.Tasks;
 
 namespace MPAG_Final.SharedModels
 {
+    /**
+     * \Class   Contract
+     * \brief   Used for creating contracts
+     * \details Creates type of contract was selected by the buyer
+     */
+
     public class Contract : ObservableObject
     {
         private int orderID;

@@ -19,6 +19,12 @@ using MPAG_Final.Logging;
 
 namespace MPAG_Final.SharedViewModels
 {
+    /**
+     * \Class   ContractsViewModel
+     * \brief   View model for Contracts
+     * \details View model for the Contracts to relay 
+     *          information between the planner and the buyer
+     */
     public class ContractsViewModel : ObservableObject
     {
 
@@ -91,6 +97,9 @@ namespace MPAG_Final.SharedViewModels
         //private IContractDataService _contractDataService;
 
         //ContractsViewModel contructor
+        /// <summary>
+        ///     Constructor for the Contract View model
+        /// </summary>
         public ContractsViewModel(/*IContractDataService contractDataService*/)
         {
             Contracts = new ObservableCollection<Contract>();
@@ -117,6 +126,11 @@ namespace MPAG_Final.SharedViewModels
             SubmitContractCommand = new AddContract(this);
             
         }
+
+        /// <summary>
+        ///     Submit Contract into the TMS database
+        /// </summary>
+        /// <param name="parameter"><b>object</b> -  take the contract and submits it to the TMS</param>
         public void SubmitContract(object parameter)
         {
 
@@ -157,6 +171,10 @@ namespace MPAG_Final.SharedViewModels
         }
 
         //command for the loading of contracts
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="contracts"><b>IList<Contract></b> - UI List of contracts for the property</param>
         public void LoadContracts(IList<Contract> contracts)
         {
             // Contracts = new ObservableCollection<Contract>(contracts);

@@ -7,6 +7,7 @@ using MPAG_Final.Logging;
 namespace MPAG_Final.Buyer.Models
 {
     /**
+      * \Class BuyerRole
       * \brief The Buyer class represents the Employee responsible for Order creation
       * \details Inherits from the employee class and implements methods from IOrderCreation interface class.
       * Buyer can create orders and track a list of orders. 
