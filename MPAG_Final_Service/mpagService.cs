@@ -26,6 +26,7 @@ namespace MPAG_Final_Service
         {
             //Temporary test
             WriteToFile("Service is started at " + DateTime.Now);
+            
             //Bind to the textbox in Admin page
             //Or create textfile to be made and then the admin page pulls
             //the text file information
@@ -33,12 +34,34 @@ namespace MPAG_Final_Service
 
         public void WriteToFile(string message)
         {
-            string path = AppDomain.CurrentDomain.BaseDirectory + "\\Logs";
-            if(!Directory.Exists(path))
+            string pathBuyer = AppDomain.CurrentDomain.BaseDirectory + "\\Buyer";
+            string pathAdmin = AppDomain.CurrentDomain.BaseDirectory + "\\Admin";
+            string pathPlanner = AppDomain.CurrentDomain.BaseDirectory + "\\Planner";
+
+            if (!Directory.Exists(pathBuyer))
             {
-                Directory.CreateDirectory(path);
+                Directory.CreateDirectory(pathBuyer);
             }
-            string filepath = AppDomain.CurrentDomain.BaseDirectory + "\\Logs\\ServiceLog_" + DateTime.Now.Date.ToShortDateString().Replace('/', '_') + ".txt";
+            if (!Directory.Exists(pathAdmin))
+            {
+                Directory.CreateDirectory(pathAdmin);
+            }
+            if (!Directory.Exists(pathPlanner))
+            {
+                Directory.CreateDirectory(pathPlanner);
+            }
+
+            string filepathBuyer = AppDomain.CurrentDomain.BaseDirectory + "\\Buyer\\BServiceLog_.txt";
+            string filepathPlanner = AppDomain.CurrentDomain.BaseDirectory + "\\Admin\\AServiceLog_.txt";
+            string filepathAdmin = AppDomain.CurrentDomain.BaseDirectory + "\\Planner\\PServiceLog_.txt";
+
+            RunFile(filepathBuyer, message);
+            RunFile(filepathPlanner, message);
+            RunFile(filepathAdmin, message);
+        }
+
+        private void RunFile(string filepath, string message)
+        {
             if (!File.Exists(filepath))
             {
                 // Create a file to write to.   
@@ -55,6 +78,7 @@ namespace MPAG_Final_Service
                 }
             }
         }
+
         protected override void OnStop()
         {
             try

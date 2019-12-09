@@ -67,52 +67,5 @@ namespace MPAG_Final.Planner.Models
             get { return attachedCarriers; }
             set { OnPropertyChanged(ref attachedCarriers, value); }
         }
-
-        public ObservableCollection<ActiveOrders> GetPending()
-        {
-            var activeColl = new ObservableCollection<ActiveOrders>();
-
-            //using (MySqlConnection connection = new MySqlConnection(connectionString))
-            //{
-            //    try
-            //    {
-            //        connection.Open();
-            //        string customerQuery = "SELECT * FROM cmp.Contract";
-            //        MySqlCommand command = new MySqlCommand(customerQuery,connection);
-            //        MySqlDataReader dataReader = command.ExecuteReader();
-
-            //        while(dataReader.Read())
-            //        {
-            //            activeColl.Add(new ActiveOrders()
-            //            {
-            //                Customer = dataReader["Client_Name"] as string,
-            //                JobType = ((int)dataReader["Job_Type"]),
-            //                Origin =
-            //            });
-            //        }
-            //    }
-            //    catch(Exception ex)
-            //    {
-
-            //    }
-            //}
-
-
-            activeColl.Add(new ActiveOrders() { 
-                OrderID = 001, 
-                Customer = "Jev Robotics", 
-                JobType = JobType.FTL, 
-                Origin = "London", 
-                Destination = "Toronto", 
-                VanType = VanType.Dry, 
-                AttachedCarriers = 0 });
-            activeColl.Add(new ActiveOrders() { OrderID = 002, Customer = "Ishmail's Fish", JobType = JobType.LTL, Origin = "Windsor", Destination = "London", VanType = VanType.Reefer, AttachedCarriers = 0 });
-            activeColl.Add(new ActiveOrders() { OrderID = 003, Customer = "Cats", JobType = JobType.FTL, Origin = "Toronto", Destination = "Kingston", VanType = VanType.Dry, AttachedCarriers = 0 });
-            activeColl.Add(new ActiveOrders() { OrderID = 004, Customer = "Ice Sculptors United", JobType = JobType.LTL, Origin = "Belleville", Destination = "Ottawa", VanType = VanType.Dry, AttachedCarriers = 0 });
-            activeColl.Add(new ActiveOrders() { OrderID = 005, Customer = "Factory Shoe", JobType = JobType.FTL, Origin = "Kingston", Destination = "Hamilton", VanType = VanType.Dry, AttachedCarriers = 0 });
-
-            return activeColl;
-        }
     }
-
 }

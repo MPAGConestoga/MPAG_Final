@@ -42,8 +42,6 @@ namespace MPAG_Final.Planner.ViewModels
             set { OnPropertyChanged(ref _currentView, value); }
         }
 
-        
-
         /// <summary>
         /// Constructor that instantiates a new instance of the OrderViewModel class
         /// </summary>
@@ -53,14 +51,9 @@ namespace MPAG_Final.Planner.ViewModels
             Planner = new PlannerRole("Planner", "Test", "plannerTest@gmail.com",
             "9009009000", "DamnStreet", "Toronto", "Ontario", "N2E0E2");
 
-            
-
             OrderVM = new OrderViewModel(Planner);
 
-          
-            
             CurrentView = OrderVM;
-
         }
     }
 }

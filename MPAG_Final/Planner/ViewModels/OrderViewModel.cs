@@ -20,14 +20,6 @@ namespace MPAG_Final.Planner.ViewModels
    */
     public class OrderViewModel : ObservableObject
     {
-        //PlannerRole planner = new PlannerRole("Planner", "Test", "plannerTest@gmail.com",
-        //    "9009009000", "DamnStreet", "Toronto", "Ontario", "N2E0E2");
-        //public object CurrentView
-        //{
-        //    get { return _currentView; }
-        //    set { OnPropertyChanged(ref _currentView, value); }
-        //}
-
         private ICarrierDataService _carrierService;
         private IContractDataService _contractService;
 
@@ -71,14 +63,13 @@ namespace MPAG_Final.Planner.ViewModels
 
             RunTestCommand = new RelayCommand(RunTest);
 
-            ContractsVM = new ContractsViewModel(contractMarketPlace);
+            ContractsVM = new ContractsViewModel();
             CarriersVM = new CarriersViewModel(carrierMarketPlace);
             LoadCarriers();
             LoadContracts();
 
             int i = 0;          
         }
-
 
         private void LoadContracts()
         {
@@ -90,11 +81,9 @@ namespace MPAG_Final.Planner.ViewModels
             CarriersVM.LoadCarriers(_carrierService.GetCarriers());
         }
 
-
         private void RunTest()
         {
             PlannerRoleVM.testFunction();
         }
-
     }
 }

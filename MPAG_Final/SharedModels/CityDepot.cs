@@ -14,7 +14,9 @@ namespace MPAG_Final.SharedModels
         
         //Default constructor : needed for getting all citydepot
         public CityDepot()
-        { }
+        {
+
+        }
         public CityDepot(string city)
         {
             // Go to the database and check if that city has any depots (from any carrier) on it 

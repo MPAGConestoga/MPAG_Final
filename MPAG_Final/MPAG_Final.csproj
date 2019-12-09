@@ -124,6 +124,7 @@
     </ApplicationDefinition>
     <Compile Include="Buyer\Models\BuyerRole.cs" />
     <Compile Include="Helpers\Converters.cs" />
+    <Compile Include="Logging\LogType.cs" />
     <Compile Include="Planner\Models\PlannerRole.cs" />
     <Compile Include="Services\ICarrierDataService.cs" />
     <Compile Include="Services\IOrderCreation.cs" />

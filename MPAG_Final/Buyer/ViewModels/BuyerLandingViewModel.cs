@@ -62,8 +62,5 @@ namespace MPAG_Final.Buyer.ViewModels
         {
             ContractsVM.LoadContracts(_service.GetContracts());
         }
-
-
-
     }
 }
