@@ -84,6 +84,7 @@ namespace MPAG_Final.SharedViewModels
         public ICommand SubmitContractCommand { get; private set; }
 
 
+
         //mock data service for testing UI
 
         //private IContractDataService _contractDataService;

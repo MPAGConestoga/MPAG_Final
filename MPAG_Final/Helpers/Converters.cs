@@ -72,9 +72,14 @@ namespace MPAG_Final.Helpers
                 ((System.Windows.Controls.TextBlock)values[5]).Text = "The Quantity must be a whole number";
                 retValue = false;
             }
-            if ((val) && (number <= 0))
+            if ((val) && (number < 0))
             {
-                ((System.Windows.Controls.TextBlock)values[5]).Text = "The Quantity must be a value greater than 0";
+                ((System.Windows.Controls.TextBlock)values[5]).Text = "The Quantity cannot be a negative number";
+                retValue = false;
+            }
+            if ((val) && (number <= 0) && (job=="LTL"))
+            {
+                ((System.Windows.Controls.TextBlock)values[5]).Text = "The Quantity cannot be zero for an LTL";
                 retValue = false;
             }
             if (origin == destination)

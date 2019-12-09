@@ -95,13 +95,17 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="75"/>
+                        </Grid.RowDefinitions>
                         <Grid Grid.Column="0">
                             <Label Style="{StaticResource DetailLabel}" Content="Orders" HorizontalAlignment="Center" Margin="0,5,0,0" FontSize="15" />
                             <DataGrid Name="LTLPending"
                                 ItemsSource="{Binding LTLOrders}" 
                                       GridLinesVisibility="None" 
                                       IsReadOnly="True"
-                                      Margin="20,40,20,20" 
+                                      Margin="0,50,40,10" 
                                       AutoGenerateColumns="False">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="ID" Width="Auto" Binding="{Binding OrderID}" />
@@ -112,8 +116,8 @@
                                     <DataGridTemplateColumn Header="Select Order">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <CheckBox HorizontalAlignment="Center" 
-                                                          IsChecked="{Binding Path=IsSelected, UpdateSourceTrigger=PropertyChanged}" Command="{Binding DataContext.CheckOrderCommand,
+                                                <Button HorizontalAlignment="Center" Content="√" Width="25"
+                                                           Command="{Binding DataContext.CheckOrderCommand,
                                             RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding OrderID}" />
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
@@ -121,7 +125,15 @@
                                 </DataGrid.Columns >
                             </DataGrid>
                         </Grid>
-                        <Grid Grid.Column="1">
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Message}" TextWrapping="WrapWithOverflow" TextAlignment="Center" FontSize="16" FontWeight="Bold" Grid.Column="1"/>
+                            <Button Content="Reset Filtre" Command="{Binding ResetCommand}"></Button>
+                        </Grid>
+                        <Grid Grid.Column="1" Grid.RowSpan="2">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
@@ -136,16 +148,16 @@
                                               AutoGenerateColumns="False" >
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="ID" Width="Auto" Binding="{Binding OrderID}" />
-                                            <DataGridTextColumn Header="Origin" Width="Auto" Binding="{Binding origin}" />
-                                            <DataGridTextColumn Header="Destination" Width="Auto" Binding="{Binding destination}" />
-                                            <DataGridTextColumn Header="Van Type" Width="Auto" Binding="{Binding vanType}" />
-                                            <DataGridTextColumn Header="Date Created" Width="Auto" Binding="{Binding dateCreated}" />
+                                            <DataGridTextColumn Header="Origin" Width="Auto" Binding="{Binding originString}" />
+                                            <DataGridTextColumn Header="Destination" Width="Auto" Binding="{Binding destinationString}" />
+                                            <DataGridTextColumn Header="Van Type" Width="Auto" Binding="{Binding vanTypeString}" />
+                                            <DataGridTextColumn Header="Quantity" Width="Auto" Binding="{Binding quantity}" />
                                             <DataGridTemplateColumn Header="Remove">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <CheckBox HorizontalAlignment="Center" 
-                                                          IsChecked="{Binding Path=IsSelected, 
-                                                          UpdateSourceTrigger=PropertyChanged}" />
+                                                        <Button HorizontalAlignment="Center" Content="X" Width="25"
+                                                           Command="{Binding DataContext.RemoveOrderCommand,
+                                            RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding OrderID}"/>
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>
@@ -225,8 +237,7 @@
                                             RelativeSource={RelativeSource AncestorType=DataGrid}}"  HorizontalAlignment="Center" 
                                                           IsChecked="{Binding Path=IsSelected, 
                                                           UpdateSourceTrigger=PropertyChanged}"
-                                                  
-                                                  />
+                                                   />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>

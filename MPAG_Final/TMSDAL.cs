@@ -784,7 +784,8 @@ namespace MPAG_Final
                                          Origin,
                                          Destination,
                                          Job_Type,
-                                         Van_Type
+                                         Van_Type,
+                                         Amount
                                          FROM _order
                                          WHERE Order_Status = 0
                                          ORDER BY Order_Id;";
@@ -826,7 +827,8 @@ namespace MPAG_Final
                                          Origin,
                                          Destination,
                                          Job_Type,
-                                         Van_Type
+                                         Van_Type,
+                                         Amount
                                          FROM _order
                                          WHERE Order_Id = @ID; ";
 
@@ -896,19 +898,7 @@ namespace MPAG_Final
                 myAdapter.Fill(dataTable);
 
                 var orders = DataTableToOrderList(dataTable);
-                foreach (Order el in orders)
-                {
-                    if (el.vanType == false)
-                    {
-                        el.vanTypeString = "Dry Van";
-                    }
-                    else
-                    {
-                        el.vanTypeString = "Reefer";
-                    }
-                    el.originString = GetCityNameByID(el.origin);
-                    el.destinationString = GetCityNameByID(el.destination);
-                }
+                
                     return orders;
             }
         }
@@ -937,6 +927,20 @@ namespace MPAG_Final
                     //dateCompleted = Convert.ToDateTime(row["Start_Date"])
                 }); 
             }
+
+            foreach (Order el in orders)
+            {
+                if (el.vanType == false)
+                {
+                    el.vanTypeString = "Dry Van";
+                }
+                else
+                {
+                    el.vanTypeString = "Reefer";
+                }
+                el.originString = GetCityNameByID(el.origin);
+                el.destinationString = GetCityNameByID(el.destination);
+            }
             return orders;
         }
 
@@ -963,6 +967,8 @@ namespace MPAG_Final
             }
             return carriers;
         }
+
+
 
 
         /// \brief To get the x-value(location) of a city
@@ -996,6 +1002,31 @@ namespace MPAG_Final
                 var x = DataTableToInt(dataTable);
 
                 return x;
+            }
+        }
+
+        /// \brief To get the x-value(location) of a city
+        /// 
+        /// \details The X value of a city is needed when calculating the direction of an order.
+        /// <param name="cityID"> - <b>int</b> - The City ID to lookup</param>
+        /// \return int  x-> x - value of city
+        /// \see TMSDAL:DataTableToInt
+        public void DeleteOrder(int ID)
+        {
+            const string sqlStatement = @"DELETE
+                                         FROM _order
+                                        Where Order_Id = @order;";
+
+            using (var myConn = new MySqlConnection(buyerConnectionString))
+            {
+                var myCommand = new MySqlCommand(sqlStatement, myConn);
+                myCommand.Parameters.AddWithValue("@order", ID);
+
+                //For offline connection we will use  MySqlDataAdapter class.  
+                myConn.Open();
+
+                myCommand.ExecuteNonQuery();
+
             }
         }
 
