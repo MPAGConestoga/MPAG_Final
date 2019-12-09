@@ -107,6 +107,8 @@ namespace MPAG_Final.SharedModels
             this.jobType = jobType;
             this.quantity = quantity;
             this.vanType = vanType;
+            this.originString = origin;
+            this.destinationString = destination;
             //this.origin = origin;
             //this.destination = destination;
             dateCreated = DateTime.Now;

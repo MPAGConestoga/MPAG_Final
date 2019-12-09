@@ -1020,12 +1020,12 @@ namespace MPAG_Final
                     carrierName = row["Carrier_Name"].ToString(),
                     Phone = row["Phone"].ToString(),
                     Email = row["Email"].ToString(),
+                    LTLRate = Convert.ToDouble(row["LTL_Rate"]),
+                    FTLRate = Convert.ToDouble(row["FTL_Rate"])
                 });
             }
             return carriers;
         }
-
-
 
 
         /// \brief To get the x-value(location) of a city
@@ -1059,6 +1059,47 @@ namespace MPAG_Final
                 var x = DataTableToInt(dataTable);
 
                 return x;
+            }
+        }
+
+        /// \brief To update the ftl and ltl rates of a carrier
+        /// 
+        /// \details The admin is able to update the rates in the Admin screen
+        /// <param name="c"> - <b>Carrier</b> - The Carrier to update</param>
+        /// \return int  x-> x - value of city
+        /// \see 
+        public void UpdateCarrierRates(Carrier c)
+        {
+            const string sqlStatement = @"UPDATE carrier SET LTL_Rate = @LTL_Rate
+                                        WHERE Carrier_Id = @Id;";
+
+            using (var myConn = new MySqlConnection(buyerConnectionString))
+            {
+                var myCommand = new MySqlCommand(sqlStatement, myConn);
+                myCommand.Parameters.AddWithValue("@LTL_Rate", c.LTLRate);
+                myCommand.Parameters.AddWithValue("@Id", c.carrierId);
+
+                //For offline connection we will use  MySqlDataAdapter class.  
+                myConn.Open();
+
+                myCommand.ExecuteNonQuery();
+
+            }
+
+            const string sqlStatement1 = @"UPDATE carrier SET FTL_Rate = @FTL_Rate
+                                        WHERE Carrier_Id = @Id;";
+
+            using (var myConn = new MySqlConnection(buyerConnectionString))
+            {
+                var myCommand = new MySqlCommand(sqlStatement1, myConn);
+                myCommand.Parameters.AddWithValue("@FTL_Rate", c.FTLRate);
+                myCommand.Parameters.AddWithValue("@Id", c.carrierId);
+
+                //For offline connection we will use  MySqlDataAdapter class.  
+                myConn.Open();
+
+                myCommand.ExecuteNonQuery();
+
             }
         }
 

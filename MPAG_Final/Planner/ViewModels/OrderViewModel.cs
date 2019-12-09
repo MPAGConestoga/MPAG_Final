@@ -32,6 +32,19 @@ namespace MPAG_Final.Planner.ViewModels
         private ICarrierDataService _carrierService;
         private IContractDataService _contractService;
 
+        private int _slider;
+        public int Slider
+        {
+            //mock service for the testing of the ui
+
+            get { return _slider; }
+            set
+            {
+                _slider = value;
+                OnPropertyChanged("Slider");
+            }
+        }
+
 
         private string _message;
         public string Message
@@ -205,7 +218,7 @@ namespace MPAG_Final.Planner.ViewModels
                 new Order(true, 10, "Toronto", "Windsor", false),
                 new Order(true, 4, "Waterloo", "London", false )
             };
-
+            Slider = 50;
         }
 
 

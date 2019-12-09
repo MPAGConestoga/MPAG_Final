@@ -52,9 +52,12 @@ namespace MPAG_Final.Planner.Models
             selectedCarrier.DepotsLocation[selectedOrder.origin].Trips.Add(newTrip);
         }
 
-        public void ChangeOrderSpeedTime(Order activeOrder, int daysToAdvance)
+        public void ChangeOrderSpeedTime(Order activeOrder, int increment)
         {
-            // Stubbed Out ----------------------- IMPLEMENT -----------------------// 
+            foreach (var trip in activeOrder.AssignedTrips)
+            {
+                trip.SpeedUp(increment);
+            }
         }
 
         public bool ConfirmOrderCompletion(Order activeOrder)
