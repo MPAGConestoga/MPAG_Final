@@ -1,11 +1,15 @@
-﻿using MPAG_Final.SharedModels;
+﻿using MPAG_Final.Logging;
+using MPAG_Final.SharedModels;
 using MPAG_Final.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace MPAG_Final.Admin.ViewModels
 {
@@ -43,8 +47,35 @@ namespace MPAG_Final.Admin.ViewModels
             }
         }
         public ObservableCollection<Carrier> AllCarriers { get; set; }
+        public ObservableCollection<string> Logs { get; set; }
 
 
+        public ICommand UpdateCarrierCommand { get; private set; }
+        public ICommand UpdateCMPCommand { get; private set; }
+        public ICommand BackupCommand { get; private set; }
+        public ICommand ViewLogCommand { get; private set; }
+        public ICommand UpdateIPCommand { get; private set; }
+
+        private string _logFile;
+        public string LogFile
+        {
+            get { return _logFile; }
+            set
+            {
+                _logFile = value;
+                OnPropertyChanged("LogFile");
+            }
+        }
+        private string _error;
+        public string Error
+        {
+            get { return _error; }
+            set
+            {
+                _error = value;
+                OnPropertyChanged("Error");
+            }
+        }
         /// <summary>
         ///     The selected dat is converted into a string to be readied 
         ///     and prepared to find the file that is required to be accessed
@@ -57,9 +88,29 @@ namespace MPAG_Final.Admin.ViewModels
         }
         public AdminLandingViewModel()
         {
-            AllCarriers = new ObservableCollection<Carrier>(new TMSDAL().GetAllCarriers());      
+            UpdateIPCommand = new UpdateIP(this);
+            UpdateCarrierCommand = new RelayCommand(UpdateCarrierRates);
+            UpdateCMPCommand = new UpdateIP(this);
+            ViewLogCommand = new ViewLog(this);
+            AllCarriers = new ObservableCollection<Carrier>(new TMSDAL().GetAllCarriers());
+            Logs = new ObservableCollection<string>();
+            GetLogs("Database\\");
+            BackupCommand = new RelayCommand(BackupDatabase);
+        }
+        public void BackupDatabase()
+        {
+            new TMSDAL().Backup();
         }
 
+        public void updateIP(object o)
+        {
+            var list = (object[])o;
+
+            string IP = (list[0].ToString() + "." + list[1].ToString() + "." + list[2].ToString() + "." + list[3].ToString());
+            new TMSDAL().UpdateConnectionString(IP, Convert.ToInt32(list[4]));
+
+    
+        }
         public void UpdateCarrierRates()
         {
             foreach (Carrier el in AllCarriers)
@@ -73,5 +124,41 @@ namespace MPAG_Final.Admin.ViewModels
                 AllCarriers.Add(el);
             }
         }
+
+        public void UpdateCMPLogin(object o)
+        {
+            string ip = (string)o;
+            new TMSDAL().UpdateConnectionString(ip, 0); //0 for CMP
+        }
+
+        public void GetLogs(string date)
+        {
+            DirectoryInfo dirInfo = new DirectoryInfo(date);
+            FileInfo[] info = dirInfo.GetFiles(("*.*"), SearchOption.AllDirectories);
+            //Process.Start((dirInfo.FullName) + (info[0]));
+            var list = dirInfo.GetFiles();
+
+            foreach (FileInfo el in list)
+            {
+                Logs.Add(el.FullName);
+               
+            }
+        }
+
+        public void OpenLog(object o)
+        {
+            Error = "";
+            try
+            {
+                string path = (string)o;
+                LogFile = File.ReadAllText(path);
+            }
+            catch (Exception ex)
+            {
+                LogType.ErrorType(LogType.LoggingType.database, ex.ToString());
+                Error = "Please select a file";
+            }
+        }
+
     }
 }

@@ -21,10 +21,15 @@ namespace MPAG_Final.Planner.ViewModels
    */
     public class OrderViewModel : ObservableObject
     {
+        TimeSpan maxDrivingTime = new TimeSpan(8, 0, 0);
+        TimeSpan maxPathTime = new TimeSpan(12, 0, 0);
 
         // Current selected order information
         private Order FirstOrderSelected = null;
+        private Order FTLOrderSelected = null;
+        private Order CarrierSelectedFTL = null;
         public ICommand CheckOrderCommand { get; private set; }
+        public ICommand CheckFTLOrderCommand { get; private set; }
         public ICommand RemoveOrderCommand { get; private set; }
         // For accessing planner methods 
 
@@ -150,6 +155,12 @@ namespace MPAG_Final.Planner.ViewModels
             }
         }
 
+        private int BundledOrigin = -1;
+        private int BundledDestination = -1;
+        TimeSpan TotalPath = TimeSpan.Zero;
+        TimeSpan TotalDriving = TimeSpan.Zero;
+        private int direction;
+
 
         private List<Carrier> _selectedCarriers = new List<Carrier>();
         /// <summary>
@@ -186,6 +197,22 @@ namespace MPAG_Final.Planner.ViewModels
             }
         }
 
+        private ObservableCollection<Carrier> _relevantCarriersFTL;
+        /// <summary>
+        ///         Relevant carriers' list for the use of the order
+        /// </summary>
+        public ObservableCollection<Carrier> RelevantCarriersFTL
+        {
+            get { return _relevantCarriersFTL; }
+            set
+            {
+                _relevantCarriersFTL = value;
+                OnPropertyChanged("RelevantCarriersFTL");
+            }
+        }
+
+
+
 
         /// <summary>
         ///     Constructor that instantiates a new instance of the OrderViewModel class
@@ -194,23 +221,19 @@ namespace MPAG_Final.Planner.ViewModels
         {
             PlannerRoleVM = planner;
             RelevantCarriers = new ObservableCollection<Carrier>();
-            //ContractsVM = new ContractsViewModel();
-            //CarriersVM = new CarriersViewModel(carrierMarketPlace);
-            //LoadCarriers();
-            //LoadContracts();
-            // DEBUG: Include FTL Order 
+            RelevantCarriersFTL = new ObservableCollection<Carrier>();
+
+            FTLOrders = new ObservableCollection<Order>(new TMSDAL().GetOrdersByJobType(1));
 
             LTLOrders = new ObservableCollection<Order>(new TMSDAL().GetOrdersByJobType(0));
             LTLOrdersMaster = new ObservableCollection<Order>(new TMSDAL().GetOrdersByJobType(0));
-            
+
             SelectedOrders = new ObservableCollection<Order>();
             CheckOrderCommand = new SelectOrder(this);
+            CheckFTLOrderCommand = new SelectFTLOrder(this);
             ResetCommand = new RelayCommand(ResetFilters);
             RemoveOrderCommand = new RemoveOrder(this);
 
-           // LTLOrders = new ObservableCollection<Order>(new SampleData().SampleLTLOrders());
-            SelectedOrders = new ObservableCollection<Order>();
-            CheckOrderCommand = new SelectOrder(this);
             ActiveOrders = new ObservableCollection<Order>()
             {
                 new Order(true, 10, "Toronto", "Windsor", false),
@@ -229,20 +252,46 @@ namespace MPAG_Final.Planner.ViewModels
             RelevantCarriers.Clear();
             SelectedOrders.Clear();
             FirstOrderSelected = null;
+            BundledOrigin = -1;
 
             var list = new TMSDAL().GetOrdersByJobType(0);
 
-            foreach(Order el in list)
+            foreach (Order el in list)
             {
                 LTLOrders.Add(el);
                 LTLOrdersMaster.Add(el);
             }
         }
 
+        public void FTLOrderCheck(object parameter)
+        {
+            Message = "";
+            TMSDAL DAL = new TMSDAL();
+            int ID = Convert.ToInt32(parameter);
+            Order selectedOrder = DAL.GetOrderByID(ID);
+
+            if (RelevantCarriersFTL.Count == 0)
+            {
+                FTLOrderSelected = selectedOrder;
+                var list = new ObservableCollection<Carrier>(DAL.GetCarriersByCityID(selectedOrder.origin, selectedOrder.destination));
+                foreach (Carrier el in list)
+                {
+                    el.TargetDepot = DAL.GetCityDepotByCarrierAndCity(el.carrierId, selectedOrder.origin);
+                    RelevantCarriersFTL.Add(el);
+                }
+            }
+
+
+
+
+        }
+
+
         /// <summary>
         ///     Check the order type and how many have been selected
         /// </summary>
         /// <param name="parameter"><b>object</b> - order ID being evaluated</param>
+
         public void OrderChecked(object parameter)
         {
             Message = "";
@@ -256,20 +305,43 @@ namespace MPAG_Final.Planner.ViewModels
                 {
                     el.TargetDepot = DAL.GetCityDepotByCarrierAndCity(el.carrierId, selectedOrder.origin);
                     RelevantCarriers.Add(el);
-
                 }
             }
 
-                // Populate LTL order 
-                //LTLOrders = new ObservableCollection<Order>(new SampleData().FilterLTLs(selectedOrder.origin, selectedOrder.vanType));
-                LTLOrders.Remove(selectedOrder);
-                OnPropertyChanged("LTLOrders");
+            LTLOrders.Remove(selectedOrder);
+            OnPropertyChanged("LTLOrders");
 
             if (RelevantCarriers.Count != 0)
             {
+                direction = CalculateDirection(selectedOrder.origin, selectedOrder.destination);
+                // First Order
                 if (FirstOrderSelected == null)
                 {
                     FirstOrderSelected = selectedOrder;
+                    if (selectedOrder.origin < selectedOrder.destination)
+                    {
+                        BundledOrigin = selectedOrder.origin;
+                        BundledDestination = selectedOrder.destination;
+                    }
+                    else
+                    {
+                        BundledOrigin = selectedOrder.destination;
+                        BundledOrigin = selectedOrder.origin;
+                    }
+
+                    TimeSpan drivingTime = TimeSpan.Zero;
+                    drivingTime = SetUpPathInfo(BundledOrigin - 1, BundledDestination);
+                    TimeSpan totalPathTime = drivingTime + new TimeSpan(((BundledDestination - BundledOrigin) + 1) * 2, 0, 0);
+                    if (drivingTime > maxDrivingTime || totalPathTime > maxPathTime)
+                    {
+                        Message = "Trip time exceeds limit - Remove some orders to continue";
+                    }
+                    else
+                    {
+                        TotalDriving = drivingTime;
+                        TotalPath = totalPathTime;
+                    }
+
 
                     // Populate LTL order 
                     //LTLOrders = new ObservableCollection<Order>(new SampleData().FilterLTLs(selectedOrder.origin, selectedOrder.vanType));
@@ -292,7 +364,40 @@ namespace MPAG_Final.Planner.ViewModels
                 }
                 else
                 {
+                    // Other orders                
+                    int lowerIndex = selectedOrder.origin;
+                    int higherIndex = selectedOrder.destination;
+
+                    if (direction == 0)
+                    {
+                        lowerIndex = selectedOrder.destination;
+                        higherIndex = selectedOrder.origin;
+                    }
+
+                    // If order being added will add more time to the trip -> check if doesnt surprass the time allowed
+                    if (higherIndex > BundledDestination)
+                    {
+                        TimeSpan newTime = SetUpPathInfo(BundledOrigin - 1, higherIndex);
+                        TimeSpan newTotal = newTime + new TimeSpan(((BundledDestination - BundledOrigin) + 1) * 2, 0, 0);
+
+                        if (newTime > maxDrivingTime || newTotal > maxPathTime)
+                        {
+                            Message = "Trip time exceeds limit - Remove some orders to continue";
+                        }
+                        else
+                        {
+                            TotalDriving = newTime;
+                            TotalPath = newTotal;
+                        }
+                    }
+
+
+
                     SelectedOrders.Add(selectedOrder);
+
+                    // Check 
+
+
                     foreach (Order el in LTLOrdersMaster)
                     {
                         if (el.OrderID == selectedOrder.OrderID)
@@ -314,16 +419,15 @@ namespace MPAG_Final.Planner.ViewModels
                 //}
                 ////remove from list so it doesn't show in the view
 
-               LTLOrders.Clear();
-                int direction = CalculateDirection(selectedOrder.origin, selectedOrder.destination);
+                LTLOrders.Clear();
                 foreach (Order el in LTLOrdersMaster)
                 {
-                    if((el.origin==selectedOrder.origin) && (el.vanType == selectedOrder.vanType) && (CalculateDirection(el.origin,el.destination) == direction))
+                    if ((el.origin == selectedOrder.origin) && (el.vanType == selectedOrder.vanType) && (CalculateDirection(el.origin, el.destination) == direction))
                     {
                         LTLOrders.Add(el);
                     }
                 }
-                   
+
             }
             else
             {
@@ -355,6 +459,12 @@ namespace MPAG_Final.Planner.ViewModels
 
         }
 
+        // Populate Relevant Carriers list
+        //RelevantCarriers = new ObservableCollection<Carrier>(new SampleData().GetRelevantCarrier(selectedOrder.origin, selectedOrder.destination));
+
+
+        }
+
             // Populate Relevant Carriers list
             //RelevantCarriers = new ObservableCollection<Carrier>(new SampleData().GetRelevantCarrier(selectedOrder.origin, selectedOrder.destination));
 
@@ -373,8 +483,10 @@ namespace MPAG_Final.Planner.ViewModels
                     SelectedOrders.Remove(el);
                     LTLOrders.Add(el);
                     break;
+                }
                 }             
             }
+
             if (SelectedOrders.Count == 0)
             {
                 FirstOrderSelected = null;
@@ -446,8 +558,22 @@ namespace MPAG_Final.Planner.ViewModels
                 SelectedOrders[orderCounter].status = 2;
                 ActiveOrders.Add(SelectedOrders[orderCounter]);
             }
+        }
 
+        private TimeSpan SetUpPathInfo(int start, int stop)
+        {
+            float hours = 0;
+            int counter = start;
 
+            while (counter < stop)
+            {
+                hours += (new TMSDAL().GetTimeAndDistance(counter++)).Item2;
+            }
+
+            int totalHours = (int)hours;
+            int totalMinutes = (int)((hours - totalHours) * 60);
+
+            return new TimeSpan(totalHours, totalMinutes, 0);
         }
     }
 }

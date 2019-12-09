@@ -28,29 +28,28 @@
                                 <ColumnDefinition Width="254*"/>
                             </Grid.ColumnDefinitions>
                             <Label Style="{StaticResource DetailLabel}" Content="Orders" HorizontalAlignment="Center" Margin="40,5,164.4,0" FontSize="15" Grid.Column="3" Grid.RowSpan="2"/>
-                            <DataGrid GridLinesVisibility="None" 
+                            <DataGrid ItemsSource="{Binding FTLOrders}" 
+                                GridLinesVisibility="None" 
                                       IsReadOnly="True" 
                                       Margin="20,13.3,20.4,20" 
                                       AutoGenerateColumns="True" 
                                       Grid.ColumnSpan="4" Grid.Row="1">
                                 <DataGrid.Columns>
-                                    <DataGridTemplateColumn Header="Selected">
+
+                                    <DataGridTextColumn Header="ID" Width="Auto" Binding="{Binding OrderID}" />
+                                    <DataGridTextColumn Header="Origin" Width="Auto" Binding="{Binding originString}" />
+                                    <DataGridTextColumn Header="Destination" Width="Auto" Binding="{Binding destinationString}" />
+                                    <DataGridTextColumn Header="Van Type" Width="Auto" Binding="{Binding vanTypeString}" />
+                                    <DataGridTemplateColumn Header="Select Order">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <CheckBox Command="{Binding DataContext.FireCommand,
-                                            RelativeSource={RelativeSource AncestorType=DataGrid}}"  HorizontalAlignment="Center" 
-                                                          IsChecked="{Binding Path=IsSelected, 
-                                                          UpdateSourceTrigger=PropertyChanged}"
-                                                  
-                                                  />
-                                                <!--<CheckBox HorizontalAlignment="Center" 
-                                                          IsChecked="{Binding Path=IsSelected, 
-                                                          UpdateSourceTrigger=PropertyChanged}" />-->
+                                                <Button HorizontalAlignment="Center" Content="√" Width="25"
+                                                           Command="{Binding DataContext.CheckFTLOrderCommand,
+                                            RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding OrderID}" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
                                 </DataGrid.Columns >
-
                             </DataGrid>
                         </Grid>
 
@@ -63,19 +62,22 @@
                                 </Grid.RowDefinitions>
                             </Grid>
                             <Label Style="{StaticResource DetailLabel}" Content="Carriers" HorizontalAlignment="Center" Margin="0,5,0,0" FontSize="15"/>
-                            <DataGrid GridLinesVisibility="None" 
+                            <DataGrid Name="RelevantFTLCarriers"
+                                      ItemsSource="{Binding RelevantCarriersFTL}"
+                                GridLinesVisibility="None" 
                                       IsReadOnly="True" 
                                       Margin="20,40,20,80" 
                                       AutoGenerateColumns="False" >
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="ID" Width="Auto"  />
-                                    <DataGridTextColumn Header="Origin" Width="Auto"  />
+                                    <DataGridTextColumn Header="ID" Width="Auto" Binding="{Binding carrierId}" />
+                                    <DataGridTextColumn Header="Origin" Width="Auto" Binding="{Binding carrierName}" />
+                                    <DataGridTextColumn Header="LTL" Width="Auto" Binding="{Binding TargetDepot.avalibleLTL}" />
                                     <DataGridTemplateColumn Header="Selected">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <CheckBox HorizontalAlignment="Center" 
-                                                          IsChecked="{Binding Path=IsSelected, 
-                                                          UpdateSourceTrigger=PropertyChanged}" />
+                                                <Button HorizontalAlignment="Center" Content="√" Width="25"
+                                                           Command="{Binding DataContext.ActivateFTLOrder,
+                                            RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding OrderID}" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>

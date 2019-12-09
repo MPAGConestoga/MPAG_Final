@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using MPAG_Final.SharedModels;
 using MPAG_Final.Logging;
-
+using System.Data.SqlClient;
 
 namespace MPAG_Final
 {
@@ -1232,23 +1232,23 @@ namespace MPAG_Final
         /// 
         public void Backup()
         {
-            string folderPath = @"c:\tms\";
-            System.IO.Directory.CreateDirectory(folderPath);
+            var dialog = new System.Windows.Forms.FolderBrowserDialog();
+            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
             string database = ConfigurationManager.ConnectionStrings["TMSAdmin"].ConnectionString;
-            string file = "C:\\tms\\backup.sql";
+            string file = (dialog.SelectedPath + "\\backup.sql");
             try
             {
                 using (MySqlConnection conn = new MySqlConnection(database))
                 {
                     using (MySqlCommand cmd = new MySqlCommand())
                     {
-                        //using (MySqlBackup mb = new MySqlBackup(cmd))
-                        //{
-                        //    cmd.Connection = conn;
-                        //    conn.Open();
-                        //    mb.ExportToFile(file);
-                        //    conn.Close();
-                        //}
+                        using (MySqlBackup mb = new MySqlBackup(cmd))
+                        {
+                            cmd.Connection = conn;
+                            conn.Open();
+                            mb.ExportToFile(file);
+                            conn.Close();
+                        }
                     }
                 }
             }
@@ -1257,8 +1257,29 @@ namespace MPAG_Final
                 LogType.ErrorType(LogType.LoggingType.database, ex.ToString());
             }
         }
-        public void UpdateConnectionString(string IP, string Port, int dbase)
+        private static bool IsServerConnected(string connectionString)
         {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    return true;
+                }
+                catch (SqlException)
+                {
+                    return false;
+                }
+                finally
+                {
+                    // not really necessary
+                    connection.Close();
+                }
+            }
+        }
+        public void UpdateConnectionString(string IP, int dbase, string Port = "3306")
+        {
+
             var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             var connectionStringsSection = (ConnectionStringsSection)config.GetSection("connectionStrings");
             try
@@ -1273,6 +1294,7 @@ namespace MPAG_Final
                         break;
                     //1 if changing the CMP
                     case 1:
+                        connectionStringsSection.ConnectionStrings["contractmarketplace"].ConnectionString = ("server=" + IP + ";Port=" + Port + ";Uid=DevOSHT;password=Snodgr4ss!");
 
                         break;
                     default:
