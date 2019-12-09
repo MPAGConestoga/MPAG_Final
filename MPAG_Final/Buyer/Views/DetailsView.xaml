@@ -207,7 +207,6 @@
                     <TextBlock FontSize="18" FontWeight="Bold" Grid.Row="1" x:Name="quantityTxt" Text="{Binding SelectedContract.Quantity, FallbackValue=NULL, Mode=OneWay}"/>
                     <TextBox  Margin="0,5,0,0" x:Name="quantityText" Grid.Row="2" Text="... Change Quantity ..." TextChanged="quantityText_TextChanged" LostFocus="quantityText_LostFocus"  PreviewMouseLeftButtonDown="quantityText_MouseLeftButtonDown">
                     </TextBox>
-
                 </Grid>
             </StackPanel>
         </StackPanel>
@@ -244,6 +243,8 @@
                         <Binding Path="Text" ElementName="originTxt" />
                         <Binding Path="Text" ElementName="destTxt" />
                         <Binding Path="Text" ElementName="quantityTxt" />
+                        <Binding Path="SelectedContract" />
+
                     </MultiBinding>
                 </Button.CommandParameter>
                 <Button.Content>

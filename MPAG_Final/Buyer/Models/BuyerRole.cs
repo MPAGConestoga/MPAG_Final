@@ -44,7 +44,7 @@ namespace MPAG_Final.Buyer.Models
         /// <param name="destination"> <b>string</b> - Where the order will be shipped to/param>
         /// <param name="vanType"> <b>bool</b> - Van type:dry or reefer</param>
         /// \see Order 
-        public Order CreateOrder(bool jobType, uint quantity, string origin, string destination, bool vanType)
+        public Order CreateOrder(bool jobType, int quantity, string origin, string destination, bool vanType)
         {
             Order newOrder = null;
             try

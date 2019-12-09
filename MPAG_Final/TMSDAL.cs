@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using MPAG_Final.SharedModels;
 
+
 namespace MPAG_Final
 {
     /** 
@@ -58,6 +59,41 @@ namespace MPAG_Final
                 var cityDepots = DataTableToCityDepotList(dataTable);
 
                 return cityDepots;
+            }
+        }
+
+        public Depot GetCityDepotByCarrierAndCity(int ID, int origin)
+        {
+            const string sqlStatement = @"    SELECT * FROM depot
+                                                WHERE Carrier_Id = @ID
+                                                AND Delivery_City_Id = @origin;";
+
+            using (var myConn = new MySqlConnection(buyerConnectionString))
+            {
+
+                var myCommand = new MySqlCommand(sqlStatement, myConn);
+                myCommand.Parameters.AddWithValue("@ID", ID);
+                myCommand.Parameters.AddWithValue("@origin", origin);
+
+                //For offline connection we will use  MySqlDataAdapter class.  
+                var myAdapter = new MySqlDataAdapter
+                {
+                    SelectCommand = myCommand
+                };
+
+                var dataTable = new DataTable();
+
+                myAdapter.Fill(dataTable);
+
+                var depot = new Depot();
+
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    depot.DepotID = Convert.ToInt32(row["Depot_Id"]);
+                    depot.avalibleLTL = Convert.ToInt32(row["LTL_Amount"]);
+                    depot.availibleFTL = Convert.ToInt32(row["FTL_Amount"]);
+                }
+                return depot;
             }
         }
 
@@ -123,8 +159,8 @@ namespace MPAG_Final
         {
             using (var myConn = new MySqlConnection(buyerConnectionString))
             {
-                const string sqlStatement = @"  INSERT INTO _order (Customer_Id, Origin, Destination, Job_Type, Van_Type, Order_Status)
-	                                            VALUES (@Customer, @Origin, @Destination, @Job_Type, @Van_Type, 0); ";
+                const string sqlStatement = @"  INSERT INTO _order (Customer_Id, Origin, Destination, Job_Type, Van_Type, Order_Status, Amount)
+	                                            VALUES (@Customer, @Origin, @Destination, @Job_Type, @Van_Type, 0, @Amount); ";
 
                 var myCommand = new MySqlCommand(sqlStatement, myConn);
 
@@ -133,6 +169,8 @@ namespace MPAG_Final
                 myCommand.Parameters.AddWithValue("@Destination", contract.DestinationID);
                 myCommand.Parameters.AddWithValue("@Job_Type", contract.JobType);
                 myCommand.Parameters.AddWithValue("@Van_Type", contract.VanType);
+                myCommand.Parameters.AddWithValue("@Amount", contract.Quantity);
+
 
                 myConn.Open();
 
@@ -808,7 +846,8 @@ namespace MPAG_Final
                                          Origin,
                                          Destination,
                                          Job_Type,
-                                         Van_Type
+                                         Van_Type,
+                                         Amount
                                          FROM _order
                                          WHERE Job_Type = @job
                                          ORDER BY Order_Id;";
@@ -854,8 +893,9 @@ namespace MPAG_Final
                     destination = Convert.ToInt32(row["Destination"]),
                     jobType = Convert.ToBoolean(row["Job_Type"]),
                     vanType = Convert.ToBoolean(row["Van_Type"]),
+                    quantity = Convert.ToInt32(row["Amount"])
                     //dateCompleted = Convert.ToDateTime(row["Start_Date"])
-                }); ;
+                }); 
             }
             return orders;
         }

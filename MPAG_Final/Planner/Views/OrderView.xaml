@@ -108,8 +108,8 @@
                                     <DataGridTextColumn Header="Origin" Width="Auto" Binding="{Binding origin}" />
                                     <DataGridTextColumn Header="Destination" Width="Auto" Binding="{Binding destination}" />
                                     <DataGridTextColumn Header="Van Type" Width="Auto" Binding="{Binding vanType}" />
-                                    <DataGridTextColumn Header="Date Created" Width="Auto" Binding="{Binding dateCreated}" />
-                                    <DataGridTemplateColumn Header="Selected">
+                                    <DataGridTextColumn Header="Quantity" Width="Auto" Binding="{Binding quantity}" />
+                                    <DataGridTemplateColumn Header="Select Order">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <CheckBox HorizontalAlignment="Center" 
@@ -120,7 +120,6 @@
                                     </DataGridTemplateColumn>
                                 </DataGrid.Columns >
                             </DataGrid>
-                            <Button Content="Button" HorizontalAlignment="Left" Margin="281,395,0,0" VerticalAlignment="Top" Width="75"/>
                         </Grid>
                         <Grid Grid.Column="1">
                             <Grid>
@@ -141,7 +140,7 @@
                                             <DataGridTextColumn Header="Destination" Width="Auto" Binding="{Binding destination}" />
                                             <DataGridTextColumn Header="Van Type" Width="Auto" Binding="{Binding vanType}" />
                                             <DataGridTextColumn Header="Date Created" Width="Auto" Binding="{Binding dateCreated}" />
-                                            <DataGridTemplateColumn Header="Selected">
+                                            <DataGridTemplateColumn Header="Remove">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
                                                         <CheckBox HorizontalAlignment="Center" 
@@ -161,11 +160,12 @@
                                     <DataGrid GridLinesVisibility="None" 
                                               IsReadOnly="True"
                                                ItemsSource="{Binding RelevantCarriers}"
-                                              Margin="20,40,20,50" 
+                                              Margin="-1,40,41,50" 
                                               AutoGenerateColumns="False" >
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="ID" Width="Auto" Binding="{Binding carrierId}" />
                                             <DataGridTextColumn Header="Origin" Width="Auto" Binding="{Binding carrierName}" />
+                                            <DataGridTextColumn Header="LTL" Width="Auto" Binding="{Binding TargetDepot.avalibleLTL}" />
                                             <DataGridTemplateColumn Header="Selected">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
