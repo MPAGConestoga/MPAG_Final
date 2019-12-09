@@ -1,6 +1,8 @@
-﻿using MPAG_Final.Utilities;
+﻿using MPAG_Final.SharedModels;
+using MPAG_Final.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,6 +42,8 @@ namespace MPAG_Final.Admin.ViewModels
                 OnPropertyChanged("MyDateTimeProperty");
             }
         }
+        public ObservableCollection<Carrier> AllCarriers { get; set; }
+
 
         /// <summary>
         ///     The selected dat is converted into a string to be readied 
@@ -51,6 +55,23 @@ namespace MPAG_Final.Admin.ViewModels
             get { return selectedDate; }
             set { OnPropertyChanged(ref selectedDate, value); }
         }
+        public AdminLandingViewModel()
+        {
+            AllCarriers = new ObservableCollection<Carrier>(new TMSDAL().GetAllCarriers());      
+        }
 
+        public void UpdateCarrierRates()
+        {
+            foreach (Carrier el in AllCarriers)
+            {
+                new TMSDAL().UpdateCarrierRates(el);
+            }
+            AllCarriers.Clear();
+            var list = new TMSDAL().GetAllCarriers();
+            foreach(Carrier el in list)
+            {
+                AllCarriers.Add(el);
+            }
+        }
     }
 }
