@@ -1,4 +1,6 @@
-﻿using MPAG_Final.Buyer.ViewModels;
+﻿using MPAG_Final.Admin.ViewModels;
+using MPAG_Final.Buyer.ViewModels;
+using MPAG_Final.Planner.ViewModels;
 using MPAG_Final.Services;
 using MPAG_Final.Utilities;
 using System;
@@ -27,30 +29,39 @@ namespace MPAG_Final
             set { OnPropertyChanged(ref _currentView, value); }
         }
 
-        private Planner.ViewModels.PlannerLandingViewModel _plannerVM;
-        public Planner.ViewModels.PlannerLandingViewModel PlannerVM
+        private PlannerLandingViewModel _plannerVM;
+        public PlannerLandingViewModel PlannerVM
         {
             get { return _plannerVM; }
             set { OnPropertyChanged(ref _plannerVM, value); }
         }
 
-        private Buyer.ViewModels.BuyerLandingViewModel _buyerVM;
-        public Buyer.ViewModels.BuyerLandingViewModel BuyerVM
+        private BuyerLandingViewModel _buyerVM;
+        public BuyerLandingViewModel BuyerVM
         {
             get { return _buyerVM; }
             set { OnPropertyChanged(ref _buyerVM, value); }
         }
+        private AdminLandingViewModel _adminVM;
+        public AdminLandingViewModel AdminVM
+        {
+            get { return _adminVM; }
+            set { OnPropertyChanged(ref _adminVM, value); }
+        }
 
         public ICommand LoadBuyerCommand { get; private set; }
         public ICommand LoadPlannerCommand { get; private set; }
+        public ICommand LoadAdminCommand { get; private set; }
 
         public AppViewModel()
         {
-            BuyerVM = new Buyer.ViewModels.BuyerLandingViewModel();
-            PlannerVM = new Planner.ViewModels.PlannerLandingViewModel();
+            BuyerVM = new BuyerLandingViewModel();
+            PlannerVM = new PlannerLandingViewModel();
+            AdminVM = new AdminLandingViewModel();
 
             LoadBuyerCommand = new RelayCommand(LoadBuyer);
             LoadPlannerCommand = new RelayCommand(LoadPlanner);
+            LoadAdminCommand = new RelayCommand(LoadAdmin);
 
         }
 
@@ -62,6 +73,11 @@ namespace MPAG_Final
         private void LoadPlanner()
         {
             CurrentView = PlannerVM;
+        }
+
+        private void LoadAdmin()
+        {
+            CurrentView = AdminVM;
         }
     }
 }

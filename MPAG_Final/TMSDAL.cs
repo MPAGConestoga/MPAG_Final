@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using MPAG_Final.SharedModels;
 
-namespace MPAG_OrderAndTrip
+namespace MPAG_Final
 {
     /** 
      * \brief The TMSDAL class is used as the data access layer with the TMS database
