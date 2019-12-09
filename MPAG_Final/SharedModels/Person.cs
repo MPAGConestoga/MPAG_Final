@@ -1,12 +1,7 @@
-﻿using MPAG_Final.Utilities;
 ﻿using MPAG_Final.Logging;
 using MPAG_Final.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MPAG_Final.SharedModels
 {
