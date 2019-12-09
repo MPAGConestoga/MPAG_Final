@@ -627,6 +627,34 @@ namespace MPAG_Final
             }
         }
 
+        public string GetCityNameByID(int id)
+        {
+            const string sqlStatement = @"Select City FROM
+                                                city where City_Id = @id;";
+
+            using (var myConn = new MySqlConnection(buyerConnectionString))
+            {
+
+                var myCommand = new MySqlCommand(sqlStatement, myConn);
+                myCommand.Parameters.AddWithValue("@id", id);
+
+                var myAdapter = new MySqlDataAdapter
+                {
+                    SelectCommand = myCommand
+                };
+
+                var dataTable = new DataTable();
+                myAdapter.Fill(dataTable);
+                string name = "";
+
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    name = (row["City"]).ToString();
+                }
+                return name;
+            }
+        }
+
         /// \brief To get a list of carriers by depot
         /// 
         /// \details This method takes in a string containing a city name. A list of carriers with depots
@@ -868,8 +896,20 @@ namespace MPAG_Final
                 myAdapter.Fill(dataTable);
 
                 var orders = DataTableToOrderList(dataTable);
-
-                return orders;
+                foreach (Order el in orders)
+                {
+                    if (el.vanType == false)
+                    {
+                        el.vanTypeString = "Dry Van";
+                    }
+                    else
+                    {
+                        el.vanTypeString = "Reefer";
+                    }
+                    el.originString = GetCityNameByID(el.origin);
+                    el.destinationString = GetCityNameByID(el.destination);
+                }
+                    return orders;
             }
         }
 

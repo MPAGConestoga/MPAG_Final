@@ -105,9 +105,9 @@
                                       AutoGenerateColumns="False">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="ID" Width="Auto" Binding="{Binding OrderID}" />
-                                    <DataGridTextColumn Header="Origin" Width="Auto" Binding="{Binding origin}" />
-                                    <DataGridTextColumn Header="Destination" Width="Auto" Binding="{Binding destination}" />
-                                    <DataGridTextColumn Header="Van Type" Width="Auto" Binding="{Binding vanType}" />
+                                    <DataGridTextColumn Header="Origin" Width="Auto" Binding="{Binding originString}" />
+                                    <DataGridTextColumn Header="Destination" Width="Auto" Binding="{Binding destinationString}" />
+                                    <DataGridTextColumn Header="Van Type" Width="Auto" Binding="{Binding vanTypeString}" />
                                     <DataGridTextColumn Header="Quantity" Width="Auto" Binding="{Binding quantity}" />
                                     <DataGridTemplateColumn Header="Select Order">
                                     <DataGridTemplateColumn.CellTemplate>

@@ -43,6 +43,9 @@ namespace MPAG_Final.SharedModels
             }
         }
 
+        public string originString { get; set; }
+        public string destinationString { get; set; }
+        public string vanTypeString { get; set; }
         public int status { get; set; }
         public int quantity { get; set; }
         public bool jobType { get; set; }

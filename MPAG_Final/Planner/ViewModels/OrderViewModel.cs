@@ -132,15 +132,9 @@ namespace MPAG_Final.Planner.ViewModels
             //LoadCarriers();
             //LoadContracts();
             // DEBUG: Include FTL Order 
-            LTLOrders = new ObservableCollection<Order>();
-            LTLOrdersMaster = new ObservableCollection<Order>();
-
-            var list = new TMSDAL().GetOrdersByJobType(0);
-            foreach (Order el in list)
-            {
-                LTLOrders.Add(el);
-                LTLOrdersMaster.Add(el);
-            }
+            LTLOrders = new ObservableCollection<Order>(new TMSDAL().GetOrdersByJobType(0));
+            LTLOrdersMaster = new ObservableCollection<Order>(new TMSDAL().GetOrdersByJobType(0));
+            
             SelectedOrders = new ObservableCollection<Order>();
             CheckOrderCommand = new SelectOrder(this);
         }
