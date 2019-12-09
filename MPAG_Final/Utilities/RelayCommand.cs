@@ -31,7 +31,7 @@ namespace MPAG_Final.Utilities
             _execute = execute ?? throw new ArgumentNullException(nameof(execute));
             _canExecute = canExecute ?? (_ => true);
         }
-        
+
         public event EventHandler CanExecuteChanged
         {
             add => CommandManager.RequerySuggested += value;
@@ -44,7 +44,7 @@ namespace MPAG_Final.Utilities
     }
 
     /**
-    * \Class RelayCommand
+    * \Class RelayCommands
     * \Brief Base class for MVVM command binding
     * \Details Interface allowing commands to be bound to buttons. Inherits from the
     * ICommand interface. Instances command objects through which the view can call
@@ -181,6 +181,41 @@ namespace MPAG_Final.Utilities
         public void Execute(object parameter)
         {
             _ViewModel.RemoveOrder(parameter);
+
+        }
+    }
+
+    public class SelectFTLOrder : ICommand
+    {
+
+        public SelectFTLOrder(OrderViewModel viewModel)
+        {
+            //get the view model associated with the command
+            _ViewModel = viewModel;
+        }
+
+        private OrderViewModel _ViewModel;
+
+        public event System.EventHandler CanExecuteChanged
+        {
+            add
+            {
+                CommandManager.RequerySuggested += value;
+            }
+            remove
+            {
+                CommandManager.RequerySuggested -= value;
+            }
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            _ViewModel.FTLOrderCheck(parameter);
 
         }
     }

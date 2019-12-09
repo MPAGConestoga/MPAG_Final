@@ -57,7 +57,7 @@ namespace MPAG_Final.Planner.ViewModels
         /// Constructor that instantiates a new instance of the OrderViewModel class
         /// </summary>
         /// 
- 
+
         public PlannerLandingViewModel()
         {
             var contractMarketPlace = new MockContractMarketplace(); //mock service for the testing of the ui
