@@ -1,5 +1,4 @@
-﻿using MPAG_Final.Admin.ViewModels;
-using MPAG_Final.Planner.ViewModels;
+﻿using MPAG_Final.Planner.ViewModels;
 using MPAG_Final.SharedViewModels;
 using System;
 using System.Collections.Generic;
@@ -32,7 +31,7 @@ namespace MPAG_Final.Utilities
             _execute = execute ?? throw new ArgumentNullException(nameof(execute));
             _canExecute = canExecute ?? (_ => true);
         }
-        
+
         public event EventHandler CanExecuteChanged
         {
             add => CommandManager.RequerySuggested += value;
@@ -45,7 +44,7 @@ namespace MPAG_Final.Utilities
     }
 
     /**
-    * \Class RelayCommand
+    * \Class RelayCommands
     * \Brief Base class for MVVM command binding
     * \Details Interface allowing commands to be bound to buttons. Inherits from the
     * ICommand interface. Instances command objects through which the view can call
@@ -173,16 +172,17 @@ namespace MPAG_Final.Utilities
 
         }
     }
-    public class UpdateIP : ICommand
+
+    public class SelectFTLOrder : ICommand
     {
 
-        public UpdateIP(AdminLandingViewModel viewModel)
+        public SelectFTLOrder(OrderViewModel viewModel)
         {
             //get the view model associated with the command
             _ViewModel = viewModel;
         }
 
-        private AdminLandingViewModel _ViewModel;
+        private OrderViewModel _ViewModel;
 
         public event System.EventHandler CanExecuteChanged
         {
@@ -203,79 +203,8 @@ namespace MPAG_Final.Utilities
 
         public void Execute(object parameter)
         {
-            _ViewModel.updateIP(parameter);
+            _ViewModel.FTLOrderCheck(parameter);
 
         }
     }
-
-    public class ViewLog : ICommand
-    {
-
-        public ViewLog(AdminLandingViewModel viewModel)
-        {
-            //get the view model associated with the command
-            _ViewModel = viewModel;
-        }
-
-        private AdminLandingViewModel _ViewModel;
-
-        public event System.EventHandler CanExecuteChanged
-        {
-            add
-            {
-                CommandManager.RequerySuggested += value;
-            }
-            remove
-            {
-                CommandManager.RequerySuggested -= value;
-            }
-        }
-
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public void Execute(object parameter)
-        {
-            _ViewModel.OpenLog(parameter);
-
-        }
-    }
-    //public class updateIP : ICommand
-    //{
-
-    //    public updateIP(AdminLandingViewModel viewModel)
-    //    {
-    //        //get the view model associated with the command
-    //        _ViewModel = viewModel;
-    //    }
-
-    //    private AdminLandingViewModel _ViewModel;
-
-    //    public event System.EventHandler CanExecuteChanged
-    //    {
-    //        add
-    //        {
-    //            CommandManager.RequerySuggested += value;
-    //        }
-    //        remove
-    //        {
-    //            CommandManager.RequerySuggested -= value;
-    //        }
-    //    }
-
-    //    public bool CanExecute(object parameter)
-    //    {
-    //        return true;
-    //    }
-
-    //    public void Execute(object parameter)
-    //    {
-    //        _ViewModel.updateIP(parameter);
-
-    //    }
-    //}
-
-
 }
