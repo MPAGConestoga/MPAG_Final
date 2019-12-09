@@ -646,6 +646,62 @@ namespace MPAG_Final
 
         }
 
+        /// \brief To get a list of carriers by depot
+        /// 
+        /// \details This method takes in a string containing a city name. A list of carriers with depots
+        /// in the specified city is returned.
+        /// <param name="city"> - <b>String</b> - The city to look up</param>
+        /// \return List of Carriers
+        /// \see Carrier::getCarriersWithDepot
+        public List<Carrier> GetCarriersByCityID(int origin, int destination)
+        {
+
+            
+
+
+            const string sqlStatement = @"Select Carrier_Id FROM
+                                                (select * from Depot
+                                                WHERE Delivery_City_Id = @Origin
+                                                OR Delivery_City_Id = @Destination) AS temp
+                                                GROUP BY Carrier_Id 
+                                                Having Count(*) > 1;";
+
+            using (var myConn = new MySqlConnection(buyerConnectionString))
+            {
+
+                var myCommand = new MySqlCommand(sqlStatement, myConn);
+                myCommand.Parameters.AddWithValue("@Origin", origin);
+                myCommand.Parameters.AddWithValue("@Destination", destination);
+                //myCommand.Parameters.AddWithValue("@Destination", destination);
+
+                //For offline connection we will use  MySqlDataAdapter class.  
+                var myAdapter = new MySqlDataAdapter
+                {
+                    SelectCommand = myCommand
+                };
+
+                var dataTable = new DataTable();
+
+                List<int> CarrierId = new List<int>();
+
+                List<Carrier> carriers = new List<Carrier>();
+                myAdapter.Fill(dataTable);
+
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    CarrierId.Add(Convert.ToInt32(row["Carrier_Id"]));
+                }
+
+                foreach (int el in CarrierId)
+                {
+                    carriers.Add(GetCarrierByID(el));
+                }
+
+                return carriers;
+            }
+
+        }
+
         /// \brief To get orders for the planner
         /// 
         /// \details After an order is first added to the database, the planner must then select the carrier(s)
@@ -685,6 +741,54 @@ namespace MPAG_Final
                 var orders = DataTableToOrderList(dataTable);
 
                 return orders;
+            }
+        }
+
+        /// \brief To get orders for the planner
+        /// 
+        /// \details After an order is first added to the database, the planner must then select the carrier(s)
+        /// for the order. To get the orders that have yet to be assigned a carrier, the orders are filtered by
+        /// order-status. A list of orders is returned from this method.
+        /// <param>None</param>
+        /// \return A list of orders.
+        /// \see Order
+        public Order GetOrderByID(int id)
+        {
+            const string sqlStatement = @"SELECT
+                                         Order_Id,
+                                         Start_Date,
+                                         Origin,
+                                         Destination,
+                                         Job_Type,
+                                         Van_Type
+                                         FROM _order
+                                         WHERE Order_Id = @ID; ";
+
+            using (var myConn = new MySqlConnection(buyerConnectionString))
+            {
+
+                var myCommand = new MySqlCommand(sqlStatement, myConn);
+                myCommand.Parameters.AddWithValue("@ID", id);
+
+                //For offline connection we will use  MySqlDataAdapter class.  
+                var myAdapter = new MySqlDataAdapter
+                {
+                    SelectCommand = myCommand
+                };
+
+                var dataTable = new DataTable();
+
+                myAdapter.Fill(dataTable);
+
+                var orders = DataTableToOrderList(dataTable);
+
+                Order order = new Order();
+
+                foreach(Order el in orders)
+                {
+                    order = el;
+                }
+                return order;
             }
         }
 

@@ -3,6 +3,7 @@ using MPAG_Final.Services;
 using MPAG_Final.SharedModels;
 using MPAG_Final.SharedViewModels;
 using MPAG_Final.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
@@ -61,7 +62,7 @@ namespace MPAG_Final.Planner.ViewModels
         private ObservableCollection<Order> _ltlOrders;
         public ObservableCollection<Order> LTLOrders
         {
-            var carrierMarketPlace = new MockCarrierMarketplace(); //mock service for the testing of the ui
+          //mock service for the testing of the ui
 
             get { return _ltlOrders; }
             set
@@ -72,9 +73,6 @@ namespace MPAG_Final.Planner.ViewModels
 
             }
         }
-
-            _carrierService = carrierMarketPlace;
-
 
         //-> Relevant Carriers
         private ObservableCollection<Carrier> _relevantCarriers;
@@ -89,11 +87,7 @@ namespace MPAG_Final.Planner.ViewModels
 
             }
         }
-
-            ContractsVM = new ContractsViewModel();
-            CarriersVM = new CarriersViewModel(carrierMarketPlace);
-            LoadCarriers();
-            LoadContracts();
+          
         //-> Selected Propreties
         private ObservableCollection<Order> _selectedOrders;
         public ObservableCollection<Order> SelectedOrders
@@ -129,41 +123,74 @@ namespace MPAG_Final.Planner.ViewModels
         public OrderViewModel(PlannerRole planner)
         {
             PlannerRoleVM = planner;
-
+            RelevantCarriers = new ObservableCollection<Carrier>();
+            //ContractsVM = new ContractsViewModel();
+            //CarriersVM = new CarriersViewModel(carrierMarketPlace);
+            //LoadCarriers();
+            //LoadContracts();
             // DEBUG: Include FTL Order 
-            LTLOrders = new ObservableCollection<Order>(new SampleData().SampleLTLOrders());
+            LTLOrders = new ObservableCollection<Order>();
+            var list = new TMSDAL().GetOrdersByJobType(0);
+            foreach (Order el in list)
+            {
+                LTLOrders.Add(el);
+            }
             SelectedOrders = new ObservableCollection<Order>();
             CheckOrderCommand = new SelectOrder(this);
         }
 
         public void OrderChecked(object parameter)
         {
-            var list = (object[])parameter;
-            Order selectedOrder = (Order)list[0];
-            if (FirstOrderSelected == null)
+            int ID = Convert.ToInt32(parameter);
+            Order selectedOrder = new TMSDAL().GetOrderByID(ID);
+            var list = new ObservableCollection<Carrier>(new TMSDAL().GetCarriersByCityID(selectedOrder.origin, selectedOrder.destination));
+            foreach (Carrier el in list)
             {
-                FirstOrderSelected = selectedOrder;
-
-                // Populate LTL order 
-                LTLOrders = new ObservableCollection<Order>(new SampleData().FilterLTLs(selectedOrder.origin, selectedOrder.vanType));
-                LTLOrders.Remove(selectedOrder);
-                OnPropertyChanged("LTLOrders");
-
-                // Send selected order to bundled orders
-                SelectedOrders.Add(selectedOrder);
+                RelevantCarriers.Add(el);
             }
-            else
+            if (RelevantCarriers.Count != 0)
             {
-                SelectedOrders.Add(selectedOrder);
-                LTLOrders.Remove(selectedOrder);
+                if (FirstOrderSelected == null)
+                {
+                    FirstOrderSelected = selectedOrder;
+
+                    // Populate LTL order 
+                    //LTLOrders = new ObservableCollection<Order>(new SampleData().FilterLTLs(selectedOrder.origin, selectedOrder.vanType));
+                    //LTLOrders.Remove(selectedOrder);
+                    foreach (Order el in LTLOrders)
+                    {
+                        if (el.OrderID == selectedOrder.OrderID)
+                        {
+                            LTLOrders.Remove(el);
+                            break;
+                        }
+                    }
+                    OnPropertyChanged("LTLOrders");
+
+                    // Send selected order to bundled orders
+                    SelectedOrders.Add(selectedOrder);
+                }
+                else
+                {
+                    SelectedOrders.Add(selectedOrder);
+                    foreach (Order el in LTLOrders)
+                    {
+                        if (el.OrderID == selectedOrder.OrderID)
+                        {
+                            LTLOrders.Remove(el);
+                            break;
+                        }
+                    }
+                    //LTLOrders.Remove(selectedOrder);
+                }
             }
 
-            OnPropertyChanged("SelectedOrders");
+           // OnPropertyChanged("SelectedOrders");
 
-            // Populate Relevant Carriers list
-            RelevantCarriers = new ObservableCollection<Carrier>(new SampleData().GetRelevantCarrier(selectedOrder.origin, selectedOrder.destination));
+           // // Populate Relevant Carriers list
+                       
+           //OnPropertyChanged("RelevantCarriers");
 
-            OnPropertyChanged("RelevantCarriers");
         }
 
     }

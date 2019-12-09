@@ -18,9 +18,9 @@
         <DataTemplate DataType="{x:Type pvm:PlannerLandingViewModel}">
             <pv:PlannerLandingView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type avm:AdminLandingViewModel}">
+        <!--<DataTemplate DataType="{x:Type avm:AdminLandingViewModel}">
             <av:AdminLandingView/>
-        </DataTemplate>
+        </DataTemplate>-->
         
 
         <helper:BoolToVisibilityConverter x:Key="IsEditConverter"/>
