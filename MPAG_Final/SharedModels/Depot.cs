@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace MPAG_Final.SharedModels
 {
     /**
+    * \Class Depot
     * \brief   The Depot represent one location where the Carrier has a delivery station.
     * \details The Depot will represent the a city where a Carrier has a delivery station, this means one carrier company will be able to make deliveries
     *          that has the origin in one of its depot locations. Each Depot will contain the availability of trucks (FTL and LTL) and a collection of trips

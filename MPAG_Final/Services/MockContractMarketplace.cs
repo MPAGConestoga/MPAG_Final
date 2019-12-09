@@ -18,9 +18,11 @@ namespace MPAG_Final.Services
     {
         public ObservableCollection<Contract> _contracts;
 
+        /// <summary>
+        ///     Database run to retireve from the contract market place for the contracts
+        /// </summary>
         public void DatabaseRun()
         {
-
             string connectionString = ConfigurationManager.ConnectionStrings["contractmarketplace"].ConnectionString;
             List<Contract> newList = new List<Contract>();
             for (int i = 0; i < 3; i++)
@@ -33,7 +35,6 @@ namespace MPAG_Final.Services
                         string customerQuery = "SELECT * FROM cmp.Contract";
                         MySqlCommand command = new MySqlCommand(customerQuery, connection);
                         MySqlDataReader dataReader = command.ExecuteReader();
-
 
                         while (dataReader.Read())
                         {
@@ -49,7 +50,6 @@ namespace MPAG_Final.Services
                                 Quantity = (int)(dataReader["Quantity"])
                             });
                         }
-                        //_contracts = newList;
                         connection.Close();
                     }
                     catch (Exception ex)
@@ -61,6 +61,9 @@ namespace MPAG_Final.Services
             }
         }
 
+        /// <summary>
+        ///     Instantiates the start of the retrieval for the contract marketplace
+        /// </summary>
         public MockContractMarketplace()
         {
             _contracts = new ObservableCollection<Contract>();
@@ -68,11 +71,19 @@ namespace MPAG_Final.Services
             marketThread.Start();
         }
 
+        /// <summary>
+        ///     Get the contracts that were saved into the collections
+        /// </summary>
+        /// <returns></returns>
         public ObservableCollection<Contract> GetContracts()
         {
             return _contracts;
         }
 
+        /// <summary>
+        ///     Save the contracts into a private collections
+        /// </summary>
+        /// <param name="contracts"><b>ObservableCollection<Contract></b> - Save the contracts into a collection</param>
         public void Save(ObservableCollection<Contract> contracts)
         {
             _contracts = contracts;

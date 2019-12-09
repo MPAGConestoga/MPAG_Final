@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 namespace MPAG_Final.SharedModels
 {
     /** 
+     * \Class Person
      * \brief The Person class used to hold identifying information about an individual.
      * \details The Person class is used for holding information about a customer or employee. The Customer
      * and Employee class both inherit from this class. 

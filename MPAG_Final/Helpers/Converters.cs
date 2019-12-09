@@ -9,6 +9,13 @@ using System.Windows.Data;
 
 namespace MPAG_Final.Helpers
 {
+        /**
+     * \Class BoolToVisbilityConverter
+     * \brief   Value converter for visibility of items
+     * \details The BoolToVisibilityConverter is in charge of setting xaml controls to a visible 
+     *          or invisible state
+     */
+
     public class BoolToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -27,6 +34,12 @@ namespace MPAG_Final.Helpers
         }
     }
 
+    /**
+     * \Class NullToVisibilityConverter
+     * \brief Interaction with XAML  
+     * \details This control sets the XAML to null if the converter is requested
+     */
+
     //if null, then make visibile
     public class NullToVisibilityConverter : IValueConverter
     {
@@ -44,6 +57,12 @@ namespace MPAG_Final.Helpers
         }
     }
 
+    /**
+     * \Class AddContractConverter
+     * \brief   Save blocker
+     * \details This controls if the save button is enabled only if the required values are completely 
+     *          filled appropriately
+     */
     public class AddContractConverter : IMultiValueConverter
     {
         // Method Name: Convert
@@ -53,6 +72,15 @@ namespace MPAG_Final.Helpers
         // 
         // Returns: true if all entered, false if not
         //
+
+        /// <summary>
+        ///         Converts to check there is a value input into the buyer page
+        /// </summary>
+        /// <param name="values"><b>object[]</b> - check if there is a valid value input</param>
+        /// <param name="targetType"><b>Type</b> - Data type that is input</param>
+        /// <param name="parameter"><b>object</b> - name of the input </param>
+        /// <param name="culture"><b>CultureInfo</b> - The region of the input type</param>
+        /// <returns></returns>
         public object Convert(object[] values, Type targetType, object parameter,
             System.Globalization.CultureInfo culture)
         {
@@ -105,9 +133,23 @@ namespace MPAG_Final.Helpers
         }
     }
 
+    /**
+     * \Class BtnParamConverter
+     * \brief   Save blocker
+     * \details This controls if the save button is enabled only if the required values are completely 
+     *          filled appropriately
+     */
     class BtnParamConverter : IMultiValueConverter
     {
         // Returns a copy of the parameters
+        /// <summary>
+        ///     Returns a copy of the parameters
+        /// </summary>
+        /// <param name="values"><b>object[]</b> - Value of the paramater</param>
+        /// <param name="targetType"><b>Type</b> - Data type </param>
+        /// <param name="parameter"><b>object</b> - Name of the paramater </param>
+        /// <param name="culture"><b>CultureInfo</b> - If there is a required region for the language or date of the data type</param>
+        /// <returns></returns>
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             return values.Clone();

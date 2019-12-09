@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace MPAG_Final.SharedModels
 {
     /**
+     * \Class Employee
     * \brief   The Employee class represents an OSHT employee.
     * \details The Employee class contains contact information about the OSHT employee. It encapsulates role, name, email, phone number and address
     */

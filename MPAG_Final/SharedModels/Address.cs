@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace MPAG_Final.SharedModels
 {
     /**
+     * \Class Address
      * \brief   The Address class represents the address of a customer, employee or carrier. 
      * \details The Address class holds all the relevant information for an address: street, city, province,
      * and postalCode.
@@ -18,6 +19,7 @@ namespace MPAG_Final.SharedModels
         public string city { get; set; }
         public string province { get; set; }
         public string postalCode { get; set; }
+
         /// <summary>
         /// Constructor that sets fields of Address object
         /// </summary>

@@ -11,6 +11,12 @@ using System.Windows.Input;
 
 namespace MPAG_Final.SharedViewModels
 {
+    /**
+     * \Class   CarriersViewModel
+     * \brief   View model for Carrier
+     * \details Creates type of contract was selected by the buyer
+     */
+
     public class CarriersViewModel : ObservableObject
     {
         private Carrier _selectedCarrier;
@@ -22,7 +28,6 @@ namespace MPAG_Final.SharedViewModels
 
         public ObservableCollection<Carrier> Carriers { get; private set; }
         public ICommand UpdateCommand { get; private set; }
-
 
         //mock data service for testing UI
         private ICarrierDataService _carrierDataService;
@@ -38,6 +43,10 @@ namespace MPAG_Final.SharedViewModels
             //add this later
         }
 
+        /// <summary>
+        ///     Load carriers into a list
+        /// </summary>
+        /// <param name="carrier"><b>IEnumerable<Carrier></b> - Load carrier selected </param>
         public void LoadCarriers(IEnumerable<Carrier> carrier)
         {
             Carriers = new ObservableCollection<Carrier>(carrier);
