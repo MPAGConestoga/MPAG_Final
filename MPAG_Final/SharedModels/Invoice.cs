@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MPAG_Final.Properties;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,8 +17,11 @@ namespace MPAG_Final.SharedModels
         /// <summary>
         /// The default constructor for the Invoice class
         /// </summary>
-        public Invoice()
+        public Invoice(Order SelectedOrder)
         {
+            Order order = new Order();
+            order = SelectedOrder;
+
 
         }
 
@@ -26,8 +30,13 @@ namespace MPAG_Final.SharedModels
         /// </summary>
         /// <param name="reviewedOrder"> <b>Order</b> - Order to be invoiced</param>
         /// \return string - to be transformed into a PDF
-        public string GenerateInvoice(Order reviewedOrder)
+        public string GenerateInvoice(Order order)
         {
+            String invoice = Resources.InvoiceTemplate;
+
+            invoice = string.Format(Resources.InvoiceTemplate,
+                    order.OrderID, order.customer, lastName);
+
             // Stubbed Out ----------------------- IMPLEMENT -----------------------//
             return "SHOULD RETURN A STRING TO BE TRANSFORM INTO A PDF";
         }

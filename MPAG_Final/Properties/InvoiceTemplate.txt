@@ -1,0 +1,18 @@
+*****
+OrderID     :   {0}
+
+***Customer Details***
+Customer ID :   {1}
+
+FirstName   :   {2}          Last Name     :   {3}
+Address     :   {4}          Telephone     :   {5}
+
+
+***Order Details***
+Origin      :   {6}         Destination   :   {7}
+Job Type    :   {8}         Van Type      :   {9}         
+
+Amount Paid :   {10}
+
+
+Thank you for using TMS!

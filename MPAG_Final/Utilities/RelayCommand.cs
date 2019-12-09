@@ -172,4 +172,38 @@ namespace MPAG_Final.Utilities
 
         }
     }
+    public class ProcessInvoice : ICommand
+    {
+
+        public ProcessInvoice(ContractsViewModel viewModel)
+        {
+            //get the view model associated with the command
+            _ViewModel = viewModel;
+        }
+
+        private ContractsViewModel _ViewModel;
+
+        public event System.EventHandler CanExecuteChanged
+        {
+            add
+            {
+                CommandManager.RequerySuggested += value;
+            }
+            remove
+            {
+                CommandManager.RequerySuggested -= value;
+            }
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            _ViewModel.SubmitContract(parameter);
+
+        }
+    }
 }

@@ -254,5 +254,8 @@
       <Name>MPAG_Final_Service</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\InvoiceTemplate.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
