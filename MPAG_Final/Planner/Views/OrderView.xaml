@@ -33,8 +33,7 @@
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <CheckBox HorizontalAlignment="Center" 
-                                                          IsChecked="{Binding Path=IsSelected, 
-                                                          UpdateSourceTrigger=PropertyChanged}" 
+                                                           
                                                           />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
