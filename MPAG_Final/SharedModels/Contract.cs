@@ -30,6 +30,13 @@ namespace MPAG_Final.SharedModels
             set { OnPropertyChanged(ref customer, value); }
         }
 
+        private int customerID;
+        public int CustomerID
+        {
+            get { return customerID; }
+            set { OnPropertyChanged(ref customerID, value); }
+        }
+
         private JobType jobType;
         public JobType JobType
         {
@@ -42,8 +49,20 @@ namespace MPAG_Final.SharedModels
         {
             get { return origin; }
             set { OnPropertyChanged(ref origin, value); }
-        }     
+        }
+        private int originID;
+        public int OriginID
+        {
+            get { return originID; }
+            set { OnPropertyChanged(ref originID, value); }
+        }
 
+        private int destinationID;
+        public int DestinationID
+        {
+            get { return destinationID; }
+            set { OnPropertyChanged(ref destinationID, value); }
+        }
         private string destination;
         public string Destination
         {

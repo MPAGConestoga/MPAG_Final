@@ -61,14 +61,20 @@ namespace MPAG_Final.Planner.ViewModels
         private ObservableCollection<Order> _ltlOrders;
         public ObservableCollection<Order> LTLOrders
         {
+            var carrierMarketPlace = new MockCarrierMarketplace(); //mock service for the testing of the ui
+
             get { return _ltlOrders; }
             set
             {
                 _ltlOrders = value;
                 OnPropertyChanged("LTLOrders");
 
+
             }
         }
+
+            _carrierService = carrierMarketPlace;
+
 
         //-> Relevant Carriers
         private ObservableCollection<Carrier> _relevantCarriers;
@@ -80,9 +86,14 @@ namespace MPAG_Final.Planner.ViewModels
                 _relevantCarriers = value;
                 OnPropertyChanged("RelevantCarriers");
 
+
             }
         }
 
+            ContractsVM = new ContractsViewModel();
+            CarriersVM = new CarriersViewModel(carrierMarketPlace);
+            LoadCarriers();
+            LoadContracts();
         //-> Selected Propreties
         private ObservableCollection<Order> _selectedOrders;
         public ObservableCollection<Order> SelectedOrders
@@ -100,6 +111,7 @@ namespace MPAG_Final.Planner.ViewModels
         private List<Carrier> _selectedCarriers = new List<Carrier>();
         public List<Carrier> SelectedCarriers
         {
+            //ContractsVM.LoadContracts(_contractService.GetContracts());
             get { return _selectedCarriers; }
             set
             {

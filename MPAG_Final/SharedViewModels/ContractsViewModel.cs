@@ -22,6 +22,22 @@ namespace MPAG_Final.SharedViewModels
     {
 
         public bool isRunning { get; set; }
+
+        private string _SuccessMessage;
+
+        public string SuccessMessage
+        {
+            get
+            {
+                return _SuccessMessage;
+            }
+            set
+            {
+                _SuccessMessage = value;
+                OnPropertyChanged("SuccessMessage");
+            }
+        }
+
         private string _loadingText;
         public string loadingText
         {
@@ -68,6 +84,7 @@ namespace MPAG_Final.SharedViewModels
         public ICommand UpdateCommand { get; private set; }
         public ICommand SubmitContractCommand { get; private set; }
 
+
         //mock data service for testing UI
 
         //private IContractDataService _contractDataService;
@@ -77,7 +94,6 @@ namespace MPAG_Final.SharedViewModels
         {
             Contracts = new ObservableCollection<Contract>();
             //_contractDataService = contractDataService;
-            UpdateCommand = new RelayCommand(Update);
             isRunning = false;
             loading = 0;
             loadingText = "";
@@ -96,13 +112,14 @@ namespace MPAG_Final.SharedViewModels
             VanTypes = new ObservableCollection<string>();
             VanTypes.Add("Dry");
             VanTypes.Add("Reefer");
-            
-            
+                        
             SubmitContractCommand = new AddContract(this);
-
+            
         }
         public void SubmitContract(object parameter)
         {
+
+            var newList = new TMSDAL().GetOrdersByJobType(0);
             var list = (object[])parameter;
             int jobType = 0;
             int vanType = 0;
@@ -115,20 +132,27 @@ namespace MPAG_Final.SharedViewModels
                 vanType = 1;
             }
 
+            int customerId = new TMSDAL().GetCustomerInformation((list[0]).ToString());
+            if(customerId == 0)
+            {
+               customerId = new TMSDAL().AddCustomer((list[0]).ToString());
+            }
             Contract c = new Contract()
             {
-                Customer = (list[0]).ToString(),
+
+                CustomerID = customerId,
                 JobType = (JobType)jobType,
                 VanType = (VanType)vanType,
-                Origin = list[3].ToString(),
-                Destination = list[4].ToString()
+                OriginID = new TMSDAL().GetCityIdByName(list[3].ToString()),
+                DestinationID = new TMSDAL().GetCityIdByName(list[4].ToString())
             };
             new TMSDAL().InsertContract(c);
-        }
-
-        private void Update()
-        {
-            //add this later
+            SuccessMessage = "Contract successfully added into the TMS System.";
+            new Thread(() =>
+            {
+                Thread.Sleep(3000);
+                SuccessMessage = "";
+            }).Start();
         }
 
         //command for the loading of contracts

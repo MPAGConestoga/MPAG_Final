@@ -24,32 +24,22 @@ namespace MPAG_Final.SharedModels
         //--------- Attributes ---------//
         public int OrderID { get; set; }
 
-        private string _origin;
-        public string origin
+        private int _origin;
+        public int origin
         {
             get { return _origin; }
             set
             {
-                if (!ValidateCity(value))
-                {
-                    throw new Exception("Invalid City -- The city needs to be member of the ValidCities list");
-                }
-
                 _origin = value;
             }
         }
 
-        private string _destination;
-        public string destination
+        private int _destination;
+        public int destination
         {
             get { return _destination; }
             set
             {
-                if (!ValidateCity(value))
-                {
-                    throw new Exception("Invalid City -- The city needs to be member of the ValidCities list");
-                }
-
                 _destination = value;
             }
         }
@@ -114,8 +104,8 @@ namespace MPAG_Final.SharedModels
             this.jobType = jobType;
             this.quantity = quantity;
             this.vanType = vanType;
-            this.origin = origin;
-            this.destination = destination;
+            //this.origin = origin;
+            //this.destination = destination;
             dateCreated = DateTime.Now;
         }
 
