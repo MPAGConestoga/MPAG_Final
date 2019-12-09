@@ -6,6 +6,8 @@
              xmlns:pv="clr-namespace:MPAG_Final.Planner.Views"
              xmlns:bvm="clr-namespace:MPAG_Final.Buyer.ViewModels"
              xmlns:bv="clr-namespace:MPAG_Final.Buyer.Views"
+             xmlns:avm="clr-namespace:MPAG_Final.Admin.ViewModels"
+             xmlns:av="clr-namespace:MPAG_Final.Admin.Views"
              xmlns:helper="clr-namespace:MPAG_Final.Helpers"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
@@ -15,6 +17,9 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type pvm:PlannerLandingViewModel}">
             <pv:PlannerLandingView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type avm:AdminLandingViewModel}">
+            <av:AdminLandingView/>
         </DataTemplate>
         
 
@@ -58,6 +63,7 @@
             <GradientStop Color="#FF7B8FA4" Offset="0.5" />
             <GradientStop Color="#FF8798AA" Offset="1.0" />
         </LinearGradientBrush>
+   
         
         <!--Controls-->
         <Style x:Key="MenuTabButton" TargetType="Button">

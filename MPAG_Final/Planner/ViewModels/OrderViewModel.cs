@@ -20,10 +20,24 @@ namespace MPAG_Final.Planner.ViewModels
    */
     public class OrderViewModel : ObservableObject
     {
+
         // Current selected order information
         private Order FirstOrderSelected = null;
         public ICommand CheckOrderCommand { get; private set; }
         // For accessing planner methods 
+
+        private ICarrierDataService _carrierService;
+        private IContractDataService _contractService;
+
+        // for accessing the contracts view model
+        private ContractsViewModel _contractsVM;
+        public ContractsViewModel ContractsVM
+        {
+            get { return _contractsVM; }
+            set { OnPropertyChanged(ref _contractsVM, value); }
+        }
+        // for accessing the contracts view model_plannerRole
+
         private PlannerRole _plannerRoleVM;
         public PlannerRole PlannerRoleVM
         {
