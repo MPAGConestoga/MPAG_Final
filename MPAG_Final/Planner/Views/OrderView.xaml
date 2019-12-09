@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="Teal">
     <TabControl>
-        <TabItem Header="Pending Orders" Background="Bisque">
+        <TabItem Header="Pending Orders">
             <TabControl TabStripPlacement="Left" >
                 <TabItem Header="FTL">
                     <Grid Background="Beige">
@@ -18,23 +18,30 @@
                         </Grid.ColumnDefinitions>
                         <Grid Grid.Column="0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="107*"/>
-                                <ColumnDefinition Width="272*"/>
+                                <ColumnDefinition Width="93*"/>
+                                <ColumnDefinition Width="14*"/>
+                                <ColumnDefinition Width="17*"/>
+                                <ColumnDefinition Width="254*"/>
                             </Grid.ColumnDefinitions>
-                            <Label Style="{StaticResource DetailLabel}" Content="Orders" HorizontalAlignment="Center" Margin="57.2,5,164.4,0" FontSize="15" Grid.Column="1"/>
+                            <Label Style="{StaticResource DetailLabel}" Content="Orders" HorizontalAlignment="Center" Margin="40.16,5,165,0" FontSize="15" Grid.Column="3"/>
                             <DataGrid GridLinesVisibility="None" 
                                       IsReadOnly="True" 
-                                      Margin="20,40,20.4,20" 
+                                      Margin="20,40,20,20" 
                                       AutoGenerateColumns="True" 
-                                      Grid.ColumnSpan="2"
-                                      >
+                                      Grid.ColumnSpan="4">
                                 <DataGrid.Columns>
                                     <DataGridTemplateColumn Header="Selected">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <CheckBox HorizontalAlignment="Center" 
-                                                           
-                                                          />
+                                                <CheckBox Command="{Binding DataContext.FireCommand,
+                                            RelativeSource={RelativeSource AncestorType=DataGrid}}"  HorizontalAlignment="Center" 
+                                                          IsChecked="{Binding Path=IsSelected, 
+                                                          UpdateSourceTrigger=PropertyChanged}"
+                                                  
+                                                  />
+                                                <!--<CheckBox HorizontalAlignment="Center" 
+                                                          IsChecked="{Binding Path=IsSelected, 
+                                                          UpdateSourceTrigger=PropertyChanged}" />-->
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
@@ -42,7 +49,7 @@
 
                             </DataGrid>
                         </Grid>
-                        
+
                         <Grid Grid.Column="1">
                             <Rectangle Fill="Black" Width="1" HorizontalAlignment="Left" Margin="-1,0,0,0" Opacity="0.5"/>
                             <Grid>
@@ -88,14 +95,20 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="75"/>
+                        </Grid.RowDefinitions>
                         <Grid Grid.Column="0">
                             <Label Style="{StaticResource DetailLabel}" Content="Orders" HorizontalAlignment="Center" Margin="0,5,0,0" FontSize="15" />
-                            <DataGrid ItemsSource="{Binding LTLOrders}" 
+                            <DataGrid Name="LTLPending"
+                                ItemsSource="{Binding LTLOrders}" 
                                       GridLinesVisibility="None" 
                                       IsReadOnly="True"
-                                      Margin="20,40,20,20" 
+                                      Margin="0,50,40,10" 
                                       AutoGenerateColumns="False">
                                 <DataGrid.Columns>
+
                                     <!--<DataGridCheckBoxColumn Binding="{Binding Path=SelectedOrder}" Header="Check">
                                         <DataGridCheckBoxColumn.CellStyle>
                                             <Style>
@@ -103,15 +116,33 @@
                                             </Style>
                                         </DataGridCheckBoxColumn.CellStyle>
                                     </DataGridCheckBoxColumn>-->
+
                                     <DataGridTextColumn Header="ID" Width="Auto" Binding="{Binding OrderID}" />
-                                    <DataGridTextColumn Header="Origin" Width="Auto" Binding="{Binding origin}" />
-                                    <DataGridTextColumn Header="Destination" Width="Auto" Binding="{Binding destination}" />
-                                    <DataGridTextColumn Header="Van Type" Width="Auto" Binding="{Binding vanType}" />
-                                    <DataGridTextColumn Header="Date Created" Width="Auto" Binding="{Binding dateCreated}" />
+                                    <DataGridTextColumn Header="Origin" Width="Auto" Binding="{Binding originString}" />
+                                    <DataGridTextColumn Header="Destination" Width="Auto" Binding="{Binding destinationString}" />
+                                    <DataGridTextColumn Header="Van Type" Width="Auto" Binding="{Binding vanTypeString}" />
+                                    <DataGridTextColumn Header="Quantity" Width="Auto" Binding="{Binding quantity}" />
+                                    <DataGridTemplateColumn Header="Select Order">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                                <Button HorizontalAlignment="Center" Content="√" Width="25"
+                                                           Command="{Binding DataContext.CheckOrderCommand,
+                                            RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding OrderID}" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
                                 </DataGrid.Columns >
                             </DataGrid>
                         </Grid>
-                        <Grid Grid.Column="1">
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Message}" TextWrapping="WrapWithOverflow" TextAlignment="Center" FontSize="16" FontWeight="Bold" Grid.Column="1"/>
+                            <Button Content="Reset Filtre" Command="{Binding ResetCommand}"></Button>
+                        </Grid>
+                        <Grid Grid.Column="1" Grid.RowSpan="2">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
@@ -120,18 +151,22 @@
                                 <Grid Grid.Row="0">
                                     <Label Style="{StaticResource DetailLabel}" Content="Selected Orders" HorizontalAlignment="Center" Margin="0,5,0,0" FontSize="15"/>
                                     <DataGrid GridLinesVisibility="None" 
+                                              ItemsSource="{Binding SelectedOrders}"
                                               IsReadOnly="True"
                                               Margin="20,40,20,20" 
                                               AutoGenerateColumns="False" >
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Header="ID" Width="Auto" Binding="{Binding carrierId}" />
-                                            <DataGridTextColumn Header="Origin" Width="Auto" Binding="{Binding carrierName}" />
-                                            <DataGridTemplateColumn Header="Selected">
+                                            <DataGridTextColumn Header="ID" Width="Auto" Binding="{Binding OrderID}" />
+                                            <DataGridTextColumn Header="Origin" Width="Auto" Binding="{Binding originString}" />
+                                            <DataGridTextColumn Header="Destination" Width="Auto" Binding="{Binding destinationString}" />
+                                            <DataGridTextColumn Header="Van Type" Width="Auto" Binding="{Binding vanTypeString}" />
+                                            <DataGridTextColumn Header="Quantity" Width="Auto" Binding="{Binding quantity}" />
+                                            <DataGridTemplateColumn Header="Remove">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
-                                                        <CheckBox HorizontalAlignment="Center" 
-                                                          IsChecked="{Binding Path=IsSelected, 
-                                                          UpdateSourceTrigger=PropertyChanged}" />
+                                                        <Button HorizontalAlignment="Center" Content="X" Width="25"
+                                                           Command="{Binding DataContext.RemoveOrderCommand,
+                                            RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding OrderID}"/>
                                                     </DataTemplate>
                                                 </DataGridTemplateColumn.CellTemplate>
                                             </DataGridTemplateColumn>
@@ -139,17 +174,19 @@
                                     </DataGrid>
                                 </Grid>
                                 <Grid Grid.Row="1">
-                                    <Rectangle Fill="Black" Width="3" HorizontalAlignment="Left" Margin="-1,0,0,0" Opacity="0.5"/>
-                                    <Rectangle Fill="Black" Height="3" VerticalAlignment="Top" Margin="0,-1,0,0" Opacity="0.5"/>
+                                    <Rectangle Fill="Black" Width="1" HorizontalAlignment="Left" Margin="-1,0,0,0" Opacity="0.5"/>
+                                    <Rectangle Fill="Black" Height="1" VerticalAlignment="Top" Margin="0,-1,0,0" Opacity="0.5"/>
 
                                     <Label Style="{StaticResource DetailLabel}" Content="Carriers" HorizontalAlignment="Center" Margin="0,5,0,0" FontSize="15"/>
                                     <DataGrid GridLinesVisibility="None" 
                                               IsReadOnly="True"
-                                              Margin="20,40,20,60" 
+                                               ItemsSource="{Binding RelevantCarriers}"
+                                              Margin="-1,40,41,50" 
                                               AutoGenerateColumns="False" >
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="ID" Width="Auto" Binding="{Binding carrierId}" />
                                             <DataGridTextColumn Header="Origin" Width="Auto" Binding="{Binding carrierName}" />
+                                            <DataGridTextColumn Header="LTL" Width="Auto" Binding="{Binding TargetDepot.avalibleLTL}" />
                                             <DataGridTemplateColumn Header="Selected">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
@@ -196,6 +233,30 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
+
+                    <Label Style="{StaticResource DetailLabel}" Content="Orders" HorizontalAlignment="Center" Margin="64,5,171.6,-0.4" FontSize="15" Grid.Column="2"/>
+                    <DataGrid GridLinesVisibility="None" 
+                              IsReadOnly="True"
+                              Margin="2.8,40,20.6,19.6" 
+                              AutoGenerateColumns="False" 
+                              Grid.ColumnSpan="2" 
+                              Grid.Column="1">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Width="Auto"  />
+                            <DataGridTextColumn Header="Origin" Width="Auto"  />
+                            <DataGridTemplateColumn Header="Selected">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox Command="{Binding DataContext.FireCommand,
+                                            RelativeSource={RelativeSource AncestorType=DataGrid}}"  HorizontalAlignment="Center" 
+                                                          IsChecked="{Binding Path=IsSelected, 
+                                                          UpdateSourceTrigger=PropertyChanged}"
+                                                   />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns >
+
                     <Grid Grid.Column="0">
                         <ListView ItemsSource="{Binding ActiveOrders}"  SelectedItem="{Binding SelectedActiveOrder}" HorizontalAlignment="Stretch" Margin="0,0,0,0" >
                             <ListView.ItemContainerStyle>
@@ -229,6 +290,7 @@
                                 </Border>
                             </StackPanel>
                         </StackPanel>
+
 
                         <StackPanel Grid.Row="2" Margin="5">
                             <StackPanel>

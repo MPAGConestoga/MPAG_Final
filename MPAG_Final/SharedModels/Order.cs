@@ -1,6 +1,5 @@
 ﻿using MPAG_Final.Services;
 using MPAG_Final.Utilities;
-using MPAG_OrderAndTrip;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +43,9 @@ namespace MPAG_Final.SharedModels
             }
         }
 
+        public string originString { get; set; }
+        public string destinationString { get; set; }
+        public string vanTypeString { get; set; }
         public int status { get; set; }
         public int quantity { get; set; }
         public bool jobType { get; set; }

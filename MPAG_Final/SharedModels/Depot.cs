@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MPAG_OrderAndTrip
+namespace MPAG_Final.SharedModels
 {
     /**
     * \brief   The Depot represent one location where the Carrier has a delivery station.
@@ -31,6 +31,10 @@ namespace MPAG_OrderAndTrip
             location = city;
             availibleFTL = initialFTLs;
             avalibleLTL = initialLTLs;
+        }
+        public Depot()
+        {
+
         }
     }
 }
