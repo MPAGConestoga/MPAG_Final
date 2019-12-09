@@ -74,6 +74,10 @@ namespace MPAG_Final.Planner.ViewModels
 
 
 
+            //ContractsVM = new ContractsViewModel();
+            //CarriersVM = new CarriersViewModel(carrierMarketPlace);
+            //LoadCarriers();
+            //LoadContracts();
         //-> Relevant Carriers
         private ObservableCollection<Carrier> _relevantCarriers;
         public ObservableCollection<Carrier> RelevantCarriers
@@ -83,8 +87,6 @@ namespace MPAG_Final.Planner.ViewModels
             {
                 _relevantCarriers = value;
                 OnPropertyChanged("RelevantCarriers");
-
-
             }
         }
 
@@ -118,6 +120,7 @@ namespace MPAG_Final.Planner.ViewModels
 
             }
         }
+
 
 
 
@@ -163,6 +166,5 @@ namespace MPAG_Final.Planner.ViewModels
 
             OnPropertyChanged("RelevantCarriers");
         }
-
     }
 }

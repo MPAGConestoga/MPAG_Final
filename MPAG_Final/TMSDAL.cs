@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using MPAG_Final.SharedModels;
+using MPAG_Final.Logging;
 
 namespace MPAG_Final
 {
@@ -92,6 +93,8 @@ namespace MPAG_Final
         /// \see Order::AddOrder()
         public void InsertOrder(Order order)
         {
+            try
+            { 
             using (var myConn = new MySqlConnection(buyerConnectionString))
             {
                 const string sqlStatement = @"  INSERT INTO _order (Start_Date, Origin, Destination, Job_Type, Van_Type, Order_Status)
@@ -109,6 +112,11 @@ namespace MPAG_Final
 
                 myCommand.ExecuteNonQuery();
             }
+            }
+            catch(Exception ex)
+            {
+                LogType.ErrorType(LogType.LoggingType.database, ex.ToString());
+            }
         }
 
         /// \brief To insert an order into the TMS local database
@@ -121,6 +129,8 @@ namespace MPAG_Final
         /// \see Order::AddOrder()
         public void InsertContract(Contract contract)
         {
+            try
+            { 
             using (var myConn = new MySqlConnection(buyerConnectionString))
             {
                 const string sqlStatement = @"  INSERT INTO _order (Customer_Id, Origin, Destination, Job_Type, Van_Type, Order_Status)
@@ -137,6 +147,11 @@ namespace MPAG_Final
                 myConn.Open();
                 myCommand.ExecuteNonQuery();
             }
+            }
+            catch(Exception ex)
+            {
+                LogType.ErrorType(LogType.LoggingType.database, ex.ToString());
+            }
         }
 
         /// \brief To insert a new carrier into the TMS local database
@@ -147,6 +162,8 @@ namespace MPAG_Final
         /// \see Order::AddOrder()
         public void InsertCarrier(Carrier carrier)
         {
+            try
+            { 
             using (var myConn = new MySqlConnection(buyerConnectionString))
             {
                 const string sqlStatement = @"  INSERT INTO carrier (Carrier_Name, LTL_Rate, FTL_Rate, Reefer) VALUES
@@ -163,6 +180,11 @@ namespace MPAG_Final
 
                 myCommand.ExecuteNonQuery();
             }
+            }
+            catch(Exception ex)
+            {
+                LogType.ErrorType(LogType.LoggingType.database, ex.ToString());
+            }
         }
 
         /// \brief To insert an address into the TMS local database
@@ -174,18 +196,26 @@ namespace MPAG_Final
         /// \see Address
         public void addAddress(Address address)
         {
-            using (var myConn = new MySqlConnection(adminConnectionString))
+            try
             {
-                const string sqlStatement = @"  INSERT INTO City(City)
+                using (var myConn = new MySqlConnection(adminConnectionString))
+                {
+                    const string sqlStatement = @"  INSERT INTO City(City)
                                                             (@city); ";
 
-                var myCommand = new MySqlCommand(sqlStatement, myConn);
+                    var myCommand = new MySqlCommand(sqlStatement, myConn);
 
-                myCommand.Parameters.AddWithValue("@city", address.city);
+                    myCommand.Parameters.AddWithValue("@city", address.city);
 
-                myConn.Open();
+                    myConn.Open();
 
-                myCommand.ExecuteNonQuery();
+                    myCommand.ExecuteNonQuery();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                LogType.ErrorType(LogType.LoggingType.database, ex.ToString());
             }
         }
 
@@ -198,21 +228,28 @@ namespace MPAG_Final
         /// \see Order::confirmOrder()
         public void confirmOrder(Order order)
         {
-            using (var myConn = new MySqlConnection(buyerConnectionString))
+            try
             {
-                const string sqlStatement = @"  UPDATE _order 
+                using (var myConn = new MySqlConnection(buyerConnectionString))
+                {
+                    const string sqlStatement = @"  UPDATE _order 
                                                 SET 
 	                                            Order_Status = 1
                                                 WHERE
 	                                            Order_Id = @Order_Id; ";
 
-                var myCommand = new MySqlCommand(sqlStatement, myConn);
+                    var myCommand = new MySqlCommand(sqlStatement, myConn);
 
-                myCommand.Parameters.AddWithValue("@Order_Id", order.OrderID);
+                    myCommand.Parameters.AddWithValue("@Order_Id", order.OrderID);
 
-                myConn.Open();
+                    myConn.Open();
 
-                myCommand.ExecuteNonQuery();
+                    myCommand.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogType.ErrorType(LogType.LoggingType.database, ex.ToString());  
             }
         }
 
@@ -225,23 +262,30 @@ namespace MPAG_Final
         /// \see Order::orderToBeInvoiced()
         public void orderStatusTripFinished(Order order)
         {
-            using (var myConn = new MySqlConnection(buyerConnectionString))
+            try
             {
-                const string sqlStatement = @"  UPDATE _order 
+                using (var myConn = new MySqlConnection(buyerConnectionString))
+                {
+                    const string sqlStatement = @"  UPDATE _order 
                                                 SET 
 	                                            Order_Status = 2
                                                 End_Date = @dateCompleted
                                                 WHERE
 	                                            Order_Id = @Order_Id; ";
 
-                var myCommand = new MySqlCommand(sqlStatement, myConn);
+                    var myCommand = new MySqlCommand(sqlStatement, myConn);
 
-                myCommand.Parameters.AddWithValue("@End_Date", order.dateCompleted);
-                myCommand.Parameters.AddWithValue("@Order_Id", order.OrderID);
+                    myCommand.Parameters.AddWithValue("@End_Date", order.dateCompleted);
+                    myCommand.Parameters.AddWithValue("@Order_Id", order.OrderID);
 
-                myConn.Open();
+                    myConn.Open();
 
-                myCommand.ExecuteNonQuery();
+                    myCommand.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogType.ErrorType(LogType.LoggingType.database, ex.ToString());
             }
         }
 
@@ -254,21 +298,28 @@ namespace MPAG_Final
         /// \see Order::orderFinished()
         public void orderStatusFinished(Order order)
         {
-            using (var myConn = new MySqlConnection(buyerConnectionString))
+            try
             {
-                const string sqlStatement = @"  UPDATE _order 
+                using (var myConn = new MySqlConnection(buyerConnectionString))
+                {
+                    const string sqlStatement = @"  UPDATE _order 
                                                 SET 
 	                                            Order_Status = 3
                                                 WHERE
 	                                            Order_Id = @Order_Id; ";
 
-                var myCommand = new MySqlCommand(sqlStatement, myConn);
+                    var myCommand = new MySqlCommand(sqlStatement, myConn);
 
-                myCommand.Parameters.AddWithValue("@Order_Id", order.OrderID);
+                    myCommand.Parameters.AddWithValue("@Order_Id", order.OrderID);
 
-                myConn.Open();
+                    myConn.Open();
 
-                myCommand.ExecuteNonQuery();
+                    myCommand.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogType.ErrorType(LogType.LoggingType.database, ex.ToString());
             }
         }
         /// \brief To get a customer's id
@@ -334,33 +385,41 @@ namespace MPAG_Final
                                         AND Last_Name = @LastName
                                         AND Phone = @Phone) 
                                         AS temporaryTable);";
-            using (var myConn = new MySqlConnection(buyerConnectionString))
+
+            try
             {
-                var myCommand = new MySqlCommand(sqlStatement, myConn);
-                myCommand.Parameters.AddWithValue("@FirstName", person.firstName);
-                myCommand.Parameters.AddWithValue("@LastName", person.lastName);
-                myCommand.Parameters.AddWithValue("@Phone", person.phoneNum);
-
-                var myAdapter = new MySqlDataAdapter
+                using (var myConn = new MySqlConnection(buyerConnectionString))
                 {
-                    SelectCommand = myCommand
-                };
+                    var myCommand = new MySqlCommand(sqlStatement, myConn);
+                    myCommand.Parameters.AddWithValue("@FirstName", person.firstName);
+                    myCommand.Parameters.AddWithValue("@LastName", person.lastName);
+                    myCommand.Parameters.AddWithValue("@Phone", person.phoneNum);
 
-                var table = new DataTable();
+                    var myAdapter = new MySqlDataAdapter
+                    {
+                        SelectCommand = myCommand
+                    };
 
-                myAdapter.Fill(table);
-                foreach (DataRow row in table.Rows)
-                {
-                    person.personID = Convert.ToInt32(row["Person_Id"]);
-                    person.firstName = row["First_Name"].ToString();
-                    person.lastName = row["Last_Name"].ToString();
-                    person.phoneNum = row["Phone"].ToString();
-                    person.email = row["Email"].ToString();
-                    person.personAddress.streetAddress = (row["Street_Address"].ToString());
-                    person.personAddress.city = (row["City"].ToString());
-                    person.personAddress.province = (row["Province"].ToString());
-                    person.personAddress.postalCode = (row["Postal_Code"].ToString());
+                    var table = new DataTable();
+
+                    myAdapter.Fill(table);
+                    foreach (DataRow row in table.Rows)
+                    {
+                        person.personID = Convert.ToInt32(row["Person_Id"]);
+                        person.firstName = row["First_Name"].ToString();
+                        person.lastName = row["Last_Name"].ToString();
+                        person.phoneNum = row["Phone"].ToString();
+                        person.email = row["Email"].ToString();
+                        person.personAddress.streetAddress = (row["Street_Address"].ToString());
+                        person.personAddress.city = (row["City"].ToString());
+                        person.personAddress.province = (row["Province"].ToString());
+                        person.personAddress.postalCode = (row["Postal_Code"].ToString());
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                LogType.ErrorType(LogType.LoggingType.database, ex.ToString());
             }
         }
 
@@ -376,7 +435,6 @@ namespace MPAG_Final
             const string sqlStatement = @"SELECT 
 	                                    *
                                         FROM carrier;;";
-
             using (var myConn = new MySqlConnection(buyerConnectionString))
             {
 
@@ -903,41 +961,55 @@ namespace MPAG_Final
             System.IO.Directory.CreateDirectory(folderPath);
             string database = ConfigurationManager.ConnectionStrings["TMSAdmin"].ConnectionString;
             string file = "C:\\tms\\backup.sql";
-            using (MySqlConnection conn = new MySqlConnection(database))
+            try
             {
-                using (MySqlCommand cmd = new MySqlCommand())
+                using (MySqlConnection conn = new MySqlConnection(database))
                 {
-                    //using (MySqlBackup mb = new MySqlBackup(cmd))
-                    //{
-                    //    cmd.Connection = conn;
-                    //    conn.Open();
-                    //    mb.ExportToFile(file);
-                    //    conn.Close();
-                    //}
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        //using (MySqlBackup mb = new MySqlBackup(cmd))
+                        //{
+                        //    cmd.Connection = conn;
+                        //    conn.Open();
+                        //    mb.ExportToFile(file);
+                        //    conn.Close();
+                        //}
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                LogType.ErrorType(LogType.LoggingType.database, ex.ToString());
             }
         }
         public void UpdateConnectionString(string IP, string Port, int dbase)
         {
             var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             var connectionStringsSection = (ConnectionStringsSection)config.GetSection("connectionStrings");
-
-            switch (dbase)
+            try
             {
-                //0 if changing the TMS
-                case 0:
-                    connectionStringsSection.ConnectionStrings["TMSAdmin"].ConnectionString = ("server=" + IP + ";Port=" + Port + "; user id=admin;database=tms;password=Conestoga;SslMode=required");
-                    connectionStringsSection.ConnectionStrings["TMSBuyer"].ConnectionString = ("server=" + IP + ";Port=" + Port + "; user id=buyer;database=tms;password=Conestoga;SslMode=required");
-                    connectionStringsSection.ConnectionStrings["TMSPlanner"].ConnectionString = ("server=" + IP + ";Port=" + Port + "; user id=planner;database=tms;password=Conestoga;SslMode=required");
-                    break;
-                //1 if changing the CMP
-                case 1:
+                switch (dbase)
+                {
+                    //0 if changing the TMS
+                    case 0:
+                        connectionStringsSection.ConnectionStrings["TMSAdmin"].ConnectionString = ("server=" + IP + ";Port=" + Port + "; user id=admin;database=tms;password=Conestoga;SslMode=required");
+                        connectionStringsSection.ConnectionStrings["TMSBuyer"].ConnectionString = ("server=" + IP + ";Port=" + Port + "; user id=buyer;database=tms;password=Conestoga;SslMode=required");
+                        connectionStringsSection.ConnectionStrings["TMSPlanner"].ConnectionString = ("server=" + IP + ";Port=" + Port + "; user id=planner;database=tms;password=Conestoga;SslMode=required");
+                        break;
+                    //1 if changing the CMP
+                    case 1:
 
-                    break;
-                default:
-                    break;
+                        break;
+                    default:
+                        break;
+                }
+                config.Save();
+
             }
-            config.Save();
+            catch (Exception ex)
+            {
+                LogType.ErrorType(LogType.LoggingType.database, ex.ToString());
+            }
             ConfigurationManager.RefreshSection("connectionStrings");
             buyerConnectionString = ConfigurationManager.ConnectionStrings["TMSBuyer"].ConnectionString;
             plannerConnectionString = ConfigurationManager.ConnectionStrings["TMSPlanner"].ConnectionString;

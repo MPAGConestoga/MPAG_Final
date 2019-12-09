@@ -56,19 +56,6 @@ namespace MPAG_Final.Planner.Models
             get { return vanType; }
             set { OnPropertyChanged(ref vanType, value); }
         }
-
-
-        //public static ObservableCollection<PendingOrders> GetPending()
-        //{
-        //    var pendingColl = new ObservableCollection<PendingOrders>();
-        //    pendingColl.Add(new PendingOrders() { OrderID = 001, Customer = "Jev Robotics", JobType = JobType.FTL, Origin = "London", Destination = "Toronto", VanType = VanType.Dry });
-        //    pendingColl.Add(new PendingOrders() { OrderID = 002, Customer = "Ishmail's Fish", JobType = JobType.LTL, Origin = "Windsor", Destination = "London", VanType = VanType.Reefer });
-        //    pendingColl.Add(new PendingOrders() { OrderID = 003, Customer = "Cats", JobType = JobType.FTL, Origin = "Toronto", Destination = "Kingston", VanType = VanType.Dry  });
-        //    pendingColl.Add(new PendingOrders() { OrderID = 004, Customer = "Ice Sculptors United", JobType = JobType.LTL, Origin = "Belleville", Destination = "Ottawa", VanType = VanType.Dry });
-        //    pendingColl.Add(new PendingOrders() { OrderID = 005, Customer = "Factory Shoe", JobType = JobType.FTL, Origin = "Kingston", Destination = "Hamilton", VanType = VanType.Dry });
-
-        //    return pendingColl;
-        //}
     }
 
     public enum VanType
