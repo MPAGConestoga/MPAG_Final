@@ -1,7 +1,9 @@
-﻿using MPAG_Final.Services;
+﻿using MPAG_Final.Logging;
+using MPAG_Final.Services;
 using MPAG_Final.SharedModels;
 using MPAG_Final.SharedViewModels;
 using MPAG_Final.Utilities;
+using System;
 using System.Windows.Input;
 
 namespace MPAG_Final.Buyer.ViewModels
@@ -64,8 +66,15 @@ namespace MPAG_Final.Buyer.ViewModels
             var contractMarketPlace = new MockContractMarketplace(); //mock service for the testing of the ui
 
             _service = contractMarketPlace;
-            ContractsVM.DatabaseRun();
-            LoadContracts();
+            try
+            {
+                ContractsVM.DatabaseRun();
+            }
+            catch (Exception ex)
+            {
+                LogType.ErrorType(LogType.LoggingType.database, ex.ToString());
+            }
+                LoadContracts();
         }
         //  Function to bind to xaml command
 

@@ -5,9 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MPAG_Final.Admin.Views"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                          xmlns:Converters="clr-namespace:MPAG_Final.Helpers"
+
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
+        <Converters:BtnParamConverter x:Key="multiConverter" />
+
         <Style x:Key = "TriggerStyle" TargetType="{x:Type Button}">
             <Style.Triggers>
                 <Trigger Property = "IsPressed" Value = "True">
@@ -73,7 +77,7 @@
                                 <TextBlock Margin="5,0,0,0" Grid.Column="0" VerticalAlignment="Center" x:Name="ftlText" Text="FTL Rate:"/>
                                 <TextBox Margin="0,0,5,0" Grid.Column="1" VerticalAlignment="Center" Text="{Binding SelectedItem.FTLRate, ElementName=carrierlist, Mode=TwoWay}"/>
                             </Grid>
-                            <Button x:Name="updateRates" Content="Update Rates" Grid.Column="1" Grid.Row="2"/>
+                            <Button x:Name="updateRates" Content="Update Rates" Grid.Column="1" Grid.Row="2" Command="{Binding UpdateCarrierCommand}"/>
                             <ListView ItemsSource="{Binding AllCarriers}" Grid.RowSpan="3" x:Name="carrierlist" HorizontalAlignment="Stretch" Margin="0,0,0,0" >
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
@@ -82,9 +86,10 @@
                             </ListView.ItemContainerStyle>
                             <ListView.View>
                                 <GridView>
-                                    <GridViewColumn Header="Carrier" Width="Auto" DisplayMemberBinding="{Binding FTLRate}" />
-                                    <GridViewColumn Header="LTL Rate" Width="Auto" DisplayMemberBinding="{Binding LTLRate}" />
-                                    <GridViewColumn Header="FTL Rate" Width="Auto" DisplayMemberBinding="{Binding JobType}" />
+                                        <GridViewColumn Header="Carrier" Width="Auto" DisplayMemberBinding="{Binding carrierName}" />
+                                        <GridViewColumn Header="LTL Rate" Width="Auto" DisplayMemberBinding="{Binding LTLRate}" />
+
+                                        <GridViewColumn Header="FTL Rate" Width="Auto" DisplayMemberBinding="{Binding FTLRate}" />
 
 
                                 </GridView>
@@ -92,8 +97,10 @@
                         </ListView>
                         </Grid>
                     </TabItem>
-
+                    <TabItem Header="Alter Carrier Info">
+                    </TabItem>
                 </TabControl>
+                
                 <Rectangle Fill="Black" Height="1" VerticalAlignment="Bottom" Margin="0,0,0,0" Opacity="0.5"/>
 
             </Grid>
@@ -103,24 +110,91 @@
                 </Border>
             </Grid>
             <Grid Grid.Row="3">
-                <DataGrid GridLinesVisibility="None" 
-                                      IsReadOnly="True" 
-                                      Margin="20,20,20,20" 
-                                      AutoGenerateColumns="True" 
-                                      Grid.ColumnSpan="2">
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="Selected">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <CheckBox HorizontalAlignment="Center" 
-                                                          IsChecked="{Binding Path=IsSelected, 
-                                                          UpdateSourceTrigger=PropertyChanged}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns >
+                <Grid Margin="20,18,20,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TabControl Grid.Column="1" Grid.RowSpan="2">
+                        <TabItem Header="Contract MP">
+                            <Grid >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                   
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="New IP Address" Grid.ColumnSpan="4" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+                                <TextBox Grid.Row="1" Grid.Column="0" MaxLength="3" x:Name="firstIP" Margin="5" TextAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBox Grid.Row="1" Grid.Column="1" MaxLength="3" x:Name="secondIP" Margin="5" TextAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBox Grid.Row="1" Grid.Column="2" MaxLength="3" x:Name="thirdIP" Margin="5" TextAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBox Grid.Row="1" Grid.Column="3" MaxLength="3" x:Name="fourthIP" Margin="5" TextAlignment="Center" VerticalAlignment="Center"/>
 
-                </DataGrid>
+                                <Button Content="Submit IP Change" Margin="5" Grid.Row="2" Grid.ColumnSpan="4" Command="{Binding UpdateIPCommand}">
+                                    <Button.CommandParameter>
+                                        <MultiBinding Converter="{StaticResource multiConverter}">
+                                            <Binding Path="Text" ElementName="firstIP" />
+                                            <Binding Path="Text" ElementName="secondIP" />
+                                            <Binding Path="Text" ElementName="thirdIP" />
+                                            <Binding Path="Text" ElementName="fourthIP" />
+                                            <Binding Path="Text" ElementName="cmp"/>
+                                        </MultiBinding>
+                                    </Button.CommandParameter>
+                                </Button>
+                                <TextBlock x:Name="cmp" Text="1" Visibility="Hidden"/>
+
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="TMS DB">
+                            <Grid >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="New IP Address" Grid.ColumnSpan="4" TextAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+                                <TextBox Grid.Row="1" Grid.Column="0" MaxLength="3" x:Name="TMSFirstIP" Margin="5" TextAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBox Grid.Row="1" Grid.Column="1" MaxLength="3" x:Name="TMSSecondIP" Margin="5" TextAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBox Grid.Row="1" Grid.Column="2" MaxLength="3" x:Name="TMSThirdIP" Margin="5" TextAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBox Grid.Row="1" Grid.Column="3" MaxLength="3" x:Name="TMSFourthIP" Margin="5" TextAlignment="Center" VerticalAlignment="Center"/>
+
+                                <Button Content="Submit IP Change" Margin="5" Grid.Row="2" Grid.ColumnSpan="4" Command="{Binding UpdateIPCommand}">
+                                <Button.CommandParameter>
+                                    <MultiBinding Converter="{StaticResource multiConverter}">
+                                            <Binding Path="Text" ElementName="TMSFirstIP" />
+                                            <Binding Path="Text" ElementName="TMSSecondIP" />
+                                            <Binding Path="Text" ElementName="TMSThirdIP" />
+                                            <Binding Path="Text" ElementName="TMSFourthIP" />
+                                            <Binding Path="Text" ElementName="cmp"/>
+                                    </MultiBinding>
+                                </Button.CommandParameter>
+                                </Button>
+                                <TextBlock x:Name="tms" Text="0" Visibility="Hidden"/>
+
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+                    
+                    <Button Content="Initiate Backup" Margin="20,20" Grid.RowSpan="2" Command="{Binding BackupCommand}"/>
+
+                </Grid>
+                
             </Grid>
         </Grid>
 
@@ -135,27 +209,27 @@
                     <Label FontWeight="Bold" Foreground="#FFF5F7F9" Content="Log Files" HorizontalAlignment="Center" FontSize="15"/>
                 </Border>
             </Grid>
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="1" >
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                
+                    
                 <Rectangle Fill="Black" Width="1" HorizontalAlignment="Left" Margin="0,0,0,0" Opacity="0.5"/>
 
-                <DataGrid GridLinesVisibility="All" 
-                                      IsReadOnly="False" 
-                                      Margin="20,40,20,20" 
-                                      AutoGenerateColumns="False" >
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" Width="Auto"  />
-                        <DataGridTextColumn Header="Origin" Width="Auto"  />
-                        <DataGridTemplateColumn Header="Selected">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <CheckBox HorizontalAlignment="Center" 
-                                        IsChecked="{Binding Path=IsSelected, 
-                                        UpdateSourceTrigger=PropertyChanged}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns >
-                </DataGrid>               
+                <ListView ItemsSource="{Binding Logs}" Grid.RowSpan="1" x:Name="logslist" HorizontalAlignment="Stretch" Margin="0,0,0,10" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <ScrollViewer Grid.Row="1">
+                    <TextBlock Margin="5,5" Background="White" TextWrapping="WrapWithOverflow"  Text="{Binding LogFile}"/>
+                </ScrollViewer>
             </Grid>
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
@@ -163,20 +237,12 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0">
-                    <DatePicker x:Name="dpEventDate"  HorizontalAlignment="Left" Margin="0,0,0,0" 
-                            VerticalAlignment="Center" SelectedDateFormat="Long" 
-                            SelectedDate="{Binding MyDateTimeProperty, Mode=TwoWay}"/>
-                </Grid>
+               
                 <Grid Grid.Column="1">
-                    <ComboBox HorizontalAlignment="Left" Margin="0,0,0,0" Width="100" Height="25">
-                        <ComboBoxItem Content="Buyer"/>
-                        <ComboBoxItem Content="Planner"/>
-                        <ComboBoxItem Content="Admin"/>
-                        <ComboBoxItem Content="Database"/>
-                    </ComboBox>
+                    <Button x:Name="viewLog" Content="View Selected Log" Margin="0,10,0,10" Command="{Binding ViewLogCommand}" CommandParameter="{Binding SelectedItem, ElementName=logslist}"/>
                 </Grid>
-                
+                <TextBlock TextAlignment="Center" Foreground="Red" VerticalAlignment="Center" Grid.Column="2" Text="{Binding Error}"/>
+
             </Grid>
         </Grid>
     </Grid>
