@@ -37,12 +37,13 @@ namespace MPAG_Final.Planner.ViewModels
         public string Message
         {
             //mock service for the testing of the ui
-
             get { return _message; }
             set
             {
                 _message = value;
                 OnPropertyChanged("Message");
+            }
+        }
 
 
 
@@ -164,7 +165,6 @@ namespace MPAG_Final.Planner.ViewModels
         private ObservableCollection<Order> _activeOrders;
         public ObservableCollection<Order> ActiveOrders
         {
-
             get { return _activeOrders; }
             set
             {
@@ -206,7 +206,9 @@ namespace MPAG_Final.Planner.ViewModels
 
         }
 
-
+        /// <summary>
+        ///     Reset the filters in the order view
+        /// </summary>
         public void ResetFilters()
         {
             LTLOrders.Clear();
@@ -223,6 +225,11 @@ namespace MPAG_Final.Planner.ViewModels
                 LTLOrdersMaster.Add(el);
             }
         }
+
+        /// <summary>
+        ///     Check the order type and how many have been selected
+        /// </summary>
+        /// <param name="parameter"><b>object</b> - order ID being evaluated</param>
         public void OrderChecked(object parameter)
         {
             Message = "";
@@ -338,7 +345,10 @@ namespace MPAG_Final.Planner.ViewModels
             // Populate Relevant Carriers list
             //RelevantCarriers = new ObservableCollection<Carrier>(new SampleData().GetRelevantCarrier(selectedOrder.origin, selectedOrder.destination));
 
-
+        /// <summary>
+        ///     Remove order from list
+        /// </summary>
+        /// <param name="parameter"><b>object</b> - order to be removed</param>
         public void RemoveOrder(object parameter)
         {
             int ID = Convert.ToInt32(parameter);
@@ -350,10 +360,7 @@ namespace MPAG_Final.Planner.ViewModels
                     SelectedOrders.Remove(el);
                     LTLOrders.Add(el);
                     break;
-                }
-               
-                
-                
+                }             
             }
             if (SelectedOrders.Count == 0)
             {
@@ -370,6 +377,12 @@ namespace MPAG_Final.Planner.ViewModels
             }
         }
 
+        /// <summary>
+        ///     Calculate the direction of the order travel
+        /// </summary>
+        /// <param name="origin"><b>int</b> -  </param>
+        /// <param name="destination"></param>
+        /// <returns></returns>
         public int CalculateDirection(int origin, int destination)
         {
             TMSDAL DAL = new TMSDAL();
