@@ -2,6 +2,7 @@
 using MPAG_Final.SharedModels;
 using MPAG_Final.SharedViewModels;
 using MPAG_Final.Utilities;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace MPAG_Final.Buyer.ViewModels
@@ -27,6 +28,24 @@ namespace MPAG_Final.Buyer.ViewModels
             get { return _contractsVM; }
             set { OnPropertyChanged(ref _contractsVM, value); }
         }
+
+        private Order _selectedTwoWeeks;
+        public Order SelectedTwoWeeks
+        {
+            get { return _selectedTwoWeeks; }
+            set { OnPropertyChanged(ref _selectedTwoWeeks, value); }
+        }
+
+        private Order _selectedAllTime;
+        public Order SelectedAllTime
+        {
+            get { return _selectedAllTime; }
+            set { OnPropertyChanged(ref _selectedAllTime, value); }
+        }
+
+        public ObservableCollection<Order> TwoWeeksCollection { get; private set; }
+        public ObservableCollection<Order> AllTimeCollection { get; private set; }
+
 
         //public ICommand /add the name of the command to bind to in xaml here/ { get; private set;}
         public ICommand RunDatabaseCommand { get; private set; }
