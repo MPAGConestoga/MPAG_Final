@@ -103,9 +103,15 @@ namespace MPAG_Final.Utilities
         }
     }
 
+    /**
+    * \Class SelectOrder
+    * \Brief Select the type of order from the view model event handler
+    * \Details Allow the order to be selected from the view model and controlled
+    *           based on the selection of the order
+    */
+
     public class SelectOrder : ICommand
     {
-
         public SelectOrder(OrderViewModel viewModel)
         {
             //get the view model associated with the command
@@ -138,9 +144,15 @@ namespace MPAG_Final.Utilities
         }
     }
 
+    /**
+    * \Class RemoveOrder
+    * \Brief Base class for MVVM command binding
+    * \Details Interface allowing commands to be bound to buttons. Inherits from the
+    * ICommand interface. Instances command objects through which the view can call
+    * methods.
+    */
     public class RemoveOrder : ICommand
     {
-
         public RemoveOrder(OrderViewModel viewModel)
         {
             //get the view model associated with the command
