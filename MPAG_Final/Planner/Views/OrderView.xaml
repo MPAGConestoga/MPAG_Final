@@ -245,6 +245,7 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
+
                     <Grid Grid.Column="0">
                         <ListView ItemsSource="{Binding ActiveOrders}" x:Name="activeOrders" HorizontalAlignment="Stretch" Margin="0,0,0,0" >
                             <ListView.ItemContainerStyle>
@@ -334,8 +335,9 @@
                                 <Border Style="{StaticResource DetailBorder}">
                                     <Label  FontWeight="Bold" Foreground="#FFF5F7F9" Content="Details"/>
                                 </Border>
+
                             </StackPanel>
-                        </StackPanel>
+
 
                         <StackPanel Grid.Row="2" Margin="5">
                             <StackPanel>
@@ -367,8 +369,9 @@
                                         <Label Style="{StaticResource DetailLabel}"  Content="Customer"/>
                                         <TextBlock FontSize="18" FontWeight="Bold"  Grid.Row="1" Text="{Binding SelectedItem.OrderID, ElementName=activeOrders}"/>
                                     </Grid>
-                                </Grid>
+                                </StackPanel>
                             </StackPanel>
+
                         </StackPanel>
                         <!-- Job Details -->
                         <StackPanel Grid.Row="3" Margin="5">
@@ -400,9 +403,11 @@
                                         <!-- Van Type -->
                                         <Label Style="{StaticResource DetailLabel}"  Content="Van Type"/>
                                         <TextBlock FontSize="18" FontWeight="Bold" x:Name="vanTxt" Grid.Row="1" Text="{Binding SelectedItem.vanTypeString, ElementName=activeOrders}"/>
+
                                     </Grid>
-                                </Grid>
+                                </StackPanel>
                             </StackPanel>
+
                         </StackPanel>
                         <!-- Origin and Destination-->
                         <StackPanel Grid.Row="4" Margin="5">
@@ -433,9 +438,12 @@
                                         <!-- Destination City-->
                                         <Label Style="{StaticResource DetailLabel}"  Content="Destination"/>
                                         <TextBlock FontSize="18" FontWeight="Bold" Grid.Row="1" x:Name="destTxt" Text="{Binding SelectedItem.destinationString, ElementName=activeOrders}"/>
+
+                          
                                     </Grid>
-                                </Grid>
+                                </StackPanel>
                             </StackPanel>
+
                         </StackPanel>
                         <StackPanel Grid.Row="3">
 
@@ -445,6 +453,16 @@
 
                             <ProgressBar Minimum="0" Maximum="100" Height="25" Margin="20,0,20,0" Name="pbStatus" Grid.Row="1" Grid.ColumnSpan="3" Value="{Binding Slider}" />
                             <Button Content="Add Day" 
+
+                            <StackPanel Grid.Row="3">
+
+                            </StackPanel>
+                            <StackPanel Grid.Row="5">
+                                <Label Style="{StaticResource DetailLabel}" HorizontalAlignment="Center" Content="Progress Bar"/>
+
+                                <ProgressBar Minimum="0" Maximum="100" Height="25" Margin="20,0,20,0" Name="pbStatus" Grid.Row="1" Grid.ColumnSpan="3" Value="{Binding ContractsVM.loading}" />
+                                <Button Content="Add Day" 
+
                                     Margin="0,10,20,0"
                                     HorizontalAlignment="Right" 
                                     VerticalAlignment="Top"
@@ -453,6 +471,7 @@
                                     Foreground="WhiteSmoke"
                                     Background="#13242C"
                                     />
+
                         </StackPanel>
                     </Grid>
                 </Grid>

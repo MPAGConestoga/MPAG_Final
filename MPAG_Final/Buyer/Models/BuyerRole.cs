@@ -65,6 +65,11 @@ namespace MPAG_Final.Buyer.Models
             return newOrder;
         }
 
+        public Order CreateOrder(bool jobType, uint quantity, string origin, string destination, bool vanType)
+        {
+            throw new NotImplementedException();
+        }
+
         public string GenerateInvoice(Order reviewedOrder)
         {
             //STUBBED---------------------------------------//

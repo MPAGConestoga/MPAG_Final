@@ -5,8 +5,10 @@ using System.Collections.Generic;
 namespace MPAG_Final.Planner.Models
 {
     /*
+     * \Class PlannerRole
     * \brief   The Planner class represents the planner role in the TMS.
     * \details The Planner is the one responsible for assigning a Carriers to Order and for tracking the completion of an Order 
+    * \see Employee
     */
     public class PlannerRole : Employee
     {
@@ -40,6 +42,11 @@ namespace MPAG_Final.Planner.Models
 
         // At this point, we know that the carrier has a depot city in that city
         // So we can attribute trips to carrier (through depot) 
+        /// <summary>
+        ///     Setting trips to carriers through depots
+        /// </summary>
+        /// <param name="selectedCarrier"><b>Carrier</b> - Set of carriers</param>
+        /// <param name="selectedOrder"><b>Order</b> - Use selected orders</param>
         public void AddTrip(Carrier selectedCarrier, Order selectedOrder)
         {
             Depot initalDepot = selectedCarrier.DepotsLocation[selectedOrder.origin];
