@@ -72,7 +72,8 @@ namespace MPAG_Final.Buyer.Views
         {
             if (quantityText.Text != "... Change Quantity ...")
             {
-                quantityTxt.Text = quantityText.Text;
+
+                quantityTxt.Text = (string)quantityText.Text;
             }
             
         }

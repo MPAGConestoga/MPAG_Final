@@ -14,8 +14,8 @@ using MySql.Data.MySqlClient;
 using System.Configuration;
 using System.Threading;
 using System.Windows.Threading;
-using MPAG_OrderAndTrip;
 using MPAG_Final.Logging;
+
 
 namespace MPAG_Final.SharedViewModels
 {
@@ -92,6 +92,7 @@ namespace MPAG_Final.SharedViewModels
         public ICommand SubmitContractCommand { get; private set; }
 
 
+
         //mock data service for testing UI
 
         //private IContractDataService _contractDataService;
@@ -159,10 +160,14 @@ namespace MPAG_Final.SharedViewModels
                 JobType = (JobType)jobType,
                 VanType = (VanType)vanType,
                 OriginID = new TMSDAL().GetCityIdByName(list[3].ToString()),
-                DestinationID = new TMSDAL().GetCityIdByName(list[4].ToString())
+                DestinationID = new TMSDAL().GetCityIdByName(list[4].ToString()),
+                Quantity = Convert.ToInt32(list[5])              
             };
+
             new TMSDAL().InsertContract(c);
             SuccessMessage = "Contract successfully added into the TMS System.";
+            Contracts.Remove((Contract)list[6]);
+            
             new Thread(() =>
             {
                 Thread.Sleep(3000);

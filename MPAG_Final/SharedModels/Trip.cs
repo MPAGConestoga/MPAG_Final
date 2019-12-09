@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MPAG_OrderAndTrip
+namespace MPAG_Final.SharedModels
 {
     /**
      * \Class Trip

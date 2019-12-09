@@ -9,6 +9,7 @@ using MySql.Data.MySqlClient;
 using MPAG_Final.SharedModels;
 using MPAG_Final.Logging;
 
+
 namespace MPAG_Final
 {
     /** 
@@ -59,6 +60,41 @@ namespace MPAG_Final
                 var cityDepots = DataTableToCityDepotList(dataTable);
 
                 return cityDepots;
+            }
+        }
+
+        public Depot GetCityDepotByCarrierAndCity(int ID, int origin)
+        {
+            const string sqlStatement = @"    SELECT * FROM depot
+                                                WHERE Carrier_Id = @ID
+                                                AND Delivery_City_Id = @origin;";
+
+            using (var myConn = new MySqlConnection(buyerConnectionString))
+            {
+
+                var myCommand = new MySqlCommand(sqlStatement, myConn);
+                myCommand.Parameters.AddWithValue("@ID", ID);
+                myCommand.Parameters.AddWithValue("@origin", origin);
+
+                //For offline connection we will use  MySqlDataAdapter class.  
+                var myAdapter = new MySqlDataAdapter
+                {
+                    SelectCommand = myCommand
+                };
+
+                var dataTable = new DataTable();
+
+                myAdapter.Fill(dataTable);
+
+                var depot = new Depot();
+
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    depot.DepotID = Convert.ToInt32(row["Depot_Id"]);
+                    depot.avalibleLTL = Convert.ToInt32(row["LTL_Amount"]);
+                    depot.availibleFTL = Convert.ToInt32(row["FTL_Amount"]);
+                }
+                return depot;
             }
         }
 
@@ -133,8 +169,8 @@ namespace MPAG_Final
             { 
             using (var myConn = new MySqlConnection(buyerConnectionString))
             {
-                const string sqlStatement = @"  INSERT INTO _order (Customer_Id, Origin, Destination, Job_Type, Van_Type, Order_Status)
-	                                            VALUES (@Customer, @Origin, @Destination, @Job_Type, @Van_Type, 0); ";
+                const string sqlStatement = @"  INSERT INTO _order (Customer_Id, Origin, Destination, Job_Type, Van_Type, Order_Status, Amount)
+	                                            VALUES (@Customer, @Origin, @Destination, @Job_Type, @Van_Type, 0, @Amount); ";
 
                 var myCommand = new MySqlCommand(sqlStatement, myConn);
 
@@ -143,6 +179,8 @@ namespace MPAG_Final
                 myCommand.Parameters.AddWithValue("@Destination", contract.DestinationID);
                 myCommand.Parameters.AddWithValue("@Job_Type", contract.JobType);
                 myCommand.Parameters.AddWithValue("@Van_Type", contract.VanType);
+                myCommand.Parameters.AddWithValue("@Amount", contract.Quantity);
+
 
                 myConn.Open();
                 myCommand.ExecuteNonQuery();
@@ -646,6 +684,34 @@ namespace MPAG_Final
             }
         }
 
+        public string GetCityNameByID(int id)
+        {
+            const string sqlStatement = @"Select City FROM
+                                                city where City_Id = @id;";
+
+            using (var myConn = new MySqlConnection(buyerConnectionString))
+            {
+
+                var myCommand = new MySqlCommand(sqlStatement, myConn);
+                myCommand.Parameters.AddWithValue("@id", id);
+
+                var myAdapter = new MySqlDataAdapter
+                {
+                    SelectCommand = myCommand
+                };
+
+                var dataTable = new DataTable();
+                myAdapter.Fill(dataTable);
+                string name = "";
+
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    name = (row["City"]).ToString();
+                }
+                return name;
+            }
+        }
+
         /// \brief To get a list of carriers by depot
         /// 
         /// \details This method takes in a string containing a city name. A list of carriers with depots
@@ -703,6 +769,62 @@ namespace MPAG_Final
 
         }
 
+        /// \brief To get a list of carriers by depot
+        /// 
+        /// \details This method takes in a string containing a city name. A list of carriers with depots
+        /// in the specified city is returned.
+        /// <param name="city"> - <b>String</b> - The city to look up</param>
+        /// \return List of Carriers
+        /// \see Carrier::getCarriersWithDepot
+        public List<Carrier> GetCarriersByCityID(int origin, int destination)
+        {
+
+            
+
+
+            const string sqlStatement = @"Select Carrier_Id FROM
+                                                (select * from Depot
+                                                WHERE Delivery_City_Id = @Origin
+                                                OR Delivery_City_Id = @Destination) AS temp
+                                                GROUP BY Carrier_Id 
+                                                Having Count(*) > 1;";
+
+            using (var myConn = new MySqlConnection(buyerConnectionString))
+            {
+
+                var myCommand = new MySqlCommand(sqlStatement, myConn);
+                myCommand.Parameters.AddWithValue("@Origin", origin);
+                myCommand.Parameters.AddWithValue("@Destination", destination);
+                //myCommand.Parameters.AddWithValue("@Destination", destination);
+
+                //For offline connection we will use  MySqlDataAdapter class.  
+                var myAdapter = new MySqlDataAdapter
+                {
+                    SelectCommand = myCommand
+                };
+
+                var dataTable = new DataTable();
+
+                List<int> CarrierId = new List<int>();
+
+                List<Carrier> carriers = new List<Carrier>();
+                myAdapter.Fill(dataTable);
+
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    CarrierId.Add(Convert.ToInt32(row["Carrier_Id"]));
+                }
+
+                foreach (int el in CarrierId)
+                {
+                    carriers.Add(GetCarrierByID(el));
+                }
+
+                return carriers;
+            }
+
+        }
+
         /// \brief To get orders for the planner
         /// 
         /// \details After an order is first added to the database, the planner must then select the carrier(s)
@@ -719,7 +841,8 @@ namespace MPAG_Final
                                          Origin,
                                          Destination,
                                          Job_Type,
-                                         Van_Type
+                                         Van_Type,
+                                         Amount
                                          FROM _order
                                          WHERE Order_Status = 0
                                          ORDER BY Order_Id;";
@@ -745,6 +868,55 @@ namespace MPAG_Final
             }
         }
 
+        /// \brief To get orders for the planner
+        /// 
+        /// \details After an order is first added to the database, the planner must then select the carrier(s)
+        /// for the order. To get the orders that have yet to be assigned a carrier, the orders are filtered by
+        /// order-status. A list of orders is returned from this method.
+        /// <param>None</param>
+        /// \return A list of orders.
+        /// \see Order
+        public Order GetOrderByID(int id)
+        {
+            const string sqlStatement = @"SELECT
+                                         Order_Id,
+                                         Start_Date,
+                                         Origin,
+                                         Destination,
+                                         Job_Type,
+                                         Van_Type,
+                                         Amount
+                                         FROM _order
+                                         WHERE Order_Id = @ID; ";
+
+            using (var myConn = new MySqlConnection(buyerConnectionString))
+            {
+
+                var myCommand = new MySqlCommand(sqlStatement, myConn);
+                myCommand.Parameters.AddWithValue("@ID", id);
+
+                //For offline connection we will use  MySqlDataAdapter class.  
+                var myAdapter = new MySqlDataAdapter
+                {
+                    SelectCommand = myCommand
+                };
+
+                var dataTable = new DataTable();
+
+                myAdapter.Fill(dataTable);
+
+                var orders = DataTableToOrderList(dataTable);
+
+                Order order = new Order();
+
+                foreach(Order el in orders)
+                {
+                    order = el;
+                }
+                return order;
+            }
+        }
+
         /// \brief To get orders for the planner, filtered by job type
         /// 
         /// \details After an order is first added to the database, the planner must then select the carrier(s)
@@ -761,7 +933,8 @@ namespace MPAG_Final
                                          Origin,
                                          Destination,
                                          Job_Type,
-                                         Van_Type
+                                         Van_Type,
+                                         Amount
                                          FROM _order
                                          WHERE Job_Type = @job
                                          ORDER BY Order_Id;";
@@ -782,8 +955,8 @@ namespace MPAG_Final
                 myAdapter.Fill(dataTable);
 
                 var orders = DataTableToOrderList(dataTable);
-
-                return orders;
+                
+                    return orders;
             }
         }
 
@@ -807,8 +980,23 @@ namespace MPAG_Final
                     destination = Convert.ToInt32(row["Destination"]),
                     jobType = Convert.ToBoolean(row["Job_Type"]),
                     vanType = Convert.ToBoolean(row["Van_Type"]),
+                    quantity = Convert.ToInt32(row["Amount"])
                     //dateCompleted = Convert.ToDateTime(row["Start_Date"])
-                }); ;
+                }); 
+            }
+
+            foreach (Order el in orders)
+            {
+                if (el.vanType == false)
+                {
+                    el.vanTypeString = "Dry Van";
+                }
+                else
+                {
+                    el.vanTypeString = "Reefer";
+                }
+                el.originString = GetCityNameByID(el.origin);
+                el.destinationString = GetCityNameByID(el.destination);
             }
             return orders;
         }
@@ -836,6 +1024,8 @@ namespace MPAG_Final
             }
             return carriers;
         }
+
+
 
 
         /// \brief To get the x-value(location) of a city
@@ -869,6 +1059,31 @@ namespace MPAG_Final
                 var x = DataTableToInt(dataTable);
 
                 return x;
+            }
+        }
+
+        /// \brief To get the x-value(location) of a city
+        /// 
+        /// \details The X value of a city is needed when calculating the direction of an order.
+        /// <param name="cityID"> - <b>int</b> - The City ID to lookup</param>
+        /// \return int  x-> x - value of city
+        /// \see TMSDAL:DataTableToInt
+        public void DeleteOrder(int ID)
+        {
+            const string sqlStatement = @"DELETE
+                                         FROM _order
+                                        Where Order_Id = @order;";
+
+            using (var myConn = new MySqlConnection(buyerConnectionString))
+            {
+                var myCommand = new MySqlCommand(sqlStatement, myConn);
+                myCommand.Parameters.AddWithValue("@order", ID);
+
+                //For offline connection we will use  MySqlDataAdapter class.  
+                myConn.Open();
+
+                myCommand.ExecuteNonQuery();
+
             }
         }
 

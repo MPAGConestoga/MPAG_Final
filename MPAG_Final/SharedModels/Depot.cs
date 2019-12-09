@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MPAG_OrderAndTrip
+namespace MPAG_Final.SharedModels
 {
     /**
     * \Class Depot
@@ -32,6 +32,10 @@ namespace MPAG_OrderAndTrip
             location = city;
             availibleFTL = initialFTLs;
             avalibleLTL = initialLTLs;
+        }
+        public Depot()
+        {
+
         }
     }
 }

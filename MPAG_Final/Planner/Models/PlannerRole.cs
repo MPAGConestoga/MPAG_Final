@@ -1,5 +1,4 @@
 ﻿using MPAG_Final.SharedModels;
-using MPAG_OrderAndTrip;
 using System;
 using System.Collections.Generic;
 
@@ -62,12 +61,6 @@ namespace MPAG_Final.Planner.Models
         {
             // Stubbed Out ----------------------- IMPLEMENT -----------------------//
             return true;
-        }
-
-        public void testFunction()
-        {
-            int i = 0;
-            int y = 0;
         }
     }
 }
