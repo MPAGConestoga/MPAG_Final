@@ -135,7 +135,6 @@ namespace MPAG_Final
                 myCommand.Parameters.AddWithValue("@Van_Type", contract.VanType);
 
                 myConn.Open();
-
                 myCommand.ExecuteNonQuery();
             }
         }

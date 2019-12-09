@@ -61,7 +61,6 @@ namespace MPAG_Final.Planner.ViewModels
         private ObservableCollection<Order> _ltlOrders;
         public ObservableCollection<Order> LTLOrders
         {
-            var carrierMarketPlace = new MockCarrierMarketplace(); //mock service for the testing of the ui
 
             get { return _ltlOrders; }
             set
@@ -73,7 +72,6 @@ namespace MPAG_Final.Planner.ViewModels
             }
         }
 
-            _carrierService = carrierMarketPlace;
 
 
         //-> Relevant Carriers
@@ -90,10 +88,10 @@ namespace MPAG_Final.Planner.ViewModels
             }
         }
 
-            ContractsVM = new ContractsViewModel();
-            CarriersVM = new CarriersViewModel(carrierMarketPlace);
-            LoadCarriers();
-            LoadContracts();
+            //ContractsVM = new ContractsViewModel();
+            //CarriersVM = new CarriersViewModel(carrierMarketPlace);
+            //LoadCarriers();
+            //LoadContracts();
         //-> Selected Propreties
         private ObservableCollection<Order> _selectedOrders;
         public ObservableCollection<Order> SelectedOrders
@@ -131,7 +129,7 @@ namespace MPAG_Final.Planner.ViewModels
             PlannerRoleVM = planner;
 
             // DEBUG: Include FTL Order 
-            LTLOrders = new ObservableCollection<Order>(new SampleData().SampleLTLOrders());
+           // LTLOrders = new ObservableCollection<Order>(new SampleData().SampleLTLOrders());
             SelectedOrders = new ObservableCollection<Order>();
             CheckOrderCommand = new SelectOrder(this);
         }
@@ -145,7 +143,7 @@ namespace MPAG_Final.Planner.ViewModels
                 FirstOrderSelected = selectedOrder;
 
                 // Populate LTL order 
-                LTLOrders = new ObservableCollection<Order>(new SampleData().FilterLTLs(selectedOrder.origin, selectedOrder.vanType));
+                //LTLOrders = new ObservableCollection<Order>(new SampleData().FilterLTLs(selectedOrder.origin, selectedOrder.vanType));
                 LTLOrders.Remove(selectedOrder);
                 OnPropertyChanged("LTLOrders");
 
@@ -161,7 +159,7 @@ namespace MPAG_Final.Planner.ViewModels
             OnPropertyChanged("SelectedOrders");
 
             // Populate Relevant Carriers list
-            RelevantCarriers = new ObservableCollection<Carrier>(new SampleData().GetRelevantCarrier(selectedOrder.origin, selectedOrder.destination));
+            //RelevantCarriers = new ObservableCollection<Carrier>(new SampleData().GetRelevantCarrier(selectedOrder.origin, selectedOrder.destination));
 
             OnPropertyChanged("RelevantCarriers");
         }
