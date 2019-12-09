@@ -13,13 +13,13 @@ using System.Data.SqlClient;
 namespace MPAG_Final
 {
     /** 
+     * \Class TMSDAL
      * \brief The TMSDAL class is used as the data access layer with the TMS database
      * \details The TMSDAL contains the functionality for interaction with the locally-hosted database and the user, buyer and planner class.
-     * Within the class are three connection strings that hold the different login credentials of the three users.
-     * \see
-     *
+     * Within the class are three connection strings that hold the different login credentials of the three users.     
      */
 
+    
     public class TMSDAL
     {
         public TMSDAL()
@@ -28,13 +28,14 @@ namespace MPAG_Final
             plannerConnectionString = ConfigurationManager.ConnectionStrings["TMSPlanner"].ConnectionString;
             adminConnectionString = ConfigurationManager.ConnectionStrings["TMSAdmin"].ConnectionString;
         }
+
         private string buyerConnectionString;
         private string plannerConnectionString;
         private string adminConnectionString;
 
-
-
-
+        /// \brief  Selects the city depot information from Database
+        /// \details Retrieve the list for the City depots and ID's accordingly
+        /// \return List<CityDepot> - Returns the list of all available city depots. 
         public List<CityDepot> GetCityDepots()
         {
             const string sqlStatement = @"    SELECT 
@@ -63,6 +64,13 @@ namespace MPAG_Final
             }
         }
 
+        /// \brief Carrier and City input
+        /// 
+        /// \details Retrieve the depot information
+        /// <param name="ID"><b>int</b> - Carrier ID</param>
+        /// <param name="origin"><b>int</b> - Starting city for the trip</param>
+        /// \return Depot
+        /// \see Depot
         public Depot GetCityDepotByCarrierAndCity(int ID, int origin)
         {
             const string sqlStatement = @"    SELECT * FROM depot
@@ -157,12 +165,10 @@ namespace MPAG_Final
 
         /// \brief To insert an order into the TMS local database
         /// 
-        /// \details After the buyer selects an order from the marketplace, it is uploaded to the database. This method
-        /// is called by the Order class to upload the order. Using the buyer login credentials, this method takes the Order
-        /// object attributes and inserts the values int a mysql insert statement.
-        /// <param name="order"> - <b>Order</b> - The order to be added to the database</param>
+        /// \details Take the contract information to input into the database
+        /// <param name="contract"> - <b>Contract</b> - Input the contract information</param>
         /// \return none
-        /// \see Order::AddOrder()
+        /// \see Contract
         public void InsertContract(Contract contract)
         {
             try
@@ -197,7 +203,7 @@ namespace MPAG_Final
         /// \details The admin is able to add a new carrier into the database
         /// <param name="carrier"> - <b>Carrier</b> - The carrier to be added to the database</param>
         /// \return none
-        /// \see Order::AddOrder()
+        /// \see Carrier
         public void InsertCarrier(Carrier carrier)
         {
             try
@@ -656,6 +662,12 @@ namespace MPAG_Final
             }
         }
 
+        /// \brief Retireve City ID by string name
+        /// 
+        /// \details If the user requires a city id, the string will be converted into the designated int
+        /// <param name="name"> - <b>string</b> - The city name</param>
+        /// \return int ID
+        /// 
         public int GetCityIdByName(string name)
         {
             const string sqlStatement = @"Select City_Id FROM
@@ -684,6 +696,13 @@ namespace MPAG_Final
             }
         }
 
+
+        /// \brief Get the string given the ID of the city
+        /// 
+        /// \details 
+        /// <param name="address"> - <b>Address</b> - The address to be added to the database</param>
+        /// \return none
+        /// \see Address
         public string GetCityNameByID(int id)
         {
             const string sqlStatement = @"Select City FROM

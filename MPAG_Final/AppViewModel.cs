@@ -52,7 +52,7 @@ namespace MPAG_Final
         public ICommand LoadBuyerCommand { get; private set; }
         public ICommand LoadPlannerCommand { get; private set; }
         public ICommand LoadAdminCommand { get; private set; }
-
+           
         public AppViewModel()
         {
             BuyerVM = new BuyerLandingViewModel();

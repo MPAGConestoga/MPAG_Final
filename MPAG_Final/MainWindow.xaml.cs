@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MPAG_Final.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,7 @@ namespace MPAG_Final
     {
         public MainWindow()
         {
+            LogType.Functionalities("System Started");
             InitializeComponent();
         }
     }

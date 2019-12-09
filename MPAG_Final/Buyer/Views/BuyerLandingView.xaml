@@ -70,7 +70,105 @@
             </Grid>
         </TabItem>
         <TabItem Header="Complete Orders">
+            <TabControl TabStripPlacement="Left">
+                <TabItem Header="Two Weeks">
 
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition/>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Border Margin="5,0,5,0" Style="{StaticResource DetailBorder}">
+                                <Label FontWeight="Bold" Foreground="#FFF5F7F9" Content="Two-Weeks" HorizontalAlignment="Center" FontSize="15"/>
+                            </Border>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Border Margin="5,-2,5,5" Style="{StaticResource WorkBorder}">
+                                <ListView ItemsSource="{Binding TwoWeeks}"  SelectedItem="{Binding SelectedTwoWeeks}" HorizontalAlignment="Stretch" Margin="0,0,0,0" >
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="Customer" Width="Auto" DisplayMemberBinding="{Binding OrderID}" />
+                                            <GridViewColumn Header="Job Type" Width="Auto" DisplayMemberBinding="{Binding JobType}" />
+                                            <GridViewColumn Header="Origin" Width="Auto" DisplayMemberBinding="{Binding Origin}" />
+                                            <GridViewColumn Header="Destination" Width="Auto" DisplayMemberBinding="{Binding Destination}" />
+                                            <GridViewColumn Header="Van Type" Width="Auto" DisplayMemberBinding="{Binding VanType}" />
+                                            <GridViewColumn Header="Quantity" Width="Auto" DisplayMemberBinding="{Binding Quantity}" />
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </Border>
+                        </Grid>
+                        <Grid Grid.Row="2">
+                            <Button Content="Generate Invoice" 
+
+                                    Margin="0,10,20,0"
+                                    HorizontalAlignment="Right" 
+                                    VerticalAlignment="Top"
+                                    Width="150"
+                                    Height="25"
+                                    Foreground="WhiteSmoke"
+                                    Background="#13242C"
+                                    />
+                        </Grid>
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="All-Time">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition/>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Border  Margin="5,0,5,0" Style="{StaticResource DetailBorder}">
+                                <Label FontWeight="Bold" Foreground="#FFF5F7F9" Content="All-Time" HorizontalAlignment="Center" FontSize="15"/>
+                            </Border>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Border Margin="5,-2,5,5" Style="{StaticResource WorkBorder}">
+                                <ListView ItemsSource="{Binding AllTimeCollection}"  SelectedItem="{Binding SelectedAllTime}" HorizontalAlignment="Stretch" Margin="0,0,0,0" >
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="Customer" Width="Auto" DisplayMemberBinding="{Binding OrderID}" />
+                                            <GridViewColumn Header="Job Type" Width="Auto" DisplayMemberBinding="{Binding JobType}" />
+                                            <GridViewColumn Header="Origin" Width="Auto" DisplayMemberBinding="{Binding Origin}" />
+                                            <GridViewColumn Header="Destination" Width="Auto" DisplayMemberBinding="{Binding Destination}" />
+                                            <GridViewColumn Header="Van Type" Width="Auto" DisplayMemberBinding="{Binding VanType}" />
+                                            <GridViewColumn Header="Quantity" Width="Auto" DisplayMemberBinding="{Binding Quantity}" />
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </Border>
+                        </Grid>
+                        <Grid Grid.Row="2">
+                            <Button Content="Generate Invoice" 
+
+                                    Margin="0,10,20,0"
+                                    HorizontalAlignment="Right" 
+                                    VerticalAlignment="Top"
+                                    Width="150"
+                                    Height="25"
+                                    Foreground="WhiteSmoke"
+                                    Background="#13242C"
+                                    />
+                        </Grid>
+                    </Grid>
+                    
+                </TabItem>
+            </TabControl>
         </TabItem>
     </TabControl>
     

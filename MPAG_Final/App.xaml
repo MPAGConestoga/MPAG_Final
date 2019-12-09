@@ -94,6 +94,12 @@
             <Setter Property="FontSize" Value="14"/>
         </Style>
 
+        <Style x:Key="WorkBorder" TargetType="Border">
+            <Setter Property="CornerRadius" Value="2"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BlueGrey}"/>
+            <Setter Property="BorderThickness" Value="2,2,2,2"/>
+        </Style>
+
         <Style x:Key="DetailBorder" TargetType="Border">
             <Setter Property="CornerRadius" Value="3"/>
             <Setter Property="Background" Value="{StaticResource LightBlueGreyGradient}"/>
