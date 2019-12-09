@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Contracts;
+using System.Threading;
 using System.Windows.Input;
 
 namespace MPAG_Final.Planner.ViewModels
@@ -21,9 +22,10 @@ namespace MPAG_Final.Planner.ViewModels
    */
     public class OrderViewModel : ObservableObject
     {
-
         // Current selected order information
         private Order FirstOrderSelected = null;
+        volatile bool continueRefresh = true;
+
         public ICommand CheckOrderCommand { get; private set; }
         // For accessing planner methods 
 
@@ -132,17 +134,45 @@ namespace MPAG_Final.Planner.ViewModels
             //LoadCarriers();
             //LoadContracts();
             // DEBUG: Include FTL Order 
-            LTLOrders = new ObservableCollection<Order>();
-            LTLOrdersMaster = new ObservableCollection<Order>();
+            LTLOrders = new ObservableCollection<Order>(new TMSDAL().GetOrdersByJobType(0));
+            LTLOrdersMaster = new ObservableCollection<Order>(new TMSDAL().GetOrdersByJobType(0));
 
-            var list = new TMSDAL().GetOrdersByJobType(0);
-            foreach (Order el in list)
-            {
-                LTLOrders.Add(el);
-                LTLOrdersMaster.Add(el);
-            }
             SelectedOrders = new ObservableCollection<Order>();
             CheckOrderCommand = new SelectOrder(this);
+
+            // Start thread for refreshing orders
+            Thread refreshLTLOrders = new Thread(LTLRefresh);
+            refreshLTLOrders.SetApartmentState(ApartmentState.STA);
+            refreshLTLOrders.Start();
+        }
+
+        private void LTLRefresh()
+        { 
+            while(continueRefresh)
+            {
+                Thread.Sleep(5000);
+                var list = new ObservableCollection<Order>(new TMSDAL().GetOrdersByJobType(0));
+                LTLOrders = list;
+
+                if(FirstOrderSelected != null)
+                {
+                    foreach (var order in list)
+                    {
+                        if (order.vanType != FirstOrderSelected.vanType || order.origin != FirstOrderSelected.origin)
+                        {
+                            list.Remove(order);
+                        }
+                    }
+
+                    // Remove selected orders
+                    foreach (var order in SelectedOrders)
+                    {
+                        list.Remove(order);
+                    }
+
+                    LTLOrders = list;
+                }
+            }
         }
 
         public void OrderChecked(object parameter)
@@ -198,7 +228,7 @@ namespace MPAG_Final.Planner.ViewModels
                 int direction = CalculateDirection(selectedOrder.origin, selectedOrder.destination);
                 foreach (Order el in LTLOrdersMaster)
                 {
-                    if((el.origin==selectedOrder.origin) && (el.vanType == selectedOrder.vanType) && (CalculateDirection(el.origin,el.destination) == direction))
+                    if((el.origin == selectedOrder.origin) && (el.vanType == selectedOrder.vanType) && (CalculateDirection(el.origin,el.destination) == direction))
                     {
                         LTLOrders.Add(el);
                     }
