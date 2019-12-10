@@ -1,4 +1,5 @@
-﻿using MPAG_Final.Planner.ViewModels;
+﻿using MPAG_Final.Admin.ViewModels;
+using MPAG_Final.Planner.ViewModels;
 using MPAG_Final.SharedViewModels;
 using System;
 using System.Collections.Generic;
@@ -216,6 +217,75 @@ namespace MPAG_Final.Utilities
         public void Execute(object parameter)
         {
             _ViewModel.FTLOrderCheck(parameter);
+
+        }
+    }
+    public class UpdateIP : ICommand
+    {
+
+        public UpdateIP(AdminLandingViewModel viewModel)
+        {
+            //get the view model associated with the command
+            _ViewModel = viewModel;
+        }
+
+        private AdminLandingViewModel _ViewModel;
+
+        public event System.EventHandler CanExecuteChanged
+        {
+            add
+            {
+                CommandManager.RequerySuggested += value;
+            }
+            remove
+            {
+                CommandManager.RequerySuggested -= value;
+            }
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            _ViewModel.updateIP(parameter);
+
+        }
+    }
+
+    public class ViewLog : ICommand
+    {
+
+        public ViewLog(AdminLandingViewModel viewModel)
+        {
+            //get the view model associated with the command
+            _ViewModel = viewModel;
+        }
+
+        private AdminLandingViewModel _ViewModel;
+
+        public event System.EventHandler CanExecuteChanged
+        {
+            add
+            {
+                CommandManager.RequerySuggested += value;
+            }
+            remove
+            {
+                CommandManager.RequerySuggested -= value;
+            }
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            _ViewModel.OpenLog(parameter);
 
         }
     }

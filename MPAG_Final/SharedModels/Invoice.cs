@@ -18,9 +18,9 @@ namespace MPAG_Final.SharedModels
         /// </summary>
         public Invoice()
         {
-
+            InvoiceString = ""
         }
-
+        public string InvoiceString { get; set; }
         /// <summary>
         /// This method is used to generate an invoice based on the order informaiton
         /// </summary>

@@ -463,7 +463,7 @@ namespace MPAG_Final.Planner.ViewModels
         //RelevantCarriers = new ObservableCollection<Carrier>(new SampleData().GetRelevantCarrier(selectedOrder.origin, selectedOrder.destination));
 
 
-        }
+        
 
             // Populate Relevant Carriers list
             //RelevantCarriers = new ObservableCollection<Carrier>(new SampleData().GetRelevantCarrier(selectedOrder.origin, selectedOrder.destination));
@@ -484,7 +484,7 @@ namespace MPAG_Final.Planner.ViewModels
                     LTLOrders.Add(el);
                     break;
                 }
-                }             
+                            
             }
 
             if (SelectedOrders.Count == 0)
