@@ -18,7 +18,7 @@ namespace MPAG_Final.SharedModels
         /// </summary>
         public Invoice()
         {
-            InvoiceString = ""
+            InvoiceString;
         }
         public string InvoiceString { get; set; }
         /// <summary>
